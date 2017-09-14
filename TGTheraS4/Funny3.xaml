@@ -1,0 +1,8 @@
+﻿<Window x:Class="TGTheraS4.Funny3"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aktion" Height="302" Width="530" Background="Black" Loaded="Window_Loaded">
+    <Grid>
+        <Label Content="Label" Height="239" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Width="484" />
+    </Grid>
+</Window>

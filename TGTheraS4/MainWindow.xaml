@@ -1,0 +1,1975 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ex="clr-namespace:Smith.WPF.HtmlEditor;assembly=Smith.WPF.HtmlEditor"
+        xmlns:my1="http://schemas.microsoft.com/wpf/2008/toolkit" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="TGTheraS4.MainWindow"
+        Title="TheraS4" Height="900" Width="1600" Icon="/TGTheraS4;component/Images/favicon.ico" Background="#FFD5D5D5" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="TS4_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="737*"/>
+            <RowDefinition Height="53*"/>
+            <RowDefinition Height="34*"/>
+            <RowDefinition Height="45*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="571*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="172*"/>
+            <ColumnDefinition Width="702*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Grid.ColumnSpan="4" Height="1010" HorizontalAlignment="Left" x:Name="imgLogo" Stretch="Fill" VerticalAlignment="Top" Width="1591" Source="/TGTheraS4;component/Images/Entwurf.jpg" Margin="1,-142,0,0" ImageFailed="imgLogo_ImageFailed" Grid.RowSpan="4" />
+        <Button Content="Login" Height="22" HorizontalAlignment="Left" x:Name="btnLogin" VerticalAlignment="Top" Width="170" Click="btnLogIn_Click" FontFamily="Arial" FontSize="14" FontWeight="Bold" Grid.Column="2" Grid.Row="3" />
+        <!--<Label Content="Offline-Modus" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="27" Height="28" HorizontalAlignment="Left" Margin="8.733,4,0,0" Name="lblOffline" VerticalAlignment="Top" FontWeight="Bold" Foreground="Red" Grid.RowSpan="2" /> -->
+        <PasswordBox TabIndex="2" Height="23" HorizontalAlignment="Left" x:Name="txtPW" VerticalAlignment="Bottom" Width="170" Margin="0" KeyDown="txtPW_KeyDown" ToolTip="Bitte hier das Passwort eingeben" Grid.Column="2" Grid.Row="1" />
+        <TextBox TabIndex="1" Height="23" HorizontalAlignment="Left" x:Name="txtUser" VerticalAlignment="Bottom" Width="172" KeyDown="txtPW_KeyDown" ToolTip="Bitte hier den Benutzernamen eingeben" Margin="0" Grid.Column="2" />
+        <Label Content="Benutzername" Height="31" HorizontalAlignment="Left" x:Name="label1" VerticalAlignment="Bottom" Foreground="#FF5075A9" Width="115" FontFamily="Arial" FontSize="14" FontWeight="Bold" Margin="0" Grid.Column="1" />
+        <Label Content="Passwort" Height="30" HorizontalAlignment="Left" x:Name="label2" VerticalAlignment="Bottom" Foreground="#FF5075A9" Width="138" Margin="0" FontFamily="Arial" FontSize="14" FontWeight="Bold" Grid.Row="1" Grid.Column="1" />
+        <Rectangle x:Name="rct_waiting" Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="202" Margin="51,338,584,197" Stroke="Black" VerticalAlignment="Center" Width="386" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <Label x:Name="lbl_waiting" Content="einen Moment bitte..." HorizontalAlignment="Left" Margin="57,12,0,0" VerticalAlignment="Top" Height="100" Width="477" FontSize="36" Visibility="Hidden"/>
+        <TabControl Height="Auto" HorizontalAlignment="Stretch" Margin="-1,-6,1,10" x:Name="tabMain" VerticalAlignment="Stretch" Visibility="Visible" SelectionChanged="tabMain_SelectionChanged" SelectedIndex="8" Loaded="tabMain_Loaded" Grid.ColumnSpan="4" Background="#FFCFCFCF" Grid.RowSpan="4">
+            <TabItem x:Name="TabEmail" Header="Email" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <WebBrowser x:Name="webMail" LoadCompleted="webMail_LoadCompleted" />
+            </TabItem>
+            <TabItem Header="Home" x:Name="tabHome" Height="Auto" Width="Auto" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.ColumnSpan="2" Margin="0,0,0,0" Grid.RowSpan="1" Grid.Column="1" Grid.Row="2" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Nachricht schreiben" Height="23" x:Name="btnEditShout" VerticalAlignment="Bottom"  Click="btnEditShout_Click" FontWeight="Normal" Grid.Row="1" />
+                            <Button x:Name="btn_toNewestNews" Content="Auswahl anzeigen" VerticalAlignment="Top" FontWeight="Normal" Click="btn_toNewestNews_Click" Grid.Column="4" Height="24"/>
+                            <Button Content="Aktualisieren" Height="23" x:Name="btnAktualisierenNewestDokus" VerticalAlignment="Top" Click="btnAktualisierenNewestDokus_Click" FontWeight="Normal" Grid.Row="0" Grid.Column="2" Grid.RowSpan="1" />
+                            <Button Content="Zu den Aufgaben ..." Height="23" HorizontalAlignment="Left" x:Name="btnGoToTasks" VerticalAlignment="Top" Width="261" Click="btnGoToTasks_Click" FontWeight="Normal" />
+                            <Button Content="Aktualisieren" Grid.Column="4" Height="23" HorizontalAlignment="Left" x:Name="btnAktualisierenAll" VerticalAlignment="Top" Width="138" Click="AktualisierenAll_Click" Grid.Row="1" Margin="136,410,-13,-336" FontWeight="Normal" />
+                            <Button Content="FUN" Grid.Row="1" Height="22" HorizontalAlignment="Left" x:Name="button1" VerticalAlignment="Top" Width="261" Click="button1_Click_1" Visibility="Visible" Grid.Column="2" Opacity="0.01" Margin="0,74,0,0" />
+                            <Button Content="Logout" Grid.Column="4" x:Name="btnLogout"  Click="bttnLogout_Click" Foreground="#FFB51435" Grid.Row="1" Margin="0,71,0,3" />
+
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid AutoGenerateColumns="True" Grid.ColumnSpan="20" Grid.RowSpan="10" x:Name="dgShouts" IsReadOnly="True" Grid.Row="20" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" FontWeight="Normal" Margin="0,10,0,0" />
+                    <GroupBox Grid.RowSpan="2" Header="Dringende Aufgaben" x:Name="gbImportantTask" Foreground="#FF5075A9" FontWeight="Bold" Margin="-5,0,0,0">
+                        <DataGrid AutoGenerateColumns="False" x:Name="dgImportantTasks" IsReadOnly="True" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" ItemsSource="{Binding Source=urgenttasklist}" SelectionChanged="dgImportantTasks_SelectionChanged" FontWeight="Normal" Margin="0,0,0,0" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Absender" Binding="{Binding von}" />
+                                <DataGridTextColumn Header="Empfänger" Binding="{Binding zu}" />
+                                <DataGridTextColumn Header="Von-Datum" Binding="{Binding startdate}" />
+                                <DataGridTextColumn Header="Bis-Datum" Binding="{Binding enddate}" />
+                                <DataGridTextColumn Header="Kommentar" Binding="{Binding desc}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Foreground="#FF5075A9" Header="Ungelesene Dienstanweisungen" x:Name="gbUnreadInstructions" Grid.Row="2" FontWeight="Bold" Margin="0,5,0,0">
+                        <DataGrid AutoGenerateColumns="False" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" IsReadOnly="True" x:Name="dgUnreadInstructions" SelectionChanged="dgUnreadInstructions_SelectionChanged" ItemsSource="{Binding Source=unreadinstructionList}" FontWeight="Normal" Margin="0,10,-2,13">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Datum" Binding="{Binding date}" />
+                                <DataGridTextColumn Header="Titel" Binding="{Binding title}" />
+                                <DataGridTextColumn Header="Beschreibung" Binding="{Binding desc}" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Grid.RowSpan="2" Header="Neueste Berichte und Dokumentationen" x:Name="gbImportantTask_Copy" Foreground="#FF5075A9" FontWeight="Bold" Grid.Column="1" RenderTransformOrigin="0.503,0.488" Grid.ColumnSpan="2">
+                        <DataGrid AutoGenerateColumns="False" x:Name="dgNewestDokus" IsReadOnly="True" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" ItemsSource="{Binding Source=urgenttasklist}" SelectionChanged="dgImportantTasks_SelectionChanged" FontWeight="Normal" Margin="0,0,0,0"  MouseDoubleClick="dgNewestDokus_MouseDoubleClick" SelectionMode="Single" LoadingRow="dgNewestDokus_LoadingRow" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Klient" Binding="{Binding name}" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding tag}" />
+                                <DataGridTextColumn Header="WG" Binding="{Binding wg}" />
+                                <DataGridTextColumn Header="Ersteller" Binding="{Binding ersteller}" />
+                                <DataGridTextColumn Header="Art" Binding="{Binding art}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <Button Content="Sync Up"  Grid.Column="18" Grid.RowSpan="2" Height="32" HorizontalAlignment="Left" Margin="53,10,0,0" x:Name="btnSync" VerticalAlignment="Top" Width="85" Grid.ColumnSpan="2" Foreground="#FFB51435" Grid.Row="2" Click="btnSync_Click" Visibility="Hidden" />
+                    <Button Content="Sync Down" Grid.Column="18" Grid.RowSpan="2" Height="32" HorizontalAlignment="Left" Margin="45,10,0,0" x:Name="btnSyncDown" VerticalAlignment="Top" Width="85" Grid.ColumnSpan="2" Foreground="#FFB51435" Grid.Row="4" Click="btnSyncDown_Click" Visibility="Hidden" />
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabPass" Header="Passwort ändern" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="gpbPW" Header="TheraS4" Grid.Column="0" Grid.RowSpan="13" Grid.ColumnSpan="7" Height="315" Width="482" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,24,0,0">
+                        <Grid>
+
+                            <Label Content="Altes Passwort:"  Height="25" HorizontalAlignment="Left" x:Name="label9" VerticalAlignment="Top" Margin="10,38,0,0" Width="123" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <Label Content="Neues Passwort:"  Height="25" HorizontalAlignment="Left" Margin="10,83,0,0" x:Name="label11" VerticalAlignment="Top" Width="123" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <Label Content="Neues Passwort WH :"  Height="28" HorizontalAlignment="Left" Margin="10,136,0,0" x:Name="label12" VerticalAlignment="Top" Width="150" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <PasswordBox  Height="23" HorizontalAlignment="Left" Margin="320,40,0,0" x:Name="pwdOld" VerticalAlignment="Top" Width="140" FontWeight="Normal" />
+                            <PasswordBox Height="22" HorizontalAlignment="Left" x:Name="pwdNew" VerticalAlignment="Top" Width="140" Margin="320,86,0,0" FontWeight="Normal" />
+                            <PasswordBox Height="23" HorizontalAlignment="Left" Margin="321,133,0,0" x:Name="pwdNewConfirm" VerticalAlignment="Top" Width="139" FontWeight="Normal" />
+                            <Button Content="Passwort ändern"  Height="24" HorizontalAlignment="Left" x:Name="btnChangePW" VerticalAlignment="Top" Width="138" Click="btnChangePW_Click" FontWeight="Normal" Margin="154,204,0,0" />
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="gpbPWEmail" Header="E-Mail World4You" Grid.Row="1" Grid.Column="7" Grid.RowSpan="12" Grid.ColumnSpan="6" Height="315" Width="407" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
+                        <Grid>
+                            <Label Content="Neues Passwort:" FontWeight="Normal" Foreground="#FF5075A9" Height="25" HorizontalAlignment="Left" Margin="10,49,0,0" x:Name="label73" VerticalAlignment="Top" Width="123" />
+                            <Label Content="Neues Passwort WH :" FontWeight="Normal" Foreground="#FF5075A9" Height="28" HorizontalAlignment="Left" Margin="10,103,0,0" x:Name="label74" VerticalAlignment="Top" Width="150" />
+                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,49,0,0" x:Name="passwordBox1" VerticalAlignment="Top" Width="140" />
+                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,103,0,0" x:Name="passwordBox2" VerticalAlignment="Top" Width="140" />
+                            <Button Content="Passwort ändern" FontWeight="Normal" Height="22" HorizontalAlignment="Left" Margin="125,192,0,0" x:Name="button3" VerticalAlignment="Top" Width="138" Click="btnChangeEMailPW_Click" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="gpbPWDropbox" Header="Dropbox" Grid.Row="1" Grid.Column="13" Grid.RowSpan="12" Grid.ColumnSpan="6" Height="315" Width="407" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
+                        <Grid>
+                            <Label Content="Neues Passwort:" FontWeight="Normal" Foreground="#FF5075A9" Height="25" HorizontalAlignment="Left" Margin="10,49,0,0" x:Name="label73Dropbox" VerticalAlignment="Top" Width="123" />
+                            <Label Content="Neues Passwort WH :" FontWeight="Normal" Foreground="#FF5075A9" Height="28" HorizontalAlignment="Left" Margin="10,103,0,0" x:Name="label74Dropbox" VerticalAlignment="Top" Width="150" />
+                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,49,0,0" x:Name="passwordBox1_Dropbox" VerticalAlignment="Top" Width="140" />
+                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,103,0,0" x:Name="passwordBox2_Dropbox" VerticalAlignment="Top" Width="140" />
+                            <Button Content="Passwort ändern" FontWeight="Normal" Height="22" HorizontalAlignment="Left" Margin="125,192,0,0" x:Name="button3Dropbox" VerticalAlignment="Top" Width="138" Click="button3Dropbox_Click"  />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Therapeutische Leitung" Foreground="#FF461ECC" FontSize="14" FontWeight="Bold" Height="26.62" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="10*" />
+                        <ColumnDefinition Width="100*" />
+
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Intervisionen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="801" VerticalAlignment="Top" Width="755"/>
+                    <GroupBox Header="Kinderschutz"  BorderBrush="Black" BorderThickness="1" Grid.Column="2" HorizontalAlignment="Left" Height="801" VerticalAlignment="Top" Width="754"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Kassabuch" x:Name="tabKassabuch" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14" GotFocus="tabKassabuch_GotFocus">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Neuen Kassabucheintrag erstellen" x:Name="grpBxKBEintr"  Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="107*"/>
+                                <ColumnDefinition Width="190*"/>
+                                <ColumnDefinition Width="144*"/>
+                                <ColumnDefinition Width="201*"/>
+                                <ColumnDefinition Width="158*"/>
+                                <ColumnDefinition Width="183*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Belegnummer:" Height="28" HorizontalAlignment="Left" x:Name="lblKBBel" VerticalAlignment="Top" FontWeight="Normal" />
+                            <TextBox Height="23" HorizontalAlignment="Left" x:Name="txtBxBelNr" VerticalAlignment="Top" Width="150" Text="0" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" FontWeight="Normal" Grid.Column="1" />
+                            <Label Content="(0 ist die Höchste)" Height="32" HorizontalAlignment="Left" x:Name="lblKBMaxBelNr" VerticalAlignment="Top" Width="127" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" FontWeight="Normal" Grid.Column="1" Grid.Row="1" />
+                            <Label Content="Kontonummer:" Height="28" HorizontalAlignment="Left" x:Name="lblKBKnr" VerticalAlignment="Top" FontWeight="Normal" Grid.Row="2" />
+                            <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbBxKBKnR" VerticalAlignment="Top" Width="150" DropDownOpened="cmbBxKBKnR_DropDownOpened" HorizontalContentAlignment="Left" DropDownClosed="cmbBxKBKnR_DropDownClosed" Grid.Row="2" Grid.Column="1" />
+                            <Label Content="Bezeichnung:" Height="28" HorizontalAlignment="Left" x:Name="lblKBBez" VerticalAlignment="Top" FontWeight="Normal" Grid.Row="3" />
+                            <TextBox Height="24" HorizontalAlignment="Left" x:Name="txtBxKBBeschr" VerticalAlignment="Top" Width="150" FlowDirection="LeftToRight" HorizontalContentAlignment="Left" FontWeight="Normal" Grid.Row="3" Grid.Column="1" />
+                            <RadioButton Content="Einlage" HorizontalAlignment="Left" x:Name="rdBttnKBEinl" VerticalAlignment="Top" GroupName="EinlAbh" IsChecked="True" FontWeight="Normal" Grid.Column="2" />
+                            <RadioButton Content="Abhebung"  HorizontalAlignment="Left" x:Name="rdBttnKBAbh" VerticalAlignment="Top" GroupName="EinlAbh" FontWeight="Normal" Grid.Column="3" />
+                            <Label Content="Brutto" Height="28" HorizontalAlignment="Left" x:Name="lblKBBrutto" VerticalAlignment="Top" FontWeight="Normal" Grid.Row="2" Grid.Column="2" />
+                            <TextBox Height="24" HorizontalAlignment="Right" Margin="0,0,42,0" x:Name="txtBxKBBrutto" VerticalAlignment="Top" Width="150" HorizontalContentAlignment="Right" FontWeight="Normal" Grid.Row="2" Grid.Column="3" />
+                            <RadioButton Content="0%" Height="16" HorizontalAlignment="Right" Margin="0,6,144,0" x:Name="rdBttnKBSteuers0" VerticalAlignment="Top" GroupName="Steuers" IsChecked="True" FontWeight="Normal" Grid.Row="3" Grid.Column="3" Width="48" />
+                            <RadioButton Content="10%" Height="16" HorizontalAlignment="Right" Margin="0,6,93,0" x:Name="rdBttnKBSteuers10" VerticalAlignment="Top" GroupName="Steuers" FontWeight="Normal" Grid.Row="3" Grid.Column="3" />
+                            <RadioButton Content="20%" Height="16" HorizontalAlignment="Right" Margin="0,6,24,0" x:Name="rdBttnKBSteuers20" VerticalAlignment="Top" GroupName="Steuers" FontWeight="Normal" Grid.Row="3" Grid.Column="3" />
+                            <Label Content="Steuersatz:" Height="28" HorizontalAlignment="Left" x:Name="lblKBSteuers" VerticalAlignment="Top" FontWeight="Normal" Grid.Row="3" Grid.Column="2" />
+                            <Label Content="Datum:"  HorizontalAlignment="Left" x:Name="lblKDDat" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="4" />
+                            <DatePicker Height="25" HorizontalAlignment="Right" Margin="0,0,25,0" x:Name="dtPckrKBDat" VerticalAlignment="Top" Width="150" FontWeight="Normal" Grid.Column="5" />
+                            <Button Content="Eintragen" Height="24" HorizontalAlignment="Left" x:Name="bttnKBEintr" VerticalAlignment="Top" Width="150" Click="bttnKBEintr_Click" FontWeight="Normal" Grid.Row="3" Grid.Column="5" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="3" Header="Neue Kontonummer Eintragen" Height="255" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="grpBxKBKnrEintr" VerticalAlignment="Top" Width="316">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="38*"/>
+                                <RowDefinition Height="27*"/>
+                                <RowDefinition Height="98*"/>
+                                <RowDefinition Height="45*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Kontonummer:" Height="28" HorizontalAlignment="Left" x:Name="lblKBKnrKnr" VerticalAlignment="Top" FontWeight="Normal" />
+                            <TextBox Height="23" x:Name="txtBxKBKnrKnr" VerticalAlignment="Top" Width="304" HorizontalContentAlignment="Right" Grid.Row="1" />
+                            <Label Content="Beschreibung:" Height="28" HorizontalAlignment="Left" x:Name="lblKBKnrBeschr" VerticalAlignment="Top" FontWeight="Normal" Grid.RowSpan="2" Grid.Row="2" />
+                            <TextBox Height="86" HorizontalAlignment="Left" x:Name="txtBxKBKnrBeschr" VerticalAlignment="Top" Width="304" AcceptsReturn="False" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Grid.Row="3" />
+                            <Button Content="Eintragen" Height="22" x:Name="bttnKBKnrEintr" VerticalAlignment="Top" Width="304" Click="bttnKBKnrEintr_Click" FontWeight="Normal" Grid.Row="4" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3">
+                        <DataGrid AutoGenerateColumns="False" x:Name="dgvKB"  IsManipulationEnabled="False" IsSynchronizedWithCurrentItem="true" CurrentCellChanged="dgvKB_CurrentCellChanged" CellEditEnding="dgvKB_CellEditEnding" FontWeight="Normal" LoadingRow="dgvKB_LoadingRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding belnr}" Header="Belegnummer" />
+                                <DataGridTextColumn Binding="{Binding dat}" Header="Datum" />
+                                <DataGridTextColumn Binding="{Binding bez}" Header="Kommentar" />
+                                <DataGridTextColumn Binding="{Binding eing}" Header="Einnahmen" />
+                                <DataGridTextColumn Binding="{Binding ausg}" Header="Ausgaben" />
+                                <DataGridTextColumn Binding="{Binding steuers}" Header="Steuersatz %" />
+                                <DataGridTextColumn Binding="{Binding netto}" Header="Nettobetrag" />
+                                <DataGridTextColumn Binding="{Binding mwst}" Header="Mehrwertsteuer" />
+                                <DataGridTextColumn Binding="{Binding kassst}" Header="Kassastand" />
+                                <DataGridTextColumn Binding="{Binding knr}" Header="Kontonummer" />
+                                <DataGridTextColumn Binding="{Binding name}" Header="Eingetragen von" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Grid.RowSpan="3" Margin="25,160,308,114" Grid.Column="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50*"/>
+                                <RowDefinition Height="50*"/>
+                            </Grid.RowDefinitions>
+                            <Button Content="Aktualisieren" Height="24" HorizontalAlignment="Left" x:Name="bttnKBAkt" VerticalAlignment="Top" Width="125" Click="bttnKBAkt_Click" FontWeight="Normal" Grid.Row="1" Grid.Column="3" />
+                            <Label Content="Haus:" Height="28" HorizontalAlignment="Left" x:Name="lblKBHaus" VerticalAlignment="Top" FontWeight="Normal" Width="44" Grid.Column="3" Margin="15,-62,-57,0" />
+                            <Label Content="Von:" Height="28" HorizontalAlignment="Left" x:Name="lblKBFiltVon" VerticalAlignment="Top" FontWeight="Normal" Width="38" />
+                            <DatePicker Height="24" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="dtPckrKBFiltVon" VerticalAlignment="Top" Width="125" SelectedDateChanged="dtPckrKBFiltVon_SelectedDateChanged" FontWeight="Normal" Grid.Column="1" />
+                            <Label Content="Bis:" Height="28" HorizontalAlignment="Left" x:Name="lblKBFiltBis" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="2" Width="30" />
+                            <DatePicker Height="24" HorizontalAlignment="Left" Margin="0" x:Name="dtPckrKBFiltBis" VerticalAlignment="Top" Width="125" SelectedDateChanged="dtPckrKBFiltBis_SelectedDateChanged" FontWeight="Normal" Grid.Column="3" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="2">
+                        <Grid>
+                            <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbBxKBHaus" VerticalAlignment="Top" Width="305" SelectionChanged="cmbBxKBHaus_SelectionChanged" Margin="0,91,0,0" />
+                            <Label x:Name="label" Content="Haus auswählen: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="3" Grid.Row="2" Grid.RowSpan="2">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Kassastand: 0€" Height="28" HorizontalAlignment="Left" x:Name="lblKBKassStand" VerticalAlignment="Top" Width="304" HorizontalContentAlignment="Left" Grid.Row="5" />
+                            <Label Content="" HorizontalAlignment="Left" x:Name="lblKBErr" VerticalAlignment="Top" Foreground="Red" Grid.Row="3" Height="29" Width="304" />
+                            <Button Content="Diese Liste Exportieren" Height="22" HorizontalAlignment="Left" x:Name="bttnKBExport" VerticalAlignment="Top" Width="262" Click="bttnKBExport_Click" FontWeight="Normal" Grid.Column="1" />
+                            <Button Content="Diese Liste Drucken" Height="22" HorizontalAlignment="Left" x:Name="bttnKBPrint" VerticalAlignment="Top" Width="262" Click="bttnKBPrint_Click" FontWeight="Normal" Grid.Column="1" Grid.Row="1" />
+                            <Label Content="" Height="28" HorizontalAlignment="Left" x:Name="lblKBKst1" VerticalAlignment="Top" Width="304" Grid.Row="4" />
+                            <Button Content="Kassastand eines anderen Datums" FontWeight="Normal" HorizontalAlignment="Left" x:Name="bttnKBKasstDat" VerticalAlignment="Top" Click="bttnKBKasstDat_Click" Margin="0,0,0,0" Grid.Row="2" Grid.Column="1" Width="262" />
+
+                        </Grid>
+                    </GroupBox>
+                    <!--<Label Content="" Grid.Column="16" Grid.Row="17" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Name="lblKBKstL" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="210" />-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="Kontakte" x:Name="tabKontakte" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14" Loaded="tabKontakte_Loaded">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*" />
+                        <RowDefinition Height="70*" />
+
+                    </Grid.RowDefinitions>
+                    <GroupBox>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbContSearch1" VerticalAlignment="Top" Width="145" FontWeight="Normal" Grid.Column="1" Grid.Row="1">
+                                <ComboBoxItem Content="Anrede" />
+                                <ComboBoxItem Content="Titel" />
+                                <ComboBoxItem Content="Vorname" />
+                                <ComboBoxItem Content="Nachname" />
+                                <ComboBoxItem Content="Institution" />
+                                <ComboBoxItem Content="Firma" />
+                                <ComboBoxItem Content="Abteilung" />
+                                <ComboBoxItem Content="Land" />
+                                <ComboBoxItem Content="Stadt" />
+                                <ComboBoxItem Content="Straße" />
+                                <ComboBoxItem Content="PLZ" />
+                                <ComboBoxItem Content="Gruppe" />
+                                <ComboBoxItem Content="Telefon #1" />
+                                <ComboBoxItem Content="Telefon #2" />
+                                <ComboBoxItem Content="Fax" />
+                                <ComboBoxItem Content="E-Mail" />
+                                <ComboBoxItem Content="Webseite" />
+                                <ComboBoxItem Content="Skype" />
+                                <ComboBoxItem Content="Funktion" />
+                                <ComboBoxItem Content="Kommentar" />
+                            </ComboBox>
+                            <TextBox Height="22" x:Name="txtContSearch1" VerticalAlignment="Top" Margin="0,0,10,0" Visibility="Visible" FontWeight="Normal" KeyDown="txtContSearch1_KeyDown" Grid.Column="1" Grid.Row="2" />
+                            <Label Content="suchen nach:" Height="28" HorizontalAlignment="Left" x:Name="lblContSearch" VerticalAlignment="Top" Width="100" FontWeight="Normal" Grid.Row="2" />
+                            <Button Content="Suchen" Height="24" HorizontalAlignment="Left" x:Name="btnContSearch" VerticalAlignment="Top" Width="94" FontWeight="Normal" Click="btnContSearch_Click" Grid.Row="1" />
+                            <ComboBox FontWeight="Normal" Height="24" HorizontalAlignment="Left" x:Name="cmbContSearch2" VerticalAlignment="Top" Width="146" Grid.Column="2" Grid.Row="1">
+                                <ComboBoxItem Content="Anrede" />
+                                <ComboBoxItem Content="Titel" />
+                                <ComboBoxItem Content="Vorname" />
+                                <ComboBoxItem Content="Nachname" />
+                                <ComboBoxItem Content="Institution" />
+                                <ComboBoxItem Content="Firma" />
+                                <ComboBoxItem Content="Abteilung" />
+                                <ComboBoxItem Content="Land" />
+                                <ComboBoxItem Content="Stadt" />
+                                <ComboBoxItem Content="Straße" />
+                                <ComboBoxItem Content="PLZ" />
+                                <ComboBoxItem Content="Gruppe" />
+                                <ComboBoxItem Content="Telefon #1" />
+                                <ComboBoxItem Content="Telefon #2" />
+                                <ComboBoxItem Content="Fax" />
+                                <ComboBoxItem Content="E-Mail" />
+                                <ComboBoxItem Content="Webseite" />
+                                <ComboBoxItem Content="Skype" />
+                                <ComboBoxItem Content="Funktion" />
+                                <ComboBoxItem Content="Kommentar" />
+                            </ComboBox>
+                            <ComboBox FontWeight="Normal" Height="24" HorizontalAlignment="Left" x:Name="cmbContSearch3" VerticalAlignment="Top" Width="146" Grid.Column="3" Grid.Row="1">
+                                <ComboBoxItem Content="Anrede" />
+                                <ComboBoxItem Content="Titel" />
+                                <ComboBoxItem Content="Vorname" />
+                                <ComboBoxItem Content="Nachname" />
+                                <ComboBoxItem Content="Institution" />
+                                <ComboBoxItem Content="Firma" />
+                                <ComboBoxItem Content="Abteilung" />
+                                <ComboBoxItem Content="Land" />
+                                <ComboBoxItem Content="Stadt" />
+                                <ComboBoxItem Content="Straße" />
+                                <ComboBoxItem Content="PLZ" />
+                                <ComboBoxItem Content="Gruppe" />
+                                <ComboBoxItem Content="Telefon #1" />
+                                <ComboBoxItem Content="Telefon #2" />
+                                <ComboBoxItem Content="Fax" />
+                                <ComboBoxItem Content="E-Mail" />
+                                <ComboBoxItem Content="Webseite" />
+                                <ComboBoxItem Content="Skype" />
+                                <ComboBoxItem Content="Funktion" />
+                                <ComboBoxItem Content="Kommentar" />
+                            </ComboBox>
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtContSearch2" VerticalAlignment="Top" Width="146" FontWeight="Normal" KeyDown="txtContSearch2_KeyDown" Grid.Column="2" Grid.Row="2" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtContSearch3" VerticalAlignment="Top" Width="146" FontWeight="Normal" KeyDown="txtContSearch3_KeyDown" Grid.Column="3" Grid.Row="2" />
+                            <Button Content="-" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch1Minus" VerticalAlignment="Center" Width="34" Foreground="#FFDB0000" Click="btnContSearch1Minus_Click" Grid.Column="1" />
+                            <Button Content="-" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch2Minus" VerticalAlignment="Center" Width="34" Foreground="#FFDB0000" Click="btnContSearch2Minus_Click" Grid.Column="2" />
+                            <Button Content="-" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch3Minus" VerticalAlignment="Center" Width="34" Foreground="#FFDB0000" Click="btnContSearch3Minus_Click" Grid.Column="3" />
+                            <Button Content="+" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch1Plus" VerticalAlignment="Center" Width="34" Foreground="#FF00CC00" Click="btnContSearch1Plus_Click" Grid.Column="1" />
+                            <Button Content="+" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch2Plus" VerticalAlignment="Center" Width="34" Foreground="#FF00CC00" Click="btnContSearch2Plus_Click" Grid.Column="2" />
+                            <Button Content="+" Height="23" HorizontalAlignment="Center" Margin="0" x:Name="btnContSearch3Plus" VerticalAlignment="Center" Width="34" Foreground="#FF00CC00" Click="btnContSearch3Plus_Click" Grid.Column="3" />
+
+                        </Grid>
+                    </GroupBox>
+                    <TextBox FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="0,5,0,0" x:Name="txtKontaktEmail" VerticalAlignment="Top" Width="120" Grid.Column="3" Grid.Row="17" Visibility="Hidden" />
+                    <GroupBox Grid.ColumnSpan="2" Grid.Row="1">
+                        <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="19" Grid.Row="7" Grid.RowSpan="18" Margin="0,0,0,0" x:Name="dgvContact" FontWeight="Normal" SelectionChanged="dgvContact_SelectionChanged" IsEnabled="True" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding title}" Header="Titel" />
+                                <DataGridTextColumn Binding="{Binding firstname}" Header="Vorname" />
+                                <DataGridTextColumn Binding="{Binding lastname}" Header="Nachname" />
+                                <DataGridTextColumn Binding="{Binding institution}" Header="Institution" />
+                                <DataGridTextColumn Binding="{Binding company}" Header="Firma" />
+                                <DataGridTextColumn Binding="{Binding department}" Header="Abteilung" />
+                                <DataGridTextColumn Binding="{Binding country}" Header="Land" />
+                                <DataGridTextColumn Binding="{Binding city}" Header="Stadt" />
+                                <DataGridTextColumn Binding="{Binding street}" Header="Strasse" />
+                                <DataGridTextColumn Binding="{Binding zip}" Header="PLZ" />
+                                <DataGridTextColumn Binding="{Binding phone1}" Header="Telefon #1" />
+                                <DataGridTextColumn Binding="{Binding phone2}" Header="Telefon #2" />
+                                <DataGridTextColumn Binding="{Binding fax}" Header="Fax" />
+                                <DataGridTextColumn Binding="{Binding www}" Header="Webseite" />
+                                <DataGridTextColumn Binding="{Binding skype}" Header="Skype" />
+                                <DataGridTextColumn Binding="{Binding comment}" Header="Kommentar" />
+                                <DataGridTextColumn Binding="{Binding groups}" Header="Gruppe" />
+                                <DataGridTextColumn Binding="{Binding function}" Header="Funktion" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Grid.RowSpan="2" Grid.Column="1" Margin="0,0,0,560">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Neuer Kontakt" Height="24" HorizontalAlignment="Center" x:Name="btnContNew" VerticalAlignment="Center" Width="120" FontWeight="Normal" Click="btnContNew_Click" Margin="0,-1,0,0" />
+                            <Button Content="Speichern" Height="23" HorizontalAlignment="Center" x:Name="btnContSave" VerticalAlignment="Center" Width="120" FontWeight="Normal" Click="btnContSave_Click" Grid.Column="1" />
+                            <Button Content="Löschen" Height="23" HorizontalAlignment="Center" x:Name="btnContDelete" VerticalAlignment="Center" Width="120" FontWeight="Normal" Click="btnContDelete_Click" Margin="0" Grid.Column="3" />
+                            <Button Content="Bearbeiten" Height="23" HorizontalAlignment="Center" x:Name="btnContChange" VerticalAlignment="Center" Width="120" FontWeight="Normal" Margin="0" Click="btnContChange_Click" Grid.Column="2" />
+
+                        </Grid>
+                    </GroupBox>
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="43,0,0,0" x:Name="lblContAlertFN" VerticalAlignment="Top" Grid.Column="13" Grid.Row="12" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="44,0,0,0" x:Name="lblContAlertLN" VerticalAlignment="Top" Grid.Column="13" Grid.Row="14" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="42,1,0,0" x:Name="lblContAlertDep" VerticalAlignment="Top" Grid.Column="13" Grid.Row="20" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="42,0,0,0" x:Name="lblContAlertCountry" VerticalAlignment="Top" Grid.Column="13" Grid.Row="22" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="42,3,0,0" x:Name="lblContAlertCity" VerticalAlignment="Top" Grid.Column="13" Grid.Row="24" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="42,1,0,0" x:Name="lblContAlertStreet" VerticalAlignment="Top" Grid.Column="13" Grid.Row="26" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="3" Height="28" HorizontalAlignment="Left" Margin="42,17,0,0" x:Name="lblContAlertZip" VerticalAlignment="Top" Grid.Column="13" Grid.Row="27" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="40,2,0,0" x:Name="lblContAlertTel1" VerticalAlignment="Top" Grid.Column="17" Grid.Row="10" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="41,2,0,0" x:Name="lblContAlertTel2" VerticalAlignment="Top" Grid.Column="17" Grid.Row="12" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="41,0,0,0" x:Name="lblContAlertFax" VerticalAlignment="Top" Grid.Column="17" Grid.Row="14" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="41,0,0,0" x:Name="lblContAlertEmail" VerticalAlignment="Top" Grid.Column="17" Grid.Row="16" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="40,1,0,0" x:Name="lblContAlertFunction" VerticalAlignment="Top" Grid.Column="17" Grid.Row="22" IsEnabled="True" Visibility="Hidden" />
+                    <Label Content="!" FontFamily="Segoe UI" FontSize="16" Foreground="Red" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" IsEnabled="True" Margin="42,1,0,0" x:Name="lblContAlertSalutation" VerticalAlignment="Top" Visibility="Hidden" Grid.Column="13" Grid.Row="8" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Platzhalter" Visibility="Hidden" />
+            <TabItem Header="Dokumentation" x:Name="tabDokumentation" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*" />
+                        <RowDefinition Height="10*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Dokumentation" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtDokuKoerperlichAnzeige" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" MouseDoubleClick="txtDokuKoerperlichAnzeige_MouseDoubleClick" Grid.Row="1" Margin="5,0" />
+                            <TextBox x:Name="txtDokuSchulischAnzeige" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" FontWeight="Normal" MouseDoubleClick="txtDokuSchulischAnzeige_MouseDoubleClick" Grid.Column="1" Grid.Row="1" Margin="5,0" />
+                            <TextBox x:Name="txtDokuPsychischAnzeige" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" MouseDoubleClick="txtDokuPsychischAnzeige_MouseDoubleClick" Grid.Column="2" Grid.Row="1" Margin="5,0" />
+                            <TextBox x:Name="txtDokuPflichteAnzeige" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" FontWeight="Normal" TextChanged="txtDokuPflichteAnzeige_TextChanged" MouseDoubleClick="txtDokuPflichteAnzeige_MouseDoubleClick" Grid.Column="3" Grid.Row="1" Margin="5,0" />
+                            <TextBox x:Name="txtDokuAußenkontaktAnzeige" Width="314" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" FontWeight="Normal" MouseDoubleClick="txtDokuAußenkontaktAnzeige_MouseDoubleClick" Grid.Column="4" Grid.Row="1" Margin="5,0,-5,0" />
+                            <Label Content="Körperlich" Height="28" HorizontalAlignment="Left" x:Name="label3" VerticalAlignment="Top" Width="124" Margin="0" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <Label Content="Schulisch" Height="28" HorizontalAlignment="Left" Margin="0" x:Name="label4" VerticalAlignment="Top" Width="126" FontWeight="Normal" Foreground="#FF5075A9" Grid.Column="1" />
+                            <Label Content="Psychisch" Height="28" HorizontalAlignment="Left" x:Name="label5" VerticalAlignment="Top" Width="98" Margin="0" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="2" />
+                            <Label Content="Pflichten" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" x:Name="label6" VerticalAlignment="Top" Width="124" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="3" />
+                            <Label Content="Außenkontakt" Height="28" HorizontalAlignment="Left" Margin="0" x:Name="label7" VerticalAlignment="Top" Width="126" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="4" />
+                            <TextBox AcceptsReturn="True" FontWeight="Normal" Margin="5,0" x:Name="txtDokuSchulisch" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" KeyDown="txtDokuKoerperlich_TextChanged" SpellCheck.IsEnabled="True" MouseDoubleClick="txtDokuSchulisch_MouseDoubleClick" Grid.Column="1" Grid.Row="3" />
+                            <TextBox x:Name="txtDokuKoerperlich" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" KeyDown="txtDokuKoerperlich_TextChanged" SpellCheck.IsEnabled="True" MouseDoubleClick="txtDokuKoerperlich_MouseDoubleClick" Grid.Row="3" Margin="5,0" />
+                            <TextBox x:Name="txtDokuPsychisch" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" KeyDown="txtDokuKoerperlich_TextChanged" SpellCheck.IsEnabled="True" MouseDoubleClick="txtDokuPsychisch_MouseDoubleClick" Grid.Column="2" Grid.Row="3" Margin="5,0" />
+                            <TextBox x:Name="txtDokuPflichte" Width="314" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" FontWeight="Normal" KeyDown="txtDokuKoerperlich_TextChanged" SpellCheck.IsEnabled="True" MouseDoubleClick="txtDokuPflichte_MouseDoubleClick" Grid.Column="3" Grid.Row="3" />
+                            <TextBox Height="198" HorizontalAlignment="Left" x:Name="txtDokuAußenkontakt" VerticalAlignment="Top" Width="314" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" FontWeight="Normal" KeyDown="txtDokuKoerperlich_TextChanged" SpellCheck.IsEnabled="True" MouseDoubleClick="txtDokuAußenkontakt_MouseDoubleClick" Grid.Column="4" Grid.Row="3" Margin="5,0,-5,0" />
+                            <Label Content="Neu:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" Width="40" RenderTransformOrigin="1.561,0.118" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="4" Grid.Row="2"/>
+                            <Label Content="Neu:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" Width="42" RenderTransformOrigin="1.561,0.118" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="3" Grid.Row="2"/>
+                            <Label Content="Neu:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" Width="40" RenderTransformOrigin="1.561,0.118" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="2" Grid.Row="2"/>
+                            <Label Content="Neu:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" Width="41" RenderTransformOrigin="1.561,0.118" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="1" Grid.Row="2"/>
+                            <Label Content="Neu:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" Width="41" RenderTransformOrigin="1.561,0.118" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.ColumnSpan="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="cmbKlient" VerticalAlignment="Top" Width="186" ToolTip="Hier können Sie einen der Ihnen zugewiesenen Klienten auswählen" FontWeight="Normal" SelectionChanged="comboBox1_SelectionChanged" Grid.Column="1" />
+                            <!--<ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="3,20,0,0" x:Name="cmbKlientArchiv" VerticalAlignment="Top" Width="186" Grid.Row="3" ToolTip="Hier können Sie einen der Ihnen zugewiesenen Klienten auswählen" FontWeight="Normal" SelectionChanged="cmbKlientArchiv_SelectionChanged" /> -->
+                            <TextBox Height="23" HorizontalAlignment="Left" x:Name="txtDokuCreatedUser" VerticalAlignment="Top" Width="120" IsReadOnly="True" FontWeight="Normal" Grid.Column="5" />
+                            <DatePicker HorizontalAlignment="Left" x:Name="dateDoku" VerticalAlignment="Top" SelectedDateChanged="comboBox1_SelectionChanged" ToolTip="Wählen Sie ein Datum wür welches Sie die Dokumentation anzeigen bzw. schreiben wollen" Margin="0,0,0,0" Height="23" Width="146" FontWeight="Normal" Grid.Column="3" />
+                            <Label Content="Aktiv:" HorizontalAlignment="Left" x:Name="label8" VerticalAlignment="Top" Margin="0,0,0,0" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <Label Content="Von:" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="lblDateOrTo" VerticalAlignment="Top" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="2" />
+                            <Label Content="Verfasser:" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="label10" VerticalAlignment="Top" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="4" />
+                            <CheckBox Content="Mehrere Tage lesen" Height="24" HorizontalAlignment="Left" Margin="0,5,0,0" x:Name="chkMultiday" VerticalAlignment="Top" Width="188" Checked="checkBox1_Checked" Unchecked="checkBox1_Unchecked" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="6" />
+                            <DatePicker Height="23" HorizontalAlignment="Left" Margin="0,44,0,0" x:Name="dateDokuTo" VerticalAlignment="Top" Width="146" Grid.Column="3" FontWeight="Normal" Visibility="Hidden" />
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Margin="35,8,0,0" Grid.Column="2" Grid.Row="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="11*"/>
+                                <RowDefinition Height="32*"/>
+                            </Grid.RowDefinitions>
+                            <DataGrid AutoGenerateColumns="False" Height="167" HorizontalAlignment="Left" x:Name="dgvMedi" VerticalAlignment="Top" Width="481" Visibility="Visible" ItemsSource="{Binding m, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Normal" Margin="0,21,0,0" Grid.RowSpan="2">
+                                <DataGrid.Resources>
+                                    <DataTemplate x:Key="ReadonlyMorning">
+                                        <CheckBox Content="{Binding morning}" IsChecked="{Binding morningConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="ReadonlyMidday">
+                                        <CheckBox Content="{Binding midday}" IsChecked="{Binding middayConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="ReadonlyEvening">
+                                        <CheckBox Content="{Binding evening}" IsChecked="{Binding eveningConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="ReadonlyNight">
+                                        <CheckBox Content="{Binding night}" IsChecked="{Binding nightConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                    </DataTemplate>
+                                </DataGrid.Resources>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Medikament" Binding="{Binding name}" />
+                                    <DataGridTemplateColumn Header="Morgen" CellTemplate="{StaticResource ReadonlyMorning}" />
+                                    <DataGridTemplateColumn Header="Mittag" CellTemplate="{StaticResource ReadonlyMidday}" />
+                                    <DataGridTemplateColumn Header="Abend" CellTemplate="{StaticResource ReadonlyEvening}" />
+                                    <DataGridTemplateColumn Header="Nacht" CellTemplate="{StaticResource ReadonlyNight}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <CheckBox x:Name="chk_noMedi" Content="Die Medikation ist zum Zeitpunkt dieser Dokumentation noch nicht vollständig." HorizontalAlignment="Left" VerticalAlignment="Top" Width="507" FontSize="12" Checked="chk_noMedi_Checked" Unchecked="chk_noMedi_Unchecked" Height="16"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <!--<ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="3,20,0,0" x:Name="cmbKlientArchiv" VerticalAlignment="Top" Width="186" Grid.Row="3" ToolTip="Hier können Sie einen der Ihnen zugewiesenen Klienten auswählen" FontWeight="Normal" SelectionChanged="cmbKlientArchiv_SelectionChanged" /> -->
+                            <Button Content="Dokumentation speichern" Height="23" HorizontalAlignment="Left" x:Name="btnSetDoku" VerticalAlignment="Top" Width="227" Click="btnSetDoku_Click" Margin="0,0,0,0" ToolTip="Wenn die Dokumentation einmal gespeichert ist lässt sie sich nicht mehr ändern!" FontWeight="Normal" />
+                            <Button Content="Dokumentation drucken" Height="23" HorizontalAlignment="Left" x:Name="button2" VerticalAlignment="Top" Width="227" Click="btnNewBericht_Click" FontWeight="Normal" Grid.Row="1" />
+
+                        </Grid>
+                    </GroupBox>
+                    <!--<ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="3,20,0,0" x:Name="cmbKlientArchiv" VerticalAlignment="Top" Width="186" Grid.Row="3" ToolTip="Hier können Sie einen der Ihnen zugewiesenen Klienten auswählen" FontWeight="Normal" SelectionChanged="cmbKlientArchiv_SelectionChanged" /> -->
+                    <Label Content="Archiv:" Grid.RowSpan="2" Height="25" HorizontalAlignment="Left" x:Name="label83" VerticalAlignment="Top" Margin="22,262,0,0" Grid.Row="2" Foreground="#FF5075A9" FontWeight="Normal" Visibility="Hidden" />
+                    <Label Content="Bis:" Grid.Column="2" Grid.Row="3" Height="27" HorizontalAlignment="Left" Margin="34,17,0,0" x:Name="lblTo" VerticalAlignment="Top" Visibility="Hidden" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <TextBox Grid.Row="3" Height="12" HorizontalAlignment="Left" Margin="14,2,0,0" x:Name="txtDokuTempKoerperlich" VerticalAlignment="Top" Width="13" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" />
+                    <TextBox Grid.Row="3" Height="12" HorizontalAlignment="Left" Margin="12,2,0,0" x:Name="txtDokuTempSchulisch" VerticalAlignment="Top" Width="13" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" />
+                    <TextBox Grid.Row="3" Height="12" HorizontalAlignment="Left" Margin="9,2,0,0" x:Name="txtDokuTempPsychisch" VerticalAlignment="Top" Width="13" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" />
+                    <TextBox Grid.Row="3" Height="12" HorizontalAlignment="Left" Margin="9,2,0,0" x:Name="txtDokuTempPflichten" VerticalAlignment="Top" Width="13" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" />
+                    <TextBox Grid.Row="3" Height="12" HorizontalAlignment="Left" Margin="10,2,0,0" x:Name="txtDokuTempAussenkontakt" VerticalAlignment="Top" Width="13" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" />
+                    <Button Content="Automatische Sicherung wiederherstellen" Grid.Row="3" Height="23" HorizontalAlignment="Left" x:Name="btnRecoverDoku" VerticalAlignment="Top" Width="279" Margin="10,11,0,0" FontWeight="Normal" Grid.Column="2" Visibility="Hidden" Click="btnRecoverDoku_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Klienten" x:Name="tabVitaldaten" Visibility="Visible" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <TabControl x:Name="tabControl1" SelectionChanged="tabControl1_SelectionChanged" Background="#FFCFCFCF">
+                        <TabItem Header="Stammdaten" x:Name="tbStamm" Foreground="#FF5075A9">
+                            <Grid Margin="10,4,-10,-4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30*" />
+                                    <RowDefinition Height="70*" />
+
+                                </Grid.RowDefinitions>
+                                <GroupBox Grid.Row="1" Header="Persönliche Daten" Height="538" HorizontalAlignment="Left" x:Name="groupBox1" VerticalAlignment="Top" Width="627" Foreground="#FFB51435" FontWeight="Bold">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="100*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0*"/>
+                                            <ColumnDefinition Width="280*"/>
+                                            <ColumnDefinition Width="204*"/>
+                                            <ColumnDefinition Width="131*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Nachname" Height="35" HorizontalAlignment="Left" x:Name="label37" VerticalAlignment="Top" Width="115" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" Grid.Column="1" />
+                                        <Label Content="Vorname" Height="35" Margin="0,0,170,0" x:Name="label38" VerticalAlignment="Top" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" Grid.Column="1" />
+                                        <Label Content="Anrede" Height="35" Margin="0,0,234,0" x:Name="label39" VerticalAlignment="Top" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="1" />
+                                        <Label Content="Geburtsdatum" Height="36" HorizontalAlignment="Left" x:Name="label40" VerticalAlignment="Top" Width="132" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="6" Grid.Column="1" />
+                                        <Label Content="Status" Height="35" HorizontalAlignment="Left" x:Name="label79" VerticalAlignment="Top" Width="132" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="7" Grid.Column="1" />
+                                        <Label Content="Geburtsort" Height="35" HorizontalAlignment="Left" x:Name="label44" VerticalAlignment="Top" Width="115" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" Grid.Column="1" />
+                                        <Label Content="Staatsbürgerschaft" Height="34" HorizontalAlignment="Left" x:Name="label45" VerticalAlignment="Top" Width="200" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" Grid.Column="1" />
+                                        <Label Content="Bezirkshauptmannschaft" Height="35" HorizontalAlignment="Left" x:Name="label55" VerticalAlignment="Top" Width="200" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="5" Grid.Column="1" />
+                                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="txtVorname" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="1" ToolTip="Leerzeichen werden druch &quot;-&quot; ersetzt" />
+                                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="txtNachname" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="2" ToolTip="Leerzeichen werden druch &quot;-&quot; ersetzt" />
+                                        <TextBox Height="30" HorizontalAlignment="Left" x:Name="txtStaatsbuergerschaft" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="3" />
+                                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="txtGeburtsort" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="4" />
+                                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="txtZuständigeBezirkshauptmannschaft" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="5" />
+                                        <DatePicker Height="32" HorizontalAlignment="Left" x:Name="dpGeburtsdatum" VerticalAlignment="Top" Width="204" IsEnabled="False" FontWeight="Normal" Grid.Column="2" Grid.Row="6" />
+                                        <RadioButton Content="Intern" Margin="0,0,14,104" x:Name="rdbIntern" FontWeight="Normal" GroupName="Status" IsEnabled="False" Grid.Column="2" Grid.Row="7" />
+                                        <RadioButton Content="Extern" Margin="0,0,8,110" x:Name="rdbExtern" FontWeight="Normal" GroupName="Status" IsEnabled="False" Grid.Column="3" Grid.Row="7" />
+                                        <RadioButton Content="Herr" Height="20" HorizontalAlignment="Left" x:Name="rbman" VerticalAlignment="Top" GroupName="Geschlecht" IsEnabled="False" Foreground="Black" FontWeight="Normal" Width="76" Grid.Column="2" />
+                                        <RadioButton Content="Frau" Height="20" HorizontalAlignment="Left" x:Name="rbwoman" VerticalAlignment="Top" GroupName="Geschlecht" IsEnabled="False" Foreground="Black" FontWeight="Normal" Width="56" Grid.Column="3" />
+
+
+                                    </Grid>
+
+                                </GroupBox>
+                                <GroupBox Grid.Column="1" Grid.RowSpan="2" Header="Verwaltungsdaten" Height="768" HorizontalAlignment="Left" x:Name="groupBox3" VerticalAlignment="Top" Width="629" Foreground="#FFB51435" FontWeight="Bold" Margin="1,0,0,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Austrittsdatum" Height="40" HorizontalAlignment="Left" x:Name="label42" VerticalAlignment="Top" Width="146" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="6" />
+                                        <Label Content="Aufnahmedatum" Height="40" HorizontalAlignment="Left" x:Name="label43" VerticalAlignment="Top" Width="188" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="5" />
+                                        <Label Content="Versicherungsträger" Height="40" HorizontalAlignment="Left" x:Name="label46" VerticalAlignment="Top" Width="190" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" />
+                                        <Label Content="ICD-Code" Height="40" x:Name="label47" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" />
+                                        <Label Content="Sozialarbeiter" Height="40" HorizontalAlignment="Left" x:Name="label52" VerticalAlignment="Top" Width="146" Foreground="#FF5075A9" FontWeight="Normal" />
+                                        <Label Content="Mitversichert bei" Height="40" HorizontalAlignment="Left" x:Name="label53" VerticalAlignment="Top" Width="190" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" />
+                                        <Label Content="Sozialversicherungsnummer" Height="40" HorizontalAlignment="Left" x:Name="label54" VerticalAlignment="Top" Width="255" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" />
+                                        <TextBox Height="33" HorizontalAlignment="Left" x:Name="txtICDCode" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" />
+                                        <TextBox Height="34" HorizontalAlignment="Left" x:Name="txtSozialversicherungsnummer" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" />
+                                        <TextBox Height="34" HorizontalAlignment="Left" x:Name="txtVersicherungsträger" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" />
+                                        <TextBox Height="32" HorizontalAlignment="Left" x:Name="txtMitversichertBei" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" />
+                                        <DatePicker Height="36" HorizontalAlignment="Left" x:Name="dpAufnahmedatum" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" />
+                                        <DatePicker Height="36" HorizontalAlignment="Left" x:Name="dpAustrittsdatum" VerticalAlignment="Top" Width="162" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" ToolTip="Darf frühestens am Tag des Austritts gesetzt werden!" />
+                                        <ComboBox Height="33" HorizontalAlignment="Left" IsEnabled="False" x:Name="cmbContacts" VerticalAlignment="Top" Width="162" ItemsSource="{Binding Source=contactsList}" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" />
+                                        <Label Content="Abnahme" FontWeight="Normal" Foreground="#FF5075A9" Height="40" HorizontalAlignment="Left" x:Name="label78" VerticalAlignment="Top" Width="146" Visibility="Visible" Grid.Row="7" />
+                                        <RadioButton Content="Gerichtlich" Height="32" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="rdbGericht" VerticalAlignment="Top" FontWeight="Normal" Visibility="Visible" GroupName="Assignment" IsEnabled="False" Width="113" Grid.Row="7" Grid.Column="1" />
+                                        <RadioButton Content="Freiwillig" FontWeight="Normal" Height="28" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="rdbFrei" VerticalAlignment="Top" Width="98" Visibility="Visible" GroupName="Assignment" IsEnabled="False" Grid.Column="2" Grid.Row="7" />
+                                        <Button Content="Speichern" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="159" x:Name="btnVitalSave" Click="btnVitalSave_Click" FontWeight="Normal" Grid.Column="1" Grid.Row="8" Margin="0,0,0,59" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Header="Klient" x:Name="groupBox4" Foreground="#FFB51435" FontWeight="Bold" Margin="0,0,4,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                            <RowDefinition Height="40*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="279*"/>
+                                            <ColumnDefinition Width="207*"/>
+                                            <ColumnDefinition Width="130*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Aktiv" Height="36" HorizontalAlignment="Left" x:Name="label80" VerticalAlignment="Top" Width="50" Foreground="#FF5075A9" FontWeight="Normal" RenderTransformOrigin="-0.39,0.264" />
+                                        <Label Content="Archiv" Height="36" HorizontalAlignment="Left" x:Name="label81" VerticalAlignment="Top" Width="50" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" />
+                                        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbKlientAuswaehlen" VerticalAlignment="Top" Width="206" FontWeight="Normal" SelectionChanged="cmbKlientAuswaehlen_SelectionChanged" Grid.Column="1" />
+                                        <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbKlientArchivAuswaehlen" VerticalAlignment="Bottom" Width="206" Margin="0,0,0,29" FontWeight="Normal" SelectionChanged="cmbKlientArchivAuswaehlen_SelectionChanged" Grid.Column="1" Grid.RowSpan="2" />
+                                        <Button Content="Daten Erhalten" HorizontalAlignment="Left" Margin="0" x:Name="btnGetKlientDaten" Width="206" Click="btnGetKlientDaten_Click" FontWeight="Normal" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" />
+                                        <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbZugehoerigkeit" VerticalAlignment="Top" Width="206" IsEnabled="False" ItemsSource="{Binding Source=serviceList}" FontWeight="Normal" Grid.Row="2" Grid.Column="1" />
+                                        <Label Content="Zugehörigkeit" Height="36" HorizontalAlignment="Left" x:Name="label41" VerticalAlignment="Top" Width="108" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" />
+
+                                    </Grid>
+                                </GroupBox>
+
+                                <GroupBox Margin="0,0,0,0" Grid.Column="2">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Content="Neuer Sozialarbeiter" Height="24" HorizontalAlignment="Left" x:Name="btnNS" VerticalAlignment="Top" Width="142" Click="btnNS_Click" FontWeight="Normal" />
+                                        <Button Content="Neuer Klient" Height="Auto" HorizontalAlignment="Left" x:Name="btnNK" Width="141" Click="btnNK_Click" FontWeight="Normal" Grid.Row="1" Margin="0,0,0,34" />
+                                        <Button Content="Änderungen Speichern" Height="23" HorizontalAlignment="Left" Margin="0" x:Name="btnSaveChanges" VerticalAlignment="Top" Width="170" Click="btnSaveChanges_Click" Visibility="Hidden" FontWeight="Normal" Grid.Row="4" />
+                                        <Button Content="Neues Haus" FontWeight="Normal" Height="23" HorizontalAlignment="Left" x:Name="btnNH" VerticalAlignment="Top" Width="141" Click="btnNH_Click" Grid.Row="2" />
+
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Berichte" x:Name="tbBericht" Visibility="Visible" Foreground="#FF5075A9" IsEnabled="False">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10*" />
+                                    <RowDefinition Height="90*" />
+                                </Grid.RowDefinitions>
+                                <GroupBox>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,22,10,26" x:Name="cmbFVGClient" VerticalAlignment="Center" Width="194" SelectionChanged="cmbFVGClient_SelectionChanged" FontWeight="Normal" Visibility="Visible" IsReadOnly="True" Focusable="True" IsEditable="False" IsEnabled="False" Grid.Column="3" />
+                                        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" x:Name="cmbFVGDoc" VerticalAlignment="Center" Width="194" FontWeight="Normal" Grid.Column="5" />
+                                        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbArt" VerticalAlignment="Center" Width="194" FontWeight="Normal" SelectionChanged="cmbArt_SelectionChanged" Grid.Column="1" Margin="0,22,0,26" />
+                                        <Label Content="Dokument" HorizontalAlignment="Left" x:Name="label34" VerticalAlignment="Center" FontWeight="Bold" Foreground="#FFB51435" Grid.Column="4" Margin="0,19,0,23" />
+                                        <Label Content="Klient" HorizontalAlignment="Left" x:Name="label36" VerticalAlignment="Center" FontWeight="Bold" Foreground="#FFB51435" Visibility="Visible" Grid.Column="2" Margin="0,19,0,23" />
+                                        <Label Content="Art" HorizontalAlignment="Left" x:Name="label82" VerticalAlignment="Center" FontWeight="Bold" Foreground="#FFB51435" Visibility="Visible" Margin="0,19,0,23" />
+                                        <Button Content="Holen" HorizontalAlignment="Left" Margin="0" x:Name="btnFvgGet" Width="126" Click="btnFvgGet_Click" FontWeight="Normal" Grid.Column="9" VerticalAlignment="Center" />
+                                        <Button Content="Speichern"  HorizontalAlignment="Left" Margin="0" x:Name="btnFvgSet" VerticalAlignment="Center" Width="126" FontWeight="Normal" Click="btnFvgSet_Click" Grid.Column="10" />
+                                        <Button Content="Neu" HorizontalAlignment="Left" x:Name="btnFvgNew" VerticalAlignment="Center" Width="126" Click="btnFvgNew_Click" FontWeight="Normal" Grid.Column="8" />
+                                        <Button Content="Art ändern" HorizontalAlignment="Left" Margin="0" x:Name="btnFvgC" VerticalAlignment="Center" Width="126" Click="btnFvgC_Click" FontWeight="Normal" Grid.Column="7" />
+                                        <Button Content="Vorlage" HorizontalAlignment="Left" Margin="0" x:Name="btnFvgC_Copy" VerticalAlignment="Center" Width="126" Click="btnFvgC_Copy_Click" FontWeight="Normal" Grid.Column="6" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Row="1">
+                                    <ex:HtmlEditor x:Name="editFVG" Grid.ColumnSpan="22" Margin="0,0,0,0" Grid.RowSpan="27" Grid.Row="4" FontWeight="Normal" IsEnabled="False" />
+                                </GroupBox>
+
+
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Taschengeld" x:Name="tbTg" IsEnabled="False" Foreground="#FF5075A9">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70*" />
+                                    <ColumnDefinition Width="30*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+                                </Grid.RowDefinitions>
+                                <GroupBox Grid.Column="1" Header="Klient" Height="142" HorizontalAlignment="Left" x:Name="groupBox7" VerticalAlignment="Top" Width="473" Foreground="#FFB51435" FontWeight="Bold" IsEnabled="True">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Content="Daten erhalten" Height="23" Width="120" x:Name="btnGetTg" Click="btnGetTg_Click" AllowDrop="False" Margin="0" FontWeight="Normal" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbTg" VerticalAlignment="Top" Width="267" FontWeight="Normal" Visibility="Visible" IsReadOnly="True" IsEnabled="False" />
+
+                                    </Grid>
+
+                                </GroupBox>
+                                <GroupBox Header="Taschengeld" x:Name="groupBox8" Margin="0,0,0,8" Foreground="#FFB51435" FontWeight="Bold" Grid.Column="1" Grid.Row="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Height="28" HorizontalAlignment="Left" x:Name="txtTg" VerticalAlignment="Top" Width="230" IsReadOnly="True" FontWeight="Normal" Background="#FFEBEBEB" Grid.Column="1" Grid.Row="1" />
+                                        <TextBox Height="28" HorizontalAlignment="Left" Margin="0,3,0,0" x:Name="txtTgDiff" VerticalAlignment="Top" Width="230" FontWeight="Normal" Grid.Column="1" Grid.Row="2" />
+                                        <TextBox Height="28" HorizontalAlignment="Left" x:Name="txtTgKommentar" VerticalAlignment="Top" Width="230" FontWeight="Normal" Grid.Column="1" Grid.Row="3" />
+                                        <Label Content="Aktueller Stand" Height="34" HorizontalAlignment="Left" x:Name="label997" VerticalAlignment="Top" Width="123" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" />
+                                        <Label Content="Betrag" Height="34" HorizontalAlignment="Left" x:Name="label998" VerticalAlignment="Top" Width="123" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" />
+                                        <Label Content="Kommentar" Height="43" HorizontalAlignment="Left" x:Name="label999" VerticalAlignment="Top" Width="123" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" />
+                                        <RadioButton Content="+" Height="20" HorizontalAlignment="Left" Margin="0" x:Name="rdbTgP" VerticalAlignment="Top" IsChecked="False" FontWeight="Normal" Width="47" Grid.Column="1" />
+                                        <RadioButton Content="-" Height="20" HorizontalAlignment="Right" x:Name="rdbTgM" VerticalAlignment="Top" IsChecked="True" FontWeight="Normal" Margin="0" Width="41" Grid.Column="1" />
+                                        <Button Content="Speichern" Height="23" Width="120" x:Name="btnSaveTg" Click="btnChangeTg_Click" AllowDrop="False" Margin="0" FontWeight="Normal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="4" />
+
+                                    </Grid>
+
+                                </GroupBox>
+                                <GroupBox Grid.RowSpan="2">
+                                    <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="22" Grid.Row="11" Grid.RowSpan="20" Margin="0" x:Name="dgTaschengeld" FontWeight="Normal">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Verfasser" Binding="{Binding name}" />
+                                            <DataGridTextColumn Header="Datum" Binding="{Binding date}" />
+                                            <DataGridTextColumn Header="Eingang" Binding="{Binding in_}" />
+                                            <DataGridTextColumn Header="Ausgang" Binding="{Binding out_}" />
+                                            <DataGridTextColumn Header="Stand" Binding="{Binding state}" />
+                                            <DataGridTextColumn Header="Kommentar" Binding="{Binding comment}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Größe und Gewicht" x:Name="tbGuG" IsEnabled="False" Foreground="#FF5075A9">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*" />
+                                    <ColumnDefinition Width="70*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="15*" />
+                                    <RowDefinition Height="25*" />
+                                    <RowDefinition Height="60*" />
+
+                                </Grid.RowDefinitions>
+                                <GroupBox>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="Daten Erhalten" Height="23" HorizontalAlignment="Left" x:Name="btngetGuG" VerticalAlignment="Top" Width="136" Click="btngetGuG_Click" FontWeight="Normal" />
+                                        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbGuG" VerticalAlignment="Top" Width="236" FontWeight="Normal" Visibility="Visible" IsReadOnly="True" IsEnabled="False" Grid.Column="1" />
+                                        <Button Content="Als PDF exportieren" FontWeight="Normal" Height="23" HorizontalAlignment="Left" x:Name="btn_GG_PDF" VerticalAlignment="Top" Width="136" Click="btn_GG_PDF_Click" Grid.Row="1" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.RowSpan="3" Header="Daten" Height="768" Width="1103" Grid.Column="1" Foreground="#FFB51435" FontWeight="Bold">
+                                    <DataGrid AutoGenerateColumns="True" Height="758" IsReadOnly="True" Margin="0" x:Name="dgBodyInfo" FontWeight="Normal" />
+                                </GroupBox>
+                                <GroupBox Grid.Row="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="63*"/>
+                                            <RowDefinition Height="56*"/>
+                                            <RowDefinition Height="72*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="121*"/>
+                                            <ColumnDefinition Width="141*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Height="23" HorizontalAlignment="Left" x:Name="txtSize" VerticalAlignment="Top" Width="120" Visibility="Hidden" FontWeight="Normal" Grid.Column="1" />
+                                        <TextBox Height="23" HorizontalAlignment="Left" x:Name="txtWeight" VerticalAlignment="Top" Width="120" Visibility="Hidden" FontWeight="Normal" Grid.Column="1" Grid.Row="1" />
+                                        <Button Content="Speichern" Height="23" HorizontalAlignment="Left" x:Name="btnSaveBodyInfo" VerticalAlignment="Top" Width="120" Click="btnSaveBodyInfo_Click" Visibility="Hidden" FontWeight="Normal" Grid.Column="1" Grid.Row="2" />
+                                        <Label Content="Größe" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Visibility="Hidden" x:Name="label48" Foreground="#FF5075A9" FontWeight="Normal" />
+                                        <Label Content="Gewicht" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Visibility="Hidden" x:Name="label49" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" />
+
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Medizinische Aktionen" x:Name="tbMedAkt" IsEnabled="False" Foreground="#FF5075A9">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*" />
+                                    <ColumnDefinition Width="70*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <GroupBox Grid.RowSpan="2" Header="Medizinische Aktionen" Height="768" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1103" Grid.Column="1" Foreground="#FFB51435" FontWeight="Bold">
+                                    <Grid>
+                                        <DataGrid AutoGenerateColumns="True" Height="736" IsReadOnly="True" Margin="0" Width="1085" x:Name="dgmedicalaction" SelectionChanged="dgmedicalaction_SelectionChanged" FontWeight="Normal" SelectionMode="Single" />
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="205*"/>
+                                            <ColumnDefinition Width="84*"/>
+                                            <ColumnDefinition Width="219*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="Daten Erhalten" Height="23" HorizontalAlignment="Left" x:Name="btngetMA" VerticalAlignment="Top" Width="107" Click="btngetMA_Click" FontWeight="Normal" />
+                                        <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbMA" VerticalAlignment="Top" Width="120" FontWeight="Normal" SelectionChanged="cmbMA_SelectionChanged" Visibility="Visible" IsReadOnly="True" IsEnabled="False" Grid.Column="2" />
+                                        <Button Content="Neue medizinsche Aktionen eintragen ..." Height="22" HorizontalAlignment="Left" x:Name="btnnewMA" VerticalAlignment="Top" Width="291" Click="btnnewMA_Click" FontWeight="Normal" Grid.ColumnSpan="3" Grid.Row="1" />
+                                        <Button Content="als PDF exportieren" Height="23" HorizontalAlignment="Left" Margin="-1,0,0,0" x:Name="bttnMedAktExp" VerticalAlignment="Top" Width="292" FontWeight="Normal" Click="bttnMedAktExp_Click" Grid.ColumnSpan="3" Grid.Row="2" />
+                                        <Label Content="Klient:" HorizontalAlignment="Left" x:Name="label59" VerticalAlignment="Top" FontWeight="Normal" Visibility="Visible" Grid.Column="1" />
+
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Foreground="#FF5075A9" Header="Päd. Maßnahmen" x:Name="tbPad" IsEnabled="False">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*" />
+                                    <ColumnDefinition Width="70*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+                                </Grid.RowDefinitions>
+                                <GroupBox>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="247*"/>
+                                            <ColumnDefinition Width="317*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="lblPad" Content="Klient" Width="100" Height="30" FontWeight="Normal" Foreground="#FF5075A9" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <ComboBox x:Name="cmbPad" Width="200" Height="23" FontWeight="Normal" IsEnabled="False" Margin="0,0,0,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                        <Label x:Name="lblPad1" Content="Maßnahme" Width="100" Height="30" FontWeight="Normal" Foreground="#FF5075A9" Margin="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Label x:Name="lblPad2" Content="Begründung" Width="100" Height="30" FontWeight="Normal" Foreground="#FF5075A9" Margin="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Label x:Name="lblPad3" Content="Datum-Von" Width="100" Height="30" FontWeight="Normal" Foreground="#FF5075A9" Margin="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Label x:Name="lblPad4" Content="Datum-Bis" Width="100" Height="30" FontWeight="Normal" Foreground="#FF5075A9" Margin="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <TextBox x:Name="txtPad1" Width="200" Height="25" FontWeight="Normal" Margin="0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <TextBox x:Name="txtPad2" Width="200" Height="25" FontWeight="Normal" Margin="0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <DatePicker x:Name="dpPad1" Width="200" Height="25" FontWeight="Normal" Margin="0" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <DatePicker x:Name="dpPad2" Width="200" Height="25" FontWeight="Normal" Margin="0" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Button x:Name="btnSavePad" Content="Speichern" Width="200" Height="25" FontWeight="Normal" Click="btnSavePad_Click" Margin="0" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Button x:Name="btnGetPad" Content="Holen" Width="95" Height="25" FontWeight="Normal" Click="btnGetPad_Click" Margin="0,0,0,38" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.ColumnSpan="14" Margin="0.375,0,0.01,-0.5" Grid.RowSpan="30" Grid.Column="8">
+                                    <DataGrid x:Name="dgPad" Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="14" Grid.RowSpan="25" FontWeight="Normal"  Margin="0,0,0,-3">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Erstellt" Binding="{Binding created}" />
+                                            <DataGridTextColumn Header="Verfasser" Binding="{Binding from}" />
+                                            <DataGridTextColumn Header="Maßnahme" Binding="{Binding mas}" />
+                                            <DataGridTextColumn Header="Begründung" Binding="{Binding stat}" />
+                                            <DataGridTextColumn Header="Von" Binding="{Binding datVon}" />
+                                            <DataGridTextColumn Header="Bis" Binding="{Binding datBis}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Foreground="#FF5075A9" Header="Dokumente" x:Name="tbDok" IsEnabled="False">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90*" />
+                                    <ColumnDefinition Width="10*" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <GroupBox Margin="0,0,0,0" Grid.Column="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Content="Downloaden" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="137" FontWeight="Normal" x:Name="btn_Doc_Down" Click="btn_Doc_Down_Click" />
+                                        <Button Content="Uploaden" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" FontWeight="Normal" x:Name="btn_Doc_Up" Click="btn_Doc_Up_Click" Grid.Row="1" />
+                                        <Button Content="Aktualisieren" Grid.Row="4" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" FontWeight="Normal" x:Name="btn_Doc_Akt" Click="btn_Doc_Akt_Click" Margin="0" />
+                                        <Button Content="Ersetzen" FontWeight="Normal" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Grid.Row="3" x:Name="btn_Doc_Ers" Click="btn_Doc_Ers_Click" />
+                                        <ComboBox Height="22" HorizontalAlignment="Left" x:Name="cmb_Klient_Doc" VerticalAlignment="Top" Width="139" FontWeight="Normal" Visibility="Visible" IsReadOnly="True" IsEnabled="False" />
+                                        <Button Content="Löschen" FontWeight="Normal" Height="23" HorizontalAlignment="Left" x:Name="button6" VerticalAlignment="Top" Width="137" Grid.Row="5" Click="button6_Click" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2" x:Name="dgv_Doc_List" ItemsSource="{Binding Source=doclist}" SelectionMode="Single" FontWeight="Normal" MouseDoubleClick="dgv_Doc_List_MouseDoubleClick" Margin="0,2,0,0" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Erstellt" Binding="{Binding created}" />
+                                                <DataGridTextColumn Header="Verändert" Binding="{Binding modified}" />
+                                                <DataGridTextColumn Header="Ersteller" Binding="{Binding createuser}" />
+                                                <DataGridTextColumn Header="Verändert von" Binding="{Binding lastuser}" />
+                                                <DataGridTextColumn Header="Titel" Binding="{Binding title}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Foreground="#FF5075A9" Header="Fotos" x:Name="tbFotos" IsEnabled="False">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90*" />
+                                    <ColumnDefinition Width="10*" />
+                                </Grid.ColumnDefinitions>
+
+                                <GroupBox Grid.ColumnSpan="4" Margin="0,0,0,0" Grid.RowSpan="31" Grid.Column="18">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Content="Downloaden" Height="24" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="137" FontWeight="Normal" x:Name="btn_Pic_down" Click="btn_Pic_down_Click" Grid.Row="2" />
+                                        <Button Content="Uploaden" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" FontWeight="Normal" x:Name="btn_Pic_Up" Click="btn_Pic_Up_Click" Grid.Row="1" />
+                                        <Button Content="Aktualisieren" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" FontWeight="Normal" x:Name="btn_Pic_Akt" Click="btn_Pic_Akt_Click" Grid.Row="4" />
+                                        <Button Content="Ersetzen" FontWeight="Normal" Height="22" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="137" x:Name="btn_Pic_Ers" Click="btn_Pic_Ers_Click" Grid.Row="3" />
+                                        <ComboBox Height="22" HorizontalAlignment="Left" x:Name="cmb_Klient_Foto" VerticalAlignment="Top" Width="139" FontWeight="Normal" Visibility="Visible" IsReadOnly="True" IsEnabled="False" />
+                                        <Button Content="Löschen" FontWeight="Normal" Height="22" HorizontalAlignment="Left" x:Name="button7" VerticalAlignment="Top" Width="137" Click="button7_Click" Grid.Row="5" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Margin="0,0,0,0">
+                                    <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="19" Grid.RowSpan="31" x:Name="dataGrid2" IsReadOnly="True" FontWeight="Normal" MouseDoubleClick="dataGrid2_MouseDoubleClick" Margin="0">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Erstellt" Binding="{Binding created}" />
+                                            <DataGridTextColumn Header="Verändert" Binding="{Binding modified}" />
+                                            <DataGridTextColumn Header="Ersteller" Binding="{Binding createuser}" />
+                                            <DataGridTextColumn Header="Verändert von" Binding="{Binding lastuser}" />
+                                            <DataGridTextColumn Header="Titel" Binding="{Binding title}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Foreground="#FF5075A9" Header="Medikamente" x:Name="tbMed" IsEnabled="False" Visibility="Visible">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+                                </Grid.RowDefinitions>
+                                <GroupBox Grid.ColumnSpan="2" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="7*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <DataGrid AutoGenerateColumns="False" FontWeight="Normal" Height="593" HorizontalAlignment="Left" ItemsSource="{Binding m, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="dgvMedikamente" VerticalAlignment="Top" Visibility="Visible" Width="1039" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="dgvMedikamente_SelectionChanged" LoadingRow="dgvMedikamente_LoadingRow" Grid.ColumnSpan="3" Grid.Row="1">
+                                            <DataGrid.Resources>
+                                                <DataTemplate x:Key="ReadonlyMorning">
+                                                    <CheckBox Content="{Binding morning}" IsChecked="{Binding morningConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                                </DataTemplate>
+                                                <DataTemplate x:Key="ReadonlyMidday">
+                                                    <CheckBox Content="{Binding midday}" IsChecked="{Binding middayConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                                </DataTemplate>
+                                                <DataTemplate x:Key="ReadonlyEvening">
+                                                    <CheckBox Content="{Binding evening}" IsChecked="{Binding eveningConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                                </DataTemplate>
+                                                <DataTemplate x:Key="ReadonlyNight">
+                                                    <CheckBox Content="{Binding night}" IsChecked="{Binding nightConfirmed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Loaded="CheckBox_Loaded" />
+                                                </DataTemplate>
+                                            </DataGrid.Resources>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Medikament" Binding="{Binding name}" />
+                                                <DataGridTemplateColumn Header="Morgen" CellTemplate="{StaticResource ReadonlyMorning}" />
+                                                <DataGridTemplateColumn Header="Mittag" CellTemplate="{StaticResource ReadonlyMidday}" />
+                                                <DataGridTemplateColumn Header="Abend" CellTemplate="{StaticResource ReadonlyEvening}" />
+                                                <DataGridTemplateColumn Header="Nacht" CellTemplate="{StaticResource ReadonlyNight}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbMedicClient" VerticalAlignment="Top" Width="338" IsEditable="False" IsEnabled="False" FontWeight="Normal" Grid.ColumnSpan="2" />
+                                        <Button Content="Daten erhalten" Height="23" HorizontalAlignment="Right" Margin="0,0,221,0" x:Name="btnGetMedics" VerticalAlignment="Top" Width="125" FontWeight="Normal" Click="button8_Click" Grid.Column="1" />
+                                        <Button Content="Medikament absetzen" Height="22" HorizontalAlignment="Left" x:Name="btnDeleteSelectedMedi" VerticalAlignment="Top" Width="179" FontWeight="Normal" IsEnabled="False" Click="btnDeleteSelectedMedi_Click" Grid.Column="1" Grid.Row="2" />
+                                        <Button Content="Medikament löschen" Height="22" HorizontalAlignment="Left" x:Name="btnDeleteSelectedMedi_Copy" VerticalAlignment="Top" Width="178" FontWeight="Normal" IsEnabled="False" Click="btnDeleteSelectedMedi_Copy_Click" Grid.Column="2" Grid.Row="2" />
+                                        <Button Content="Bearbeiten" Height="22" HorizontalAlignment="Left" x:Name="btnEditSelectedMedi" VerticalAlignment="Top" Width="113" FontWeight="Normal" IsEnabled="False" Click="btnEditSelectedMedi_Click" Grid.Row="2" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Column="2">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="146*"/>
+                                            <ColumnDefinition Width="225*"/>
+                                            <ColumnDefinition Width="143*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox Height="24" HorizontalAlignment="Left" x:Name="cmbMedis" VerticalAlignment="Top" Width="198" IsEditable="False" IsEnabled="False" FontWeight="Normal" Grid.Column="1" Grid.Row="1" />
+
+                                        <DatePicker x:Name="dtpNewMediFrom" Margin="0,0,0,4" IsEnabled="False" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" />
+                                        <DatePicker x:Name="dtpNewMediTo" Margin="0,0,0,15" IsEnabled="False" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" />
+
+                                        <Button x:Name="btnAddNewMedi" Content="Hinzufügen" IsEnabled="False" Click="btnAddNewMedi_Click" Height="22" Grid.ColumnSpan="3" Grid.Row="8" VerticalAlignment="Top" />
+                                        <TextBox HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" x:Name="txtNewMediMorning" IsEnabled="False" Text="0" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"/>
+                                        <TextBox HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" x:Name="txtNewMediMidday" IsEnabled="False" Text="0" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"/>
+                                        <TextBox HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" x:Name="txtNewMediEvening" IsEnabled="False" Text="0" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2"/>
+                                        <TextBox HorizontalAlignment="Left" Height="24" Margin="0,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" x:Name="txtNewMediNight" IsEnabled="False" Text="0" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2"/>
+                                        <Label Content="Medikament" Width="100" Margin="23,1,23,10" Grid.Row="1"/>
+                                        <Label Content="Morgens" Width="100" Margin="23,0,23,10" Grid.Row="2"/>
+                                        <Label Content="Mittags" Width="100" Margin="23,0,23,5" Grid.Row="3"/>
+                                        <Label Content="Abends" Width="100" Grid.Row="4" Margin="23,0,23,10"/>
+                                        <Label Content="Nachts" Width="100" Margin="23,3,23,0" Grid.Row="5"/>
+                                        <Label Content="Von" Width="100" Margin="23,0,23,4" Grid.Row="6"/>
+                                        <Label Content="Bis" Width="100" Margin="23,0,23,15" Grid.Row="7"/>
+                                        <Label Content="Medikation anwenden:" Margin="0,0,0,3" FontSize="16" Grid.ColumnSpan="3"/>
+                                        <Button x:Name="btnMediUndoChanges" Content="Änderung abbrechen" Grid.ColumnSpan="3" Margin="0,25,2,-6" IsEnabled="True" VerticalAlignment="Top" Click="btnMediUndoChanges_Click" Visibility="Hidden" FontWeight="Normal" Grid.Row="8" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Column="2" Grid.Row="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="80*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Medikament hinzufügen:" Margin="0,0,39,55" FontSize="16" Grid.ColumnSpan="2"/>
+                                        <TextBox HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" x:Name="txtNewMediName" Grid.Column="1" Grid.Row="1" />
+                                        <TextBox HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" x:Name="txtNewMediDescription" Grid.Column="1" Grid.Row="2" />
+                                        <Label Content="Medikament" Width="100" Margin="0,0,15,19" Grid.Row="1"/>
+                                        <Label Content="Beschreibung" Width="100" Margin="0,0,15,5" Grid.Row="2"/>
+                                        <Button x:Name="btnAddNewMediNew" Content="Hinzufügen" Margin="0,0,0,53" Click="btnAddNewMediNew_Click" FontWeight="Normal" Grid.Row="3" Grid.Column="1" />
+                                    </Grid>
+                                </GroupBox>
+
+                            </Grid>
+                        </TabItem>
+
+
+
+
+
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem FontSize="14" FontWeight="Bold" Foreground="#FF461ECC" IsEnabled="True" x:Name="tabItem2" Opacity="1" Visibility="Visible" Header="Kalender">
+                <Grid>
+                    <WebBrowser x:Name="Gmail" LoadCompleted="Gmail_LoadCompleted_1" Margin="0,23,0,0" />
+                    <Button Content="Tagesplan drucken" Height="23" HorizontalAlignment="Left" Margin="1160,0,0,0" x:Name="btnPrintCal" VerticalAlignment="Top" Width="141" FontWeight="Normal" Click="btnPrintCal_Click" />
+                    <Button Content="Kalender aktualisieren" Height="23" HorizontalAlignment="Left" Margin="1014,0,0,0" x:Name="btnRefreshCal" VerticalAlignment="Top" Width="141" FontWeight="Normal" Click="btnRefreshCal_Click" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Platzhalter" Visibility="Hidden" />
+            <TabItem Header="Aufgaben" x:Name="tabAppointments" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.ColumnSpan="20" Grid.RowSpan="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80*"/>
+                                <ColumnDefinition Width="20*"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <GroupBox Margin="0,145,0,0" BorderThickness="0" Grid.Row="2" Grid.Column="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Content="Neue Aufgabe erstellen ..." Height="23" HorizontalAlignment="Left" x:Name="btnNewTask" VerticalAlignment="Top" Width="214" Click="btnNewTask_Click" FontWeight="Normal" />
+                                    <Button Content="Aktualisieren" Height="22" HorizontalAlignment="Left" x:Name="btnAktualisierenAufgaben" VerticalAlignment="Top" Width="214" Click="btnAktualisierenAufgaben_Click" FontWeight="Normal" Grid.Row="1" />
+
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Meine Aufgaben" Height="249" HorizontalAlignment="Left" Margin="0,16,0,0" x:Name="gbAppointmentsForUser" VerticalAlignment="Top" Width="1258" Foreground="#FF5075A9" FontWeight="Bold">
+
+
+                                <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,0" x:Name="dgTaskFromUser" ToolTip="Alle Aufgaben, die mir zugeteilt sind" Grid.ColumnSpan="2" Grid.RowSpan="2" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" SelectionChanged="dgTaskFromUser_SelectionChanged" ItemsSource="{Binding Source=tasklist}" FontWeight="Normal">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Absender" Binding="{Binding von}" />
+                                        <DataGridTextColumn Header="Empfänger" Binding="{Binding zu}" />
+                                        <DataGridTextColumn Header="Von-Datum" Binding="{Binding startdate}" />
+                                        <DataGridTextColumn Header="Bis-Datum" Binding="{Binding enddate}" />
+                                        <DataGridTextColumn Header="Beschreibung" Binding="{Binding desc}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </GroupBox>
+                            <GroupBox Header="Aufgaben zum Fertigstellen" Height="263" HorizontalAlignment="Left" x:Name="gbAppointmentFromUser" VerticalAlignment="Top" Width="1258" Foreground="#FF5075A9" FontWeight="Bold" Margin="0" Grid.Row="2">
+                                <Grid>
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="dgTaskForUser" ToolTip="Alle Aufgaben, die ich zugeteilt habe" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" SelectionChanged="dgTasksForUser_SelectionChanged" ItemsSource="{Binding Source=taskforlist}" FontWeight="Normal">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Absender" Binding="{Binding von}" />
+                                            <DataGridTextColumn Header="Empfän" Binding="{Binding zu}" />
+                                            <DataGridTextColumn Header="Von-Datum" Binding="{Binding startdate}" />
+                                            <DataGridTextColumn Header="Bis-Datum" Binding="{Binding enddate}" />
+                                            <DataGridTextColumn Header="Kommentar" Binding="{Binding desc}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Erstellte Aufgaben" Height="266" HorizontalAlignment="Left" x:Name="groupBox2" VerticalAlignment="Top" Width="1258" Foreground="#FF5075A9" FontWeight="Bold" Grid.Row="1">
+                                <Grid>
+                                    <DataGrid AutoGenerateColumns="False"  IsReadOnly="True" Margin="0,1,0,0" x:Name="dgCreatedTasks" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" SelectionChanged="dgCreatedTasks_SelectionChanged" ItemsSource="{Binding Source=createdTasks}" FontWeight="Normal">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Absender" Binding="{Binding von}" />
+                                            <DataGridTextColumn Header="Empfänger" Binding="{Binding zu}" />
+                                            <DataGridTextColumn Header="Von-Datum" Binding="{Binding startdate}" />
+                                            <DataGridTextColumn Header="Bis-Datum" Binding="{Binding enddate}" />
+                                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding desc}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Dienstanweisung" x:Name="tabTasks" GotFocus="tabTasks_GotFocus" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80*" />
+                        <ColumnDefinition Width="20*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45*" />
+                        <RowDefinition Height="45*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.RowSpan="4" Header="Dienstanweisungen" Height="805" HorizontalAlignment="Left" Margin="0,-3,0,0" x:Name="gbTasksForUser" VerticalAlignment="Top" Width="1268" Foreground="#FF5075A9" FontWeight="Bold">
+                        <Grid>
+                            <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Margin="0" x:Name="dgInstructionsFromUser" ToolTip="Alle Anweisungen, die mir zugeteilt wurden" AutoGeneratingColumn="dgAppointmentsForUser_AutoGeneratingColumn" SelectionChanged="dgInstructionsFromUser_SelectionChanged" ItemsSource="{Binding Source=instructionList}" FontWeight="Normal">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Datum" Binding="{Binding date}" />
+                                    <DataGridTextColumn Header="Titel" Binding="{Binding title}" />
+                                    <DataGridTextColumn Header="Beschreibung" Binding="{Binding desc}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding name}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </GroupBox>
+                    <Button Content="Neue Dienstanweisung erstellen" Height="26" HorizontalAlignment="Left" x:Name="btnNewInstruction" VerticalAlignment="Top" Width="226" Grid.Column="1" Grid.Row="2" Click="btnNewInstruction_Click" FontWeight="Normal" />
+                    <Button Content="Aktualisieren " Height="23" HorizontalAlignment="Left" x:Name="btnAktualisierenDienstanweisungen" VerticalAlignment="Top" Width="140" Click="btnAktualisierenDienstanweisungen_Click" Grid.Row="3" Grid.Column="1" FontWeight="Normal" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Zeiterfassung" x:Name="tabWorkingTime" TabIndex="8" GotFocus="tabWorkingTime_GotFocus" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="80*" />
+
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.ColumnSpan="2" Margin="0,0,0,0" Grid.Row="1">
+                        <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="13" Grid.Row="8" Grid.RowSpan="22" x:Name="dgvZeiterfassung"  Margin="0,0,0,0" IsReadOnly="True" ItemsSource="{Binding Source=data}" SelectionChanged="dgvZeiterfassung_SelectionChanged" Grid.Column="1" FontWeight="Normal" SelectionMode="Single" MouseDoubleClick="dgvZeiterfassung_MouseDoubleClick" LoadingRow="dgvZeiterfassung_LoadingRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Username" Binding="{Binding username}" />
+                                <DataGridTextColumn Header="Art" Binding="{Binding art}" />
+                                <DataGridTextColumn Header="Von-Datum" Binding="{Binding datetimefrom2}" />
+                                <DataGridTextColumn Header="Bis-Datum" Binding="{Binding datetimeto2}" />
+                                <DataGridTextColumn Header="Kommentar" Binding="{Binding comment}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Margin="0,0,0,0" Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="204*"/>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="27*"/>
+                                <ColumnDefinition Width="27*"/>
+                                <ColumnDefinition Width="183*"/>
+                                <ColumnDefinition Width="61*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Soll-Stunden: " Height="28" HorizontalAlignment="Left" x:Name="SollStundentxt" VerticalAlignment="Top" Width="124" Foreground="#FF5075A9" FontWeight="Bold" />
+                            <Label Content="0" Height="28" HorizontalAlignment="Left" x:Name="SollStunden" VerticalAlignment="Top" Width="41" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" />
+                            <Label Content="Haben-Stunden: " Height="28" HorizontalAlignment="Left" x:Name="HabenStundentxt" VerticalAlignment="Top" Width="124" Foreground="#FF5075A9" FontWeight="Bold" Grid.Row="1" />
+                            <Label Content="0" Height="28" HorizontalAlignment="Left" x:Name="HabenStunden" VerticalAlignment="Top" Width="41" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" />
+                            <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="Uberstunden" VerticalAlignment="Top" Width="40" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" />
+                            <Label Content="Überstunden: " Height="28" HorizontalAlignment="Right" Margin="0,0,82,0" x:Name="Uberstundentxt" VerticalAlignment="Top" Width="122" Foreground="#FF5075A9" FontWeight="Bold" Grid.Row="2" />
+                            <Label Content="Krankenstandsstunden:" Height="28" HorizontalAlignment="Left" Margin="2,0,0,0" x:Name="label33" VerticalAlignment="Top" Width="166" Visibility="Visible" Foreground="#FF5075A9" FontWeight="Bold" Grid.Column="4" Grid.Row="1" />
+                            <Label Content="0" Height="28" HorizontalAlignment="Left" x:Name="lblUrlaub" VerticalAlignment="Top" Width="70" Visibility="Visible" FontWeight="Normal" Margin="0" Grid.Column="5" />
+                            <Label Content="Urlaubstage:" Height="28" HorizontalAlignment="Left" x:Name="label35" VerticalAlignment="Top" Width="130" Visibility="Visible" Foreground="#FF5075A9" FontWeight="Bold" Grid.Column="4" />
+                            <Label Content="0" Height="28" HorizontalAlignment="Left" x:Name="lblKrank" VerticalAlignment="Top" Width="70" Visibility="Visible" FontWeight="Normal" Margin="0" Grid.Column="5" Grid.Row="1" />
+                            <Label Content="Überstunden ges.: " Height="28" HorizontalAlignment="Left" x:Name="lbluberstdges" VerticalAlignment="Top" Width="162" Foreground="#FF5075A9" FontWeight="Bold" Grid.Column="4" Grid.Row="2" />
+                            <Label Content="0" Height="47" HorizontalAlignment="Left" Margin="0" x:Name="uberstdges" VerticalAlignment="Top" Visibility="Visible" Width="70" FontWeight="Normal" Grid.Column="5" Grid.Row="2" />
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40*"/>
+                                <RowDefinition Height="20*"/>
+                                <RowDefinition Height="40*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="15*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Neuer Eintrag" Height="23" HorizontalAlignment="Left" x:Name="btnZeitEdit" VerticalAlignment="Top" Width="100" Click="btnZeitEdit_Click" FontWeight="Normal" Grid.Row="2" Grid.Column="1" />
+                            <Button Content="Aktualisieren" Height="23" HorizontalAlignment="Left" x:Name="bnt_Reload" VerticalAlignment="Top" Width="100
+                                    " Click="bnt_Reload_Click" FontWeight="Normal" Grid.Column="2" Grid.Row="2" />
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmb_Month" VerticalAlignment="Top" Width="96" FontWeight="Normal" Grid.Column="2">
+                                <ComboBoxItem Content="Jänner" />
+                                <ComboBoxItem Content="Februar" />
+                                <ComboBoxItem Content="März" />
+                                <ComboBoxItem Content="April" />
+                                <ComboBoxItem Content="Mai" />
+                                <ComboBoxItem Content="Juni" />
+                                <ComboBoxItem Content="Juli" />
+                                <ComboBoxItem Content="August" />
+                                <ComboBoxItem Content="September" />
+                                <ComboBoxItem Content="Oktober" />
+                                <ComboBoxItem Content="November" />
+                                <ComboBoxItem Content="Dezember" ContentStringFormat="" />
+                            </ComboBox>
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmb_Year" VerticalAlignment="Top" Width="60" SelectionChanged="comboBox2_SelectionChanged" FontWeight="Normal" Grid.Column="3">
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem Content="2005" />
+                                <ComboBoxItem Content="2006" />
+                                <ComboBoxItem Content="2007" />
+                                <ComboBoxItem Content="2008" />
+                                <ComboBoxItem Content="2009" />
+                                <ComboBoxItem Content="2010" />
+                                <ComboBoxItem Content="2011" />
+                                <ComboBoxItem Content="2012" />
+                                <ComboBoxItem Content="2013" />
+                                <ComboBoxItem Content="2014" />
+                                <ComboBoxItem Content="2015" />
+                                <ComboBoxItem Content="2016" />
+                                <ComboBoxItem Content="2017" />
+                                <ComboBoxItem Content="2018" />
+                                <ComboBoxItem Content="2019" />
+                                <ComboBoxItem Content="2020" />
+                            </ComboBox>
+                            <CheckBox Content="Änderungen nur im ausgewählten Monat zulassen" Height="16" HorizontalAlignment="Left" x:Name="chk_allow" VerticalAlignment="Top" Width="360" IsChecked="True" FontWeight="Normal" Grid.ColumnSpan="3" Grid.Row="1" />
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbworkingTimeUser" VerticalAlignment="Top" Width="138" FontWeight="Normal" RenderTransformOrigin="0.46,0.674" />
+                            <Button Content="Arbeitszeit löschen" Height="23" HorizontalAlignment="Left" x:Name="btnWtLoeschen" VerticalAlignment="Top" Width="140" Opacity="1" Click="btnWtLoeschen_Click" FontWeight="Normal" Grid.Row="2" />
+                            <Button Content="Kilometergeld" FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="1,0,0,0" x:Name="btn_Zeit_Kilometer" Opacity="1" VerticalAlignment="Top" Width="138" Click="btn_Zeit_Kilometer_Click" Grid.Column="3" Grid.Row="2" />
+
+                        </Grid>
+                    </GroupBox>
+                    <Button Content="Zeiterfassung drucken" Grid.Column="18" Grid.ColumnSpan="4" Grid.Row="7" Grid.RowSpan="2" Height="23" Margin="33,15,34,0" x:Name="btn_Workingtimeprint" VerticalAlignment="Top" Click="btn_Workingtimeprint_Click" Opacity="0" FontWeight="Normal" />
+                    <GroupBox Grid.ColumnSpan="7" Margin="0,0,0,0" Grid.RowSpan="2" Grid.Column="2" Grid.Row="2">
+                        <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="8" Grid.RowSpan="17" IsReadOnly="True" ItemsSource="{Binding Source=holidaydata}" Margin="0,0,0,0" x:Name="dgvUrlaub"  Grid.Column="14" Visibility="Visible" Grid.Row="8" FontWeight="Normal" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding username}" Header="Username" />
+                                <DataGridTextColumn Binding="{Binding art}" Header="Art" />
+                                <DataGridTextColumn Binding="{Binding datetimefrom2}" Header="Von-Datum" />
+                                <DataGridTextColumn Binding="{Binding datetimeto2}" Header="Bis-Datum" />
+                                <DataGridTextColumn Binding="{Binding comment}" Header="Kommentar" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="45*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Urlaub beantragen" Height="23" HorizontalAlignment="Left" Margin="0,0,0,28" x:Name="btnUrlaub" Width="210" Click="btnUrlaub_Click" FontWeight="Normal" Grid.Row="2" />
+                            <Button Content="Übersicht als PDF exportieren" Height="23" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="btnPDFExport" VerticalAlignment="Top" Width="210" Click="btnPDFExport_Click" Visibility="Visible" FontWeight="Normal" Grid.Column="2" />
+                            <Button Content="Als PDF exportieren" FontWeight="Normal" Height="23" HorizontalAlignment="Left" x:Name="btnUserPDF" VerticalAlignment="Top" Visibility="Visible" Width="210" Click="btnUserPDF_Click" IsEnabled="True" Grid.Row="1" />
+                            <Button Content="Alle als PDF exportieren" FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="btnAllUsersPDF" VerticalAlignment="Top" Visibility="Visible" Width="210" Click="btnAllUsersPDF_Click" IsEnabled="True" />
+                            <Button Content="Urlaub bestätigen" Height="23" HorizontalAlignment="Left" x:Name="btnUrlaubBest" VerticalAlignment="Top" Width="210" Visibility="Hidden" Click="btnUrlaubBest_Click" FontWeight="Normal" Grid.Column="2" Grid.Row="1" />
+                            <Button Content="Urlaub ablehnen" Height="23" HorizontalAlignment="Left" x:Name="btnUrlaubAbl" VerticalAlignment="Top" Visibility="Hidden" Width="210" Click="btnUrlaubAbl_Click" FontWeight="Normal" Grid.Column="2" Grid.Row="2" />
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Kilometergeld" x:Name="tabKmGeld" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.ColumnSpan="12" Grid.RowSpan="22" Header="Kilometergeld" Margin="0,0,0,0" Grid.Column="7" Grid.Row="1" Foreground="#FF5075A9" FontWeight="Bold">
+                        <DataGrid AutoGenerateColumns="True" IsReadOnly="True" Margin="0,0,0,0" x:Name="dgKmG" FontWeight="Normal" />
+                    </GroupBox>
+                    <GroupBox Header="Werte" Grid.ColumnSpan="1" Margin="0,0,0,0" Grid.RowSpan="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Kilometergeld anzeigen" Height="24" HorizontalAlignment="Left" Margin="3,1,0,0" x:Name="btngetKmG" VerticalAlignment="Top" Width="160" Click="btngetKmG_Click" FontWeight="Normal" Grid.Column="3" />
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbUserKmG" VerticalAlignment="Top" Width="165" FontWeight="Normal" Margin="-3,0,0,0" SelectionChanged="cmbUserKmG_SelectionChanged" />
+                            <Label Content="Kennzeichen" Height="28" HorizontalAlignment="Left" Margin="-3,0,0,0" x:Name="label57" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" />
+                            <Label Content="Ort von" Height="28" HorizontalAlignment="Left" x:Name="label68" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" />
+                            <Label Content="Ort bis" Height="28" HorizontalAlignment="Left" x:Name="label67" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" />
+                            <Label Content="Zeit bis" Height="28" HorizontalAlignment="Left" x:Name="label69" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="6" />
+                            <Label Content="Zeit von" Height="28" HorizontalAlignment="Left" x:Name="label70" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="5" />
+                            <Label Content="Kilometer" Height="28" HorizontalAlignment="Left" x:Name="label71" VerticalAlignment="Top" Width="103" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="7" />
+                            <TextBox Height="24" x:Name="txtKennzeichen" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" />
+                            <TextBox Height="22" x:Name="txtKilometer" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" />
+                            <TextBox Height="28" Margin="0,0,0,0" x:Name="txtZeitbis" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="3" Grid.Row="6" />
+                            <TextBox Height="28" x:Name="txtZeitvon" VerticalAlignment="Top"  FontWeight="Normal" Grid.Column="3" Grid.Row="5" />
+                            <TextBox Height="24" x:Name="txtOrtbis" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" />
+                            <TextBox Height="22" x:Name="txtOrtvon" VerticalAlignment="Top" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" />
+                            <Button Content="Eintragen" Height="22" Margin="0" x:Name="btnSaveKmg" VerticalAlignment="Top" Width="90" Click="btnSaveKmg_Click" FontWeight="Normal" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" />
+                            <DatePicker Height="26" HorizontalAlignment="Left" x:Name="dpZeitvon" VerticalAlignment="Top" Width="144" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" />
+                            <DatePicker Height="26" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="dpZeitbis" VerticalAlignment="Top" Width="144" FontWeight="Normal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" />
+                            <Label Content="Verfasser" FontWeight="Normal" Foreground="#FF5075A9" Height="28" HorizontalAlignment="Left" x:Name="label77" VerticalAlignment="Top" Width="103" Grid.Row="1" />
+                            <TextBox FontWeight="Normal" Height="24" x:Name="txtVerfasser"  IsReadOnly="True" Background="#FFEBEBEB" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Top" />
+                            <Button Content="Übersicht als PDF exportieren" Height="22" x:Name="btnKMGeldPDFExport" VerticalAlignment="Top" Width="204" Click="btnKMGeldPDFExport_Click" FontWeight="Normal" Grid.Column="3" Grid.Row="9" Margin="0,0,56,0" />
+                            <Label Content="Gesamtsumme (€)" FontWeight="Normal" Foreground="#FF5075A9" Height="34" HorizontalAlignment="Left" Margin="-3,0,0,0" x:Name="label58" VerticalAlignment="Top" Width="138" Grid.Row="8" />
+                            <ComboBox FontWeight="Normal" Height="26" HorizontalAlignment="Left" x:Name="cmbKMGMonth" VerticalAlignment="Top" Width="96" SelectionChanged="cmbKMGMonth_SelectionChanged" Grid.Column="1">
+                                <ComboBoxItem Content="Jänner" />
+                                <ComboBoxItem Content="Februar" />
+                                <ComboBoxItem Content="März" />
+                                <ComboBoxItem Content="April" />
+                                <ComboBoxItem Content="Mai" />
+                                <ComboBoxItem Content="Juni" />
+                                <ComboBoxItem Content="Juli" />
+                                <ComboBoxItem Content="August" />
+                                <ComboBoxItem Content="September" />
+                                <ComboBoxItem Content="Oktober" />
+                                <ComboBoxItem Content="November" />
+                                <ComboBoxItem Content="Dezember" ContentStringFormat="" />
+                            </ComboBox>
+                            <ComboBox FontWeight="Normal" HorizontalAlignment="Left" Margin="0" x:Name="cmbKMGYear" SelectionChanged="cmbKMGMonth_SelectionChanged" RenderTransformOrigin="1.562,-2.68" Grid.Column="2" Width="96" VerticalAlignment="Top">
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem />
+                                <ComboBoxItem Content="2005" />
+                                <ComboBoxItem Content="2006" />
+                                <ComboBoxItem Content="2007" />
+                                <ComboBoxItem Content="2008" />
+                                <ComboBoxItem Content="2009" />
+                                <ComboBoxItem Content="2010" />
+                                <ComboBoxItem Content="2011" />
+                                <ComboBoxItem Content="2012" />
+                                <ComboBoxItem Content="2013" />
+                                <ComboBoxItem Content="2014" />
+                                <ComboBoxItem Content="2015" />
+                                <ComboBoxItem Content="2016" />
+                                <ComboBoxItem Content="2017" />
+                                <ComboBoxItem Content="2018" />
+                                <ComboBoxItem Content="2019" />
+                                <ComboBoxItem Content="2020" />
+                            </ComboBox>
+                            <Button Content="Monatsstatistik exportieren" Height="24" HorizontalAlignment="Left" x:Name="btnKMGMonEx" VerticalAlignment="Top" Width="204" FontWeight="Normal" Click="btnKMGMonEx_Click" Grid.Column="3" Grid.Row="10" />
+                            <Label Content="Gesamtsumme (km)" FontWeight="Normal" Foreground="#FF5075A9" Height="34" HorizontalAlignment="Left" x:Name="label58_Copy" VerticalAlignment="Top" Width="134" Grid.Row="9" />
+                            <Label Content="0" Foreground="#FF5075A9" Height="34" HorizontalAlignment="Left" x:Name="lblKMGSumme_eur" VerticalAlignment="Top" Width="102" Grid.Column="1" Grid.Row="8"/>
+                            <Button Content="Auswahl exportieren" Height="24" x:Name="btnKMGActiveEx" VerticalAlignment="Top" Width="206" FontWeight="Normal" IsEnabled="False" Click="btnKMGActiveEx_Click" Grid.Row="10" Margin="0,0,54,0" />
+                            <Label Content="0" Foreground="#FF5075A9" Height="34" HorizontalAlignment="Left" x:Name="lblKMGSumme" VerticalAlignment="Top" Width="102" Grid.Column="1" Grid.Row="9"/>
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Administration" x:Name="tabAdmin" Height="Auto" Width="Auto" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.ColumnSpan="5" Grid.Row="8" Grid.RowSpan="19" Header="Persönliche Daten" Height="486" HorizontalAlignment="Left" Margin="0" x:Name="gbPersDaten" VerticalAlignment="Top" Width="387" FontWeight="Bold" FontStyle="Normal">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Vorname" Height="28" HorizontalAlignment="Left" x:Name="label14" VerticalAlignment="Top" Width="80" Margin="8,0,0,0" Foreground="#FF5075A9" FontWeight="Normal" />
+                            <TextBox HorizontalAlignment="Left" x:Name="txtAdminFirstname" Width="120" FontWeight="Normal" Grid.Column="1" IsEnabled="False" Margin="0,0,0,36" ToolTip="Leerzeichen werden druch &quot;-&quot; ersetzt" />
+                            <Label Content="Nachname" Height="28" HorizontalAlignment="Left" x:Name="label15" VerticalAlignment="Top" Width="80" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtAdminLastname" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="1" Grid.Column="1" IsEnabled="False" ToolTip="Leerzeichen werden druch &quot;-&quot; ersetzt" />
+                            <Label Height="28" HorizontalAlignment="Left" x:Name="label16" VerticalAlignment="Top" Width="108" Content="Geburtsdatum" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="2" />
+                            <TextBox Height="24" HorizontalAlignment="Left" Margin="0,4,0,0" x:Name="txtAdminGeb" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="2" Grid.Column="1" IsEnabled="False" />
+                            <Label Content="PLZ" Height="28" HorizontalAlignment="Left" x:Name="label17" VerticalAlignment="Top" Width="132" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" />
+                            <Label Content="Ort" Height="28" HorizontalAlignment="Left" x:Name="label18" VerticalAlignment="Top" Width="108" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" />
+                            <Label Content="Straße" Height="28" HorizontalAlignment="Left" Margin="0,56,0,0" x:Name="label19" VerticalAlignment="Top" Width="108" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" Grid.RowSpan="2" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtZip" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="3" Grid.Column="1" IsEnabled="False" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtCity" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="4" Grid.Column="1" IsEnabled="False" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtStreet" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="5" Grid.Column="1" IsEnabled="False" />
+                            <Label Content="Telefon" Height="28" HorizontalAlignment="Left" x:Name="label20" VerticalAlignment="Top" Width="140" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="6" />
+                            <Label Content="Fax" Height="28" HorizontalAlignment="Left" x:Name="label21" VerticalAlignment="Top" Width="108" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="7" />
+                            <TextBox Height="24" HorizontalAlignment="Left" x:Name="txtTel" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="6" Grid.Column="1" IsEnabled="False" />
+                            <TextBox Height="22" HorizontalAlignment="Left" x:Name="txtFax" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Row="7" Grid.Column="1" IsEnabled="False" />
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.ColumnSpan="5" Margin="10,0,0,0" Grid.RowSpan="6" Grid.Row="1" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Benutzer" Height="27" HorizontalAlignment="Left" x:Name="label13" VerticalAlignment="Top" Foreground="#FFB51435" FontWeight="Bold" />
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cmbAdminUsers" VerticalAlignment="Top" Width="166" FontWeight="Normal" Margin="0,4,0,0" SelectionChanged="cmbAdminUsers_SelectionChanged" Grid.Column="1" />
+                            <Button Content="Daten Erhalten" Height="24" HorizontalAlignment="Left" x:Name="btnGetAdminData" VerticalAlignment="Top" Width="166" Click="btnGetAdminData_Click" FontWeight="Normal" Margin="0,16,0,0" Grid.Row="2" Grid.Column="1" />
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.ColumnSpan="2" Margin="0,0.421,9,25.579" Grid.RowSpan="5" Grid.Column="17" Grid.Row="26" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Button Content="Neuer Benutzer" Height="22" HorizontalAlignment="Left" x:Name="btnNewUser" VerticalAlignment="Top" Width="118" Click="btnNewUser_Click" FontWeight="Normal" />
+                            <Button Content="Speichern" Height="Auto" HorizontalAlignment="Left" x:Name="button4" Width="119" Click="button4_Click" FontWeight="Normal" Grid.Row="1" IsEnabled="False" Margin="0,0,0,27" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Benutzerdaten" x:Name="gbBenutzerdaten" Grid.Column="6" Grid.ColumnSpan="6" Margin="65,11,0,0" Grid.Row="8" Grid.RowSpan="19" FontWeight="Bold" FontStyle="Normal">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="11*"/>
+                                <ColumnDefinition Width="229*"/>
+                                <ColumnDefinition Width="158*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Content="Yes" Height="16" HorizontalAlignment="Left" Margin="189,1,0,0" x:Name="rdbAdminYes" VerticalAlignment="Top" IsChecked="True" Foreground="Black" FontWeight="Normal" Grid.Column="1" Grid.Row="6" IsEnabled="False" />
+                            <RadioButton Content="No" Height="16" HorizontalAlignment="Left" Margin="10,3,0,0" x:Name="rdbAdminNo" VerticalAlignment="Top" Width="50" Foreground="Black" FontWeight="Normal" Grid.Column="2" Grid.Row="6" IsEnabled="False" />
+
+                            <Label Content="Benutzername" Height="28" HorizontalAlignment="Left" Margin="10,0,0,0" x:Name="label22" VerticalAlignment="Top" Width="134" Foreground="#FF5075A9" FontWeight="Normal" Grid.ColumnSpan="2" />
+                            <Label Content="Benutzerpasswort" Height="28" HorizontalAlignment="Left" x:Name="label23" VerticalAlignment="Top" Width="134" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="1" Grid.Column="1" />
+                            <Label Content="E-Mail Name" Height="28" HorizontalAlignment="Left" Margin="10,1,0,0" x:Name="label24" VerticalAlignment="Top" Width="117" Foreground="#FF5075A9" FontWeight="Normal" Grid.ColumnSpan="2" Grid.Row="2" />
+                            <Label Content="E-Mail Passwort" Height="28" HorizontalAlignment="Left" Margin="0,1,0,0" x:Name="label25" VerticalAlignment="Top" Width="134" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="3" Grid.Column="1" />
+                            <Label Content="Wochenstunden" Height="28" HorizontalAlignment="Left" Margin="0,1,0,0" x:Name="label26" VerticalAlignment="Top" Width="134" Foreground="#FF5075A9" FontWeight="Normal" Grid.Row="4" Grid.Column="1" />
+                            <Label Height="28" HorizontalAlignment="Left" Margin="10,0,0,0" x:Name="label27" VerticalAlignment="Top" Width="160" Content="Arbeitstage pro Woche" Foreground="#FF5075A9" FontWeight="Normal" Grid.ColumnSpan="2" Grid.Row="5" />
+                            <TextBox  HorizontalAlignment="Left" x:Name="txtUsername" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" IsEnabled="False" />
+                            <TextBox HorizontalAlignment="Left" x:Name="txtPw" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" Grid.Row="1" IsEnabled="False" />
+                            <TextBox  HorizontalAlignment="Left" x:Name="txtMailUser" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" Grid.Row="2" IsEnabled="False" />
+                            <TextBox  HorizontalAlignment="Left" x:Name="txtMailPw" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" Grid.Row="3" IsEnabled="False" />
+                            <TextBox  HorizontalAlignment="Left" x:Name="txtWeeklyhours" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" Grid.Row="4" IsEnabled="False" />
+                            <TextBox  HorizontalAlignment="Left" x:Name="txtWorkingdaysWeekly" VerticalAlignment="Top" Width="120" FontWeight="Normal" Grid.Column="2" Grid.Row="5" IsEnabled="False" />
+                            <Label Content="Admin" Height="28" HorizontalAlignment="Left" Margin="0,1,0,0" x:Name="label28" VerticalAlignment="Top" Width="80" Foreground="#FF5075A9" FontWeight="Normal" Grid.Column="1" Grid.Row="6" />
+                            <Button Content="Funktionszugehörigkeit" Height="22" HorizontalAlignment="Left" x:Name="btnFunkZugeh" VerticalAlignment="Top" Width="188" Margin="0,35,0,0" FontWeight="Normal" Click="btnFunkZugeh_Click" Grid.Column="1" Grid.Row="7" IsEnabled="False" />
+
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Diverses" x:Name="gpDiverses" Grid.Column="12" Grid.ColumnSpan="5" Margin="55,1,0,10" Grid.Row="8" Grid.RowSpan="15" FontWeight="Bold" FontStyle="Normal" />
+                    <Label Content="BIC" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="28" HorizontalAlignment="Left" Margin="9,15,0,0" x:Name="label29" VerticalAlignment="Top" Width="80" Grid.Column="13" Grid.Row="15" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <TextBox Grid.ColumnSpan="2" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" x:Name="txtSVNr" VerticalAlignment="Top" Width="119" Grid.Column="15" Grid.Row="9" Margin="10,16,0,0" FontWeight="Normal" IsEnabled="False" />
+                    <TextBox Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="10,14,0,0" x:Name="txtBankname" VerticalAlignment="Top" Width="120" Grid.Column="15" Grid.Row="11" Grid.ColumnSpan="2" FontWeight="Normal" IsEnabled="False" />
+                    <TextBox Grid.Column="15" Grid.ColumnSpan="2" Grid.Row="13" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="10,17,0,0" x:Name="txtAccountnr" VerticalAlignment="Top" Width="120" FontWeight="Normal" IsEnabled="False" />
+                    <TextBox Grid.RowSpan="3" Height="23" HorizontalAlignment="Left" Margin="10,19,0,0" x:Name="txtBLZ" VerticalAlignment="Top" Width="118" Grid.Column="15" Grid.Row="15" Grid.ColumnSpan="2" FontWeight="Normal" IsEnabled="False" />
+                    <Label Content="Sozialversicherung" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="28" HorizontalAlignment="Left" x:Name="label30" VerticalAlignment="Top" Width="131" Grid.Column="13" Grid.Row="9" Margin="9,14,0,0" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <Label Content="Bank" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="28" HorizontalAlignment="Left" Margin="11,13,0,0" x:Name="label31" VerticalAlignment="Top" Width="80" Grid.Column="13" Grid.Row="11" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <Label Content="IBAN" Grid.Column="13" Grid.Row="13" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" x:Name="label32" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="98" Margin="9,12,0,0" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <Label Content="Anfang" FontWeight="Normal" Foreground="#FF5075A9" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="28" HorizontalAlignment="Left" Margin="9,14,0,0" x:Name="label75" VerticalAlignment="Top" Width="80" Grid.Column="13" Grid.Row="17" />
+                    <Label Content="Ende" FontWeight="Normal" Foreground="#FF5075A9" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" Margin="9,10,0,0" x:Name="label76" VerticalAlignment="Top" Width="80" Grid.Column="13" Grid.Row="19" />
+                    <DatePicker Grid.Column="15" Grid.ColumnSpan="2" Grid.Row="17" Grid.RowSpan="2" Height="25" HorizontalAlignment="Left" Margin="9,15,0,0" x:Name="dateAnfang" VerticalAlignment="Top" Width="121" FontWeight="Normal" IsEnabled="False" />
+                    <DatePicker Grid.ColumnSpan="2" Grid.RowSpan="2" Height="25" HorizontalAlignment="Left" Margin="9,12,0,0" x:Name="dateEnde" VerticalAlignment="Top" Width="121" Grid.Column="15" Grid.Row="19" FontWeight="Normal" IsEnabled="False" ToolTip="Darf frühestens am Tag des Austritts gesetzt werden!" />
+                    <GroupBox x:Name="gbHouseAll" Grid.Column="6" Grid.ColumnSpan="6" Grid.RowSpan="7" Margin="20,24,39,0" Header="Alle Häuser">
+                        <DataGrid x:Name="dgHouseAll" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="5" IsReadOnly="True" ItemsSource="{Binding Source=AllHouses}" SelectionMode="Single" FontWeight="Normal" Margin="0,0,-2,-2">
+
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox x:Name="gbHouseSelected" Grid.Column="12" Grid.ColumnSpan="7" Grid.RowSpan="7" Margin="55,24,0,0" Header="Ausgewählte Häuser">
+                        <DataGrid x:Name="dgHouseSelected" Grid.Column="13" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="6" ItemsSource="{Binding Source=SelectedHouses}" IsReadOnly="True" SelectionMode="Single" FontWeight="Normal" Margin="0,0,-2,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+
+
+                    <Button x:Name="btnAdd" Content="&gt;" Grid.Column="12" Grid.Row="2" Width="30" Height="30" Margin="0,10,49,12" Grid.RowSpan="2" Click="btnAdd_Click" FontWeight="Bold" IsEnabled="False" />
+                    <Button x:Name="btnDel" Content="&lt;" Grid.Column="12" Grid.Row="4" Width="30" Height="30" Margin="0,12,49,10" Grid.RowSpan="2" Click="btnDel_Click" FontWeight="Bold" IsEnabled="False" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Bericht" x:Name="tabBericht" Foreground="#FFB51435" FontWeight="Bold" FontSize="14" Opacity="1" Visibility="Hidden" IsEnabled="False">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ComboBox Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" x:Name="cmbBerKlient" VerticalAlignment="Top" Width="120" FontWeight="Normal" Margin="6,5,0,0" />
+                    <ComboBox Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" x:Name="cmbBerBericht" VerticalAlignment="Top" Width="120" FontWeight="Normal" Margin="5,5,0,0" />
+                    <Label Content="Klient auswählen" Grid.Row="3" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" x:Name="label456787545678" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Width="132" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <Label Content="Bericht auswählen" Grid.Column="1" Grid.Row="5" Grid.RowSpan="2" Height="28" HorizontalAlignment="Left" x:Name="lblBerichtVorlage" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="132" Foreground="#FF5075A9" FontWeight="Normal" />
+                    <Button Content="Neu" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" x:Name="btnBerNew" VerticalAlignment="Top" Width="75" Click="btnBerNew_Click" FontWeight="Normal" />
+                    <Button Content="Laden" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" x:Name="btnBerLoad" VerticalAlignment="Top" Width="75" Click="btnBerLoad_Click" FontWeight="Normal" />
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabWiki" Header="MitarbeiterWiki" ToolTip="Hilfsdatein für Mitarbeiter" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90*" />
+                        <ColumnDefinition Width="10*" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox>
+                        <DataGrid x:Name="dgvWikiDocs" Grid.ColumnSpan="15" SelectionMode="Single" Grid.RowSpan="31" ItemsSource="{Binding Source=wiki}" MouseDoubleClick="dgv_wiki_List_MouseDoubleClick" Margin="0" IsReadOnly="True"/>
+                    </GroupBox>
+                    <GroupBox Margin="0,0,0,0" Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="btnWikiUp" Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Click="btn_wiki_Up_Click" Grid.Row="2"/>
+                            <Button Content="Download" HorizontalAlignment="Left" Width="142" Grid.Row="4" Click="btn_Doc_Down_Click" Margin="0" VerticalAlignment="Top"/>
+                            <Button x:Name="btnWikiDel" Content="Löschen" HorizontalAlignment="Left" Width="142" Click="btnWikiEditClick"  VerticalAlignment="Top" Grid.Row="1"/>
+                            <Button x:Name="btnWikiReplace" Content="Ersetzen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142"  Click="btnWikiReplace_Click" Grid.Row="5"/>
+                            <Button x:Name="btnWikiReNam" Content="Umbennen" HorizontalAlignment="Left" Width="142" Grid.Row="3" Click="btnWikiReNam_Click" Margin="0" VerticalAlignment="Top"/>
+                            <Button x:Name="btnWikiRate" Content="Bewerten" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142"  Click="btnWikiRate_Click"/>
+
+                        </Grid>
+                    </GroupBox>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabDropbox" Header="Gemeinsame Dateien" ToolTip="Hilfsdatein für Mitarbeiter" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <WebBrowser x:Name="WebBrowserDropbox" Loaded="WebBrowserDropbox_Loaded" LoadCompleted="WebBrowserDropbox_LoadCompleted" Navigating="WebBrowserDropbox_Navigating"/>
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+     
+    </Grid>
+</Window>

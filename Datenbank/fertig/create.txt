@@ -1,0 +1,5 @@
+create table vorlagen_bericht(
+	id int primary key auto_increment,
+	name varchar(250),
+	content text
+);

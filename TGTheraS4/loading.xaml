@@ -1,0 +1,28 @@
+﻿<Window x:Class="TGTheraS4.loading"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="loading" Height="300" Width="540.226" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="LightBlue" Loaded="Window_Loaded_1" ShowInTaskbar="False">
+    <Grid Loaded="Grid_Loaded_1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="381*"/>
+            <ColumnDefinition Width="151*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblSanduhr" Content="Einen Moment bitte..." HorizontalAlignment="Left" Margin="34,196,0,22" VerticalAlignment="Center" FontSize="48" Foreground="DarkRed" Grid.ColumnSpan="2"/>
+        <Image x:Name="imgSanduhr" Margin="220,43,72,103" Source="hourglass-icon.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Opacity="0.9">
+            <Image.Effect>
+                <DropShadowEffect Color="#FFB2C4FF" BlurRadius="15" Opacity="0.8" RenderingBias="Quality" ShadowDepth="15"/>
+            </Image.Effect>
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="27.957"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            
+        </Image>
+        <ProgressBar x:Name="pb_load" HorizontalAlignment="Left" Height="7" Margin="10,275,0,0" VerticalAlignment="Top" Width="512" IsIndeterminate="True" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        
+    </Grid>
+</Window>

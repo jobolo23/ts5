@@ -1,0 +1,34 @@
+Datum	Arbeitszeit	Aufgabe
+09.10.2014	01:40	Product backlog +Tasks + Userstories
+15.10.2014	00:35	Beim erstellen eines Klienten wird nun ein /[id] , /[id]/documents und /[id]/photos am ftp erstellt (Aufgabe von Konni bernommen)
+15.10.2014	00:15	Bei jedem Klienten, der vor der automatisierung erstellt wurde, habe ich /documents und /photos hinzugefgt (falls nicht schon vorhanden)
+15.10.2014	01:10	Bugs ausbessern im Klienten Fenster (Enable/Disable war nicht immer korrekt, Textboxen wurden nicht korrekt geleert, Von Archivierten Klienten konnte man keine Daten abfragen)
+15.10.2014	00:20	Admin kann jetzt auch die Emailpasswörter seiner Mitarbeiter ändern
+16.10.2014	01:40	Product backlog +Tasks + Userstories
+17.10.2014	00:50	"AddSymtom Dialog hinzugefügt; ""Neu"" - Button bei Berichte hinzugefügt"
+17.10.2014	00:30	Konzept zum speichern der Berichte überlegt (betroffene Tabellen und Funktionen durchgesehen) 
+30.10.2014	01:40	Organisation & Begonnen Konzept umzusetzen
+05.11.2014	01:40	"Fehler bei der Umsetzung des Konzeptes ins Programm; Situation bedenken --> neue Strategie"
+06.11.2014	00:30	neue Strategie umsetzen --> GUI muss überarbeitet werden
+06.11.2014	00:50	Es werden nun alle Berichte angezeigt
+06.11.2014	00:50	Berichte lassen sich jetzt teilweise öffnen
+12.11.2014	00:50	Berichte lassen sich jetzt lesen und schreiben
+12.11.2014	01:40	Testen der Berichte und kleine Änderungen --> art ändern noch nicht fertig
+12.11.2014	01:20	Sprint sollte fertig sein --> morgen noch testen und verbessern
+13.11.2014	00:50	Testen und Bugs ausbessern
+19.11.2014	01:40	Datenbank konzept für die Wiki-Funktion überlegt  und umgesetzt
+26.11.2014	01:40	Organisation
+27.11.2014	00:30	Organisation
+27.11.2014	01:10	Wiki-Funktionen erstellt (upload, download und anzeige)
+03.12.2014	01:40	Wiki-Funktionen verbessert (Bugs ausbessern und fertigstellen)
+04.12.2014	00:30	Organisation
+04.12.2014	01:10	neue Wiki-Funktion erstellt (Umbennenen)
+05.12.2014	00:30	Bug fixes (Eingabeüberprüfungen)
+10.12.2014	00:30	Layout der Berichtbearbeitung temporär geändert, da bei niedriger Bildschirmauflösung der 'speichern' Button und die Scrollbar nicht zu sehen waren. ;)
+13.12.2014	01:00	erneut Fehler bei der Medikation behoben; neue Berichte werden jetzt auch auf der Home Seite angezeigt und lassen sich auch direkt anzeigen; Berichte werden nun mit dem eingegebenen Namen angezeigt; Release 39 ;)
+03.01.2015	00:30	Bug fixes (Eingabeüberprüfungen)
+08.01.2015	01:40	neuer datenbanklink; creates ausgeführt; änderungen an der wiki-db; Sichtbarkeit der Buttons verändert (ob Admin oder nicht); Bearbeiten-Button in Löschen-Button umgeändert (noch ohne funktion); Umbennen Button; Löschen Button; Fehlermeldung wenn titel leer ist
+14.01.2015	01:40	Wiki: Bugfixes und Bewerten-Funktion
+15.01.2015	01:40	TheraS4 - Program war nicht mehr ausführbar - Fehler von Konni ausgebessert und Wiki-Funktionen bugfixing
+21.01.2015	01:40	Wiki-Funktion Testen
+22.01.2015	01:00	Änderungen aufgrund der Tests umgesetzt -> Wiki ist fertig

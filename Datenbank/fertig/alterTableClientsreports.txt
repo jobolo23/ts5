@@ -1,0 +1,3 @@
+ALTER TABLE clientsreports ADD COLUMN art int default 3;
+
+ALTER TABLE clientsfvgs ADD COLUMN name varchar(500) default ' ';

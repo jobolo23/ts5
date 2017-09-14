@@ -1,0 +1,8 @@
+create table feedback(
+    userId int references users.id,
+    comment text, 
+    rate double,
+    wikiId int references wiki.id   
+    );
+
+alter table wiki add rate double default 0;
