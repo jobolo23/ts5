@@ -10,7 +10,7 @@ namespace TGTheraS4.Objects
         public string aid { get; set; }
         public string name { get; set; }
 
-        public Art(String aid, String name)
+        public Art(string aid, string name)
         {
             this.aid = aid;
             this.name = name;
