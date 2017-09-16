@@ -263,126 +263,20 @@ namespace IntranetTG
         /// <param name="wg">Name of the house of which u need the Children</param>
         /// <returns>Firstname and lastname of the Kids</returns>
 
-        public string WgToClients(string wg)
+        public List<string> WgToClients(string wg)
         {
-            string ret = "";
-            try
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                //----------Begin DC----------
-                /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' " +
-                    "and c.leaving is null", myConnection);*/
-                MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' " +
-                    "and c.leaving is null order by lastname, s.name ASC", _myConnection);
-                //----------End DC----------
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["firstname"].ToString() + "$";
-                    ret += myReader["lastname"].ToString();
-                    ret += "%";
-                }
+                var query = from c in db.Clients
+                            join cs in db.Clientstoservices on c.Id equals cs.ClientId
+                            join s in db.Services on cs.ServiceId equals s.Id
+                            where s.Name == wg && c.Leaving == null
+                            orderby c.Lastname, s.Name
+                            select c;
 
-                myReader.Close();
-
-                return ret;
+                var clients = query.ToList();
+                return clients.Select(client => $"{client.Firstname} {client.Lastname}").ToList();
             }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-
-        }
-
-        public string WgToClientsAllClients(string wg)
-        {
-            string ret = "";
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                //----------Begin DC----------
-                /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "'", myConnection);*/
-                MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' order by lastname, s.name ASC", _myConnection);
-                //----------End DC----------
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["firstname"].ToString() + "$";
-                    ret += myReader["lastname"].ToString();
-                    ret += "%";
-                }
-
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-
-        }
-
-        public string WgToClientsAllClients_notleft(string wg)
-        {
-            string ret = "";
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                //----------Begin DC----------
-                /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' and leaving is not null", myConnection);*/
-                MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
-                    " join clientstoservices cs on c.id = cs.client_id" +
-                    " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' and leaving is not null order by lastname, s.name ASC", _myConnection);
-                //----------End DC----------
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["firstname"].ToString() + "$";
-                    ret += myReader["lastname"].ToString();
-                    ret += "%";
-                }
-
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-
         }
 
         public string getClientdoku(int id)
@@ -3611,29 +3505,11 @@ namespace IntranetTG
 
         internal string getPW(string p)
         {
-            string ret = "";
-            try
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select pwThera from users u where u.id = " + p, _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["pwThera"].ToString();
-                }
+                var query = db.Users.Where(x => x.Id == Convert.ToUInt32(p));
 
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
+                return query.ToList().First().PwThera;
             }
         }
 

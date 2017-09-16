@@ -647,11 +647,17 @@ namespace TGTheraS4
             cmbPad.Items.Clear();
             foreach (string service in u.Services)
             {
+
+
+
+
+
                 string[] temp = c.WgToClients(service).Split('%');
                 string[] temp2 = c.WgToClients(service).Split('%');
                 string[] temp3 = c.WgToClientsAllClients_notleft(service).Split('%');
                 foreach (string name in temp)
                 {
+
                     string[] namen = name.Split('$');
                     if (namen.Length > 1)
                     {
