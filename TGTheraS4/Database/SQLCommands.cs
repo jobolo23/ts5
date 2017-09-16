@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using TGTheraS4.Database.Objects;
 using TGTheraS4.Objects;
@@ -1142,6 +1143,7 @@ namespace IntranetTG
         {
             try
             {
+                
                 _myConnection.Open();
                 string ret = "";
 
@@ -2273,15 +2275,16 @@ namespace IntranetTG
                 List<Instruction> list = new List<Instruction>();
                 _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions", _myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select i.startdate a, i.title b, i.describtion c, i.uid d, u.firstname e, u.lastname f from workinginstructions i, users u where i.uid = u.id;", _myConnection);
+
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
-                    String startdate = myReader["startdate"].ToString();
-                    String title = myReader["title"].ToString();
-                    String desc = myReader["describtion"].ToString();
-                    String uid = myReader["uid"].ToString();
-                    list.Add(new Instruction(title, desc, startdate, uid, this));
+                    String startdate = myReader["a"].ToString();
+                    String title = myReader["b"].ToString();
+                    String desc = myReader["c"].ToString();
+                    String uid = myReader["e"].ToString() + " " + myReader["f"].ToString();
+                    list.Add(new Instruction(title, desc, startdate, uid));
                 }
                 myReader.Close();
 
@@ -2387,15 +2390,15 @@ namespace IntranetTG
                 myReader.Close();
                 foreach (String laufuid in sl)
                 {
-                    myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions where iid=" + laufuid + ";", _myConnection);
+                    myCommand = new MySqlCommand("Select i.startdate a, i.title b, i.describtion c, i.uid d, u.firstname e, u.lastname f from workinginstructions i, users u where iid = " + laufuid + " and i.uid = u.id;", _myConnection);
                     myReader = myCommand.ExecuteReader();
                     while (myReader.Read())
                     {
-                        String startdate = myReader["startdate"].ToString();
-                        String title = myReader["title"].ToString();
-                        String desc = myReader["describtion"].ToString();
-                        String uid = myReader["uid"].ToString();
-                        list.Add(new Instruction(title, desc, startdate, uid, this));
+                        String startdate = myReader["a"].ToString();
+                        String title = myReader["b"].ToString();
+                        String desc = myReader["c"].ToString();
+                        String uid = myReader["e"].ToString() + " " + myReader["f"].ToString();
+                        list.Add(new Instruction(title, desc, startdate, uid));
                     }
                     myReader.Close();
                 }
@@ -2515,23 +2518,24 @@ namespace IntranetTG
             try
             {
                 _myConnection.Open();
-                List<Task> list = new List<Task>();
                 MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
+                List<string[]> data = new List<string[]>();
                 while (myReader.Read())
                 {
-                    String uid1 = myReader["uid1"].ToString();
+                    /*String uid1 = myReader["uid1"].ToString();
                     String uid2 = myReader["uid2"].ToString();
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
-                    String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
-
+                    String desc = myReader["descr"].ToString();*/
+                    //list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
+                    data.Add(new[] { myReader["uid1"].ToString(), myReader["uid2"].ToString(), myReader["startdate"].ToString(), myReader["enddate"].ToString(), myReader["descr"].ToString()});
                 }
                 myReader.Close();
+                _myConnection.Close();
 
-                return list;
+                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2553,19 +2557,21 @@ namespace IntranetTG
                 MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=1;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
+                List<string[]> data = new List<string[]>();
                 while (myReader.Read())
                 {
-                    String uid1 = myReader["uid1"].ToString();
+                    /*String uid1 = myReader["uid1"].ToString();
                     String uid2 = myReader["uid2"].ToString();
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
-                    String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
-
+                    String desc = myReader["descr"].ToString();*/
+                    //list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
+                    data.Add(new[] { myReader["uid1"].ToString(), myReader["uid2"].ToString(), myReader["startdate"].ToString(), myReader["enddate"].ToString(), myReader["descr"].ToString() });
                 }
                 myReader.Close();
+                _myConnection.Close();
 
-                return list;
+                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2587,19 +2593,21 @@ namespace IntranetTG
                 MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
+                List<string[]> data = new List<string[]>();
                 while (myReader.Read())
                 {
-                    String uid1 = myReader["uid1"].ToString();
+                    /*String uid1 = myReader["uid1"].ToString();
                     String uid2 = myReader["uid2"].ToString();
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
-                    String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
-
+                    String desc = myReader["descr"].ToString();*/
+                    //list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
+                    data.Add(new[] { myReader["uid1"].ToString(), myReader["uid2"].ToString(), myReader["startdate"].ToString(), myReader["enddate"].ToString(), myReader["descr"].ToString() });
                 }
                 myReader.Close();
+                _myConnection.Close();
 
-                return list;
+                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2622,19 +2630,21 @@ namespace IntranetTG
                 MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and (Datediff(enddate,CurDate())<=5  or CurDate() >= enddate)  and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
+                List<string[]> data = new List<string[]>();
                 while (myReader.Read())
                 {
-                    String uid1 = myReader["uid1"].ToString();
+                    /*String uid1 = myReader["uid1"].ToString();
                     String uid2 = myReader["uid2"].ToString();
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
-                    String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
-
+                    String desc = myReader["descr"].ToString();*/
+                    //list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
+                    data.Add(new[] { myReader["uid1"].ToString(), myReader["uid2"].ToString(), myReader["startdate"].ToString(), myReader["enddate"].ToString(), myReader["descr"].ToString() });
                 }
                 myReader.Close();
+                _myConnection.Close();
 
-                return list;
+                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {

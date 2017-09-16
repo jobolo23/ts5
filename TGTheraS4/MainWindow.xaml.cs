@@ -1409,9 +1409,7 @@ namespace TGTheraS4 {
             try
             {
                 TGTheraS4.Objects.Task t = dgTaskForUser.SelectedItem as TGTheraS4.Objects.Task;
-                String von = c.getIdbyName(t.von);
-                String zu = c.getIdbyName(t.zu);
-                EditTask et = new EditTask(true, true, von, zu, t.startdate, t.enddate, t.desc);
+                EditTask et = new EditTask(true, true, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
             }
@@ -1423,7 +1421,7 @@ namespace TGTheraS4 {
             try
             {
                 Instruction i = dgInstructionsFromUser.SelectedItem as Instruction;
-                EditInstruction ei = new EditInstruction(u.IsAdmin, u.Id, i.date, i.title, i.desc, i.name);
+                EditInstruction ei = new EditInstruction(u.IsAdmin, u.Id, i.date, i.title, i.desc, i.name, c);
                 ei.Show();
             }
             catch
@@ -2538,9 +2536,7 @@ namespace TGTheraS4 {
             try
             {
                 TGTheraS4.Objects.Task t = dgTaskFromUser.SelectedItem as TGTheraS4.Objects.Task;
-                String von = c.getIdbyName(t.von);
-                String zu = c.getIdbyName(t.zu);
-                EditTask et = new EditTask(false, false, von, zu, t.startdate, t.enddate, t.desc);
+                EditTask et = new EditTask(false, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
             }
@@ -2556,7 +2552,7 @@ namespace TGTheraS4 {
             try
             {
                 Instruction i = dgUnreadInstructions.SelectedItem as Instruction;
-                EditInstruction ei = new EditInstruction(u.IsAdmin, u.Id, i.date, i.title, i.desc, i.name);
+                EditInstruction ei = new EditInstruction(u.IsAdmin, u.Id, i.date, i.title, i.desc, i.name, c);
                 ei.Show();
                 refreshAllInstructions();
             }
@@ -2988,9 +2984,7 @@ namespace TGTheraS4 {
             try
             {
                 TGTheraS4.Objects.Task t = dgImportantTasks.SelectedItem as TGTheraS4.Objects.Task;
-                String von = c.getIdbyName(t.von);
-                String zu = c.getIdbyName(t.zu);
-                EditTask et = new EditTask(false, false, von, zu, t.startdate, t.enddate, t.desc);
+                EditTask et = new EditTask(false, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
             }
@@ -3026,9 +3020,7 @@ namespace TGTheraS4 {
             try
             {
                 TGTheraS4.Objects.Task t = dgCreatedTasks.SelectedItem as TGTheraS4.Objects.Task;
-                String von = c.getIdbyName(t.von);
-                String zu = c.getIdbyName(t.zu);
-                EditTask et = new EditTask(true, false, von, zu, t.startdate, t.enddate, t.desc);
+                EditTask et = new EditTask(true, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
             }

@@ -35,9 +35,10 @@ namespace TGTheraS4
             this.name = name;
         }
 
-        public EditInstruction(bool isAdmin,String uid, String date, String title, String desc , String name)
+        public EditInstruction(bool isAdmin,String uid, String date, String title, String desc , String name, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             btnSpeichern.Visibility = Visibility.Hidden;
             if (!isAdmin)
             {

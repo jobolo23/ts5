@@ -49,10 +49,10 @@ namespace TGTheraS4
 
         //mode true auftraggeber
         //mode fase auftragnehmer
-        public EditTask(bool mode, bool erledigt, String uid1, String uid2, String stringstartdate, String stringenddate, String desc)
+        public EditTask(bool mode, bool erledigt, String uid1, String uid2, String stringstartdate, String stringenddate, String desc, SQLCommands sql)
         {
             InitializeComponent();
-
+            c = sql;
             this.uid1 = uid1;
             this.uid2 = uid2;
             lblan.Content = c.getNameByID(uid2);
