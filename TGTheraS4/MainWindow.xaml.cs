@@ -407,6 +407,8 @@ namespace TGTheraS4
             {
                 Login();
 
+                afterLogin();
+
                 setAdmintoolWorkingTime();
                 setdgvWorkingTime();
                 setdgvMedication();
@@ -462,6 +464,8 @@ namespace TGTheraS4
                 {
 
                     Login();
+
+                    afterLogin();
 
                     setAdmintoolWorkingTime();
                     setdgvWorkingTime();
