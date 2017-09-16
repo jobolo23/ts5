@@ -364,8 +364,8 @@ namespace TGTheraS4
                 u.Services = c.userToService(u.Id);
 
                 FillKidsIntoCombo();
-                btnLogin.Visibility = System.Windows.Visibility.Hidden;
-                tabMain.Visibility = System.Windows.Visibility.Visible;
+                btnLogin.Visibility = Visibility.Hidden;
+                tabMain.Visibility = Visibility.Visible;
                 imgLogo.Visibility = Visibility.Hidden;
                 Functions.EmployeeList = FillFullUser(c.getEmployees());
                 Functions.ProjectList = FillProject(c.getProjects());
@@ -374,7 +374,7 @@ namespace TGTheraS4
                 refreshNewestDokus();
                 refreshAllTasks();
                 refreshAllInstructions();
-                refreshService();
+                RefreshService();
                 refreshKmG(u.Id);
                 fillcmbUserKmG(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
 
@@ -419,11 +419,11 @@ namespace TGTheraS4
 
                 if (arbeit == "5")
                 {
-                    u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 1;
+                    u.WorkingTimeType = 1;
                 }
                 else
                 {
-                    u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 2;
+                    u.WorkingTimeType = 2;
                 }
                 List<Haus> haeuser = c.getKBHaeuser();
                 cmbBxKBHaus.ItemsSource = haeuser;
@@ -450,7 +450,7 @@ namespace TGTheraS4
             string tmp = c.getWikiDocs();
             string[] lines = tmp.Split('%');
             wiki = new List<WikiDoc>();
-            IFormatProvider culture = new System.Globalization.CultureInfo("de-DE", true);
+            IFormatProvider culture = new CultureInfo("de-DE", true);
             foreach (string line in lines)
             {
                 string[] values = line.Split('$');
@@ -1392,7 +1392,7 @@ namespace TGTheraS4
         {
             try
             {
-                TGTheraS4.Objects.Task t = dgTaskForUser.SelectedItem as TGTheraS4.Objects.Task;
+                var t = dgTaskForUser.SelectedItem as Task;
                 EditTask et = new EditTask(true, true, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
@@ -1456,7 +1456,7 @@ namespace TGTheraS4
             dgKmG.ItemsSource = KmGlist2;
         }
 
-        private string refreshKmG_PDF(String id)
+        private string RefreshKmG_PDF(String id)
         {
             List<KmG> KmGlist = c.getKilometerGeld(id);
             List<KmG> KmGlist2 = new List<KmG>();
@@ -1477,7 +1477,7 @@ namespace TGTheraS4
             return zahl.ToString();
         }
 
-        private string refreshKmG_PDF_Month(String id, string month, string year)
+        private string RefreshKmG_PDF_Month(String id, string month, string year)
         {
             List<KmG> KmGlist = c.getKilometerGeld_Month(id, month, year);
             List<KmG> KmGlist2 = new List<KmG>();
@@ -1501,7 +1501,7 @@ namespace TGTheraS4
         List<Service> AllHouses = new List<Service>();
         List<Service> SelectedHouses = new List<Service>();
 
-        private void refreshService()
+        public void RefreshService()
         {
             List<Service> serviceList = c.getServicesVital();
             cmbZugehoerigkeit.ItemsSource = serviceList;
@@ -1585,44 +1585,7 @@ namespace TGTheraS4
 
         private void Gmail_LoadCompleted(object sender, NavigationEventArgs e)
         {
-            /*
-            string[] temp = c.getMailCredentials_Gmail(u.Id).Split('$');
-
-            MessageBox.Show(temp[0] + " " + temp[1]);
             
-            if (gmailFirst)
-            {
-                HTMLDocument doc = (HTMLDocument)this.Gmail.Document;
-                doc.getElementsByName("Email").item(0).SetAttribute("value", temp[0]);
-                doc.getElementsByName("Passwd").item(0).SetAttribute("value", temp[1]);
-                doc.getElementsByName("PersistentCookie").item(0).SetAttribute("checked", null);
-
-                foreach (mshtml.HTMLFormElement form in doc.forms)
-                {
-                    var children = form as IEnumerable;
-                    var inputs = children.OfType<mshtml.HTMLInputElement>();
-                    var submitButton = inputs.First(i => i.type == "submit");
-                    submitButton.click();
-                    break;
-                }
-
-                gload++;
-                gmailFirst = false;
-
-
-            }
-            else
-            {
-                Uri uri = new Uri("https://www.google.com/calendar?hl=de");
-                if (Gmail.Source == uri) //#noemail 
-                {
-                    MessageBox.Show("Werden Sie nicht automatisch eingeloggt? \n Wenn Sie im 'Google Mail' Ihr Passwort geändert haben, gehen Sie bitte auf den Tab 'Passwort ändern' und tragen Sie dort unter Gmail Ihr aktuelles Passwort ein. \n Nach einem Neustart von TheraS4 sollte alles wieder funktionieren.", "Fehler bei der Anmeldung?");
-                }
-            }
-             */
-
-
-
         }
 
         /**
@@ -1697,12 +1660,8 @@ namespace TGTheraS4
              * [3] = Habenstunden
              * [4] = Krankenstand 
              */
-
-
             try
             {
-
-
                 a.Kostalid = Convert.ToInt32(a.Id);
 
                 string[] fillings;
@@ -1712,11 +1671,11 @@ namespace TGTheraS4
 
                 if (arbeit == "5")
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 1;
+                    a.WorkingTimeType = 1;
                 }
                 else
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 2;
+                    a.WorkingTimeType = 2;
                 }
 
                 //fw hdmi ifschl pozkern
@@ -1761,7 +1720,7 @@ namespace TGTheraS4
                 //Mit dieser Variable wird geprüft, ob der ausgewählte Tag ein Feiertag ist
                 bool isholday = false;
                 DateTime sampleday;
-                if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (a.WorkingTimeType == 1)
                 {
                     int days = DateTime.DaysInMonth(month.Year, month.Month);
                     DateTime dt;
@@ -1810,7 +1769,7 @@ namespace TGTheraS4
                     }
                     derOberKillaShit[0] = tempusvaletsemper;
                 }
-                else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                else if (a.WorkingTimeType == 2)
                 {
                     int days = DateTime.DaysInMonth(month.Year, month.Month);
                     DateTime dt;
@@ -1861,7 +1820,7 @@ namespace TGTheraS4
                 if (urlaub != "NULL")
                     urlaubstd = Convert.ToInt32(urlaubstd);
                 double workinghours = 0;
-                if (u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (u.WorkingTimeType == 1)
                 {
                     workinghours = c.getWorkinghoursperWeek(a.Id) / 5;
                 }
@@ -1916,11 +1875,11 @@ namespace TGTheraS4
                     }
                 }
 
-                if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (a.WorkingTimeType == 1)
                 {
 
                 }
-                else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                else if (a.WorkingTimeType == 2)
                 {
 
                 }
@@ -2001,11 +1960,11 @@ namespace TGTheraS4
 
                 if (arbeit == "5")
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 1;
+                    a.WorkingTimeType = 1;
                 }
                 else
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 2;
+                    a.WorkingTimeType = 2;
                 }
 
 
@@ -2068,7 +2027,7 @@ namespace TGTheraS4
                 //Mit dieser Variable wird geprüft, ob der ausgewählte Tag ein Feiertag ist
                 bool isholday = false;
                 DateTime sampleday;
-                if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (a.WorkingTimeType == 1)
                 {
                     int days = DateTime.DaysInMonth(
                         Convert.ToInt32(cmb_Year.SelectedValue.ToString()
@@ -2120,7 +2079,7 @@ namespace TGTheraS4
                     }
                     SollStunden.Content = tempusvaletsemper;
                 }
-                else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                else if (a.WorkingTimeType == 2)
                 {
                     int days = DateTime.DaysInMonth(
                         Convert.ToInt32(cmb_Year.SelectedValue.ToString()
@@ -2194,7 +2153,7 @@ namespace TGTheraS4
                     }
                 }
                 double workinghours = 0;
-                if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (a.WorkingTimeType == 1)
                 {
                     workinghours = c.getWorkinghoursperWeek(a.Id) / 5;
                 }
@@ -2450,7 +2409,7 @@ namespace TGTheraS4
 
         }
 
-        private void btnZeiterfassung_Click(object sender, RoutedEventArgs e)
+        private void BtnZeiterfassung_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -4939,11 +4898,11 @@ namespace TGTheraS4
 
                 if (arbeit == "5")
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 1;
+                    a.WorkingTimeType = 1;
                 }
                 else
                 {
-                    a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = 2;
+                    a.WorkingTimeType = 2;
                 }
 
 
@@ -4990,7 +4949,7 @@ namespace TGTheraS4
                     //Mit dieser Variable wird geprüft, ob der ausgewählte Tag ein Feiertag ist
                     bool isholday = false;
                     DateTime sampleday;
-                    if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                    if (a.WorkingTimeType == 1)
                     {
                         int days = DateTime.DaysInMonth(
                             Convert.ToInt32(cmb_Year.SelectedValue.ToString()
@@ -5043,7 +5002,7 @@ namespace TGTheraS4
                         }
                         pdf_soll = tempusvaletsemper;
                     }
-                    else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                    else if (a.WorkingTimeType == 2)
                     {
                         int days = DateTime.DaysInMonth(
                             Convert.ToInt32(cmb_Year.SelectedValue.ToString()
@@ -5117,7 +5076,7 @@ namespace TGTheraS4
                         }
                     }
                     double workinghours = 0;
-                    if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                    if (a.WorkingTimeType == 1)
                     {
                         workinghours = c.getWorkinghoursperWeek(a.Id) / 5;
                     }
@@ -5543,7 +5502,7 @@ namespace TGTheraS4
         {
             EditHaus eh = new EditHaus(u.Id, c);
             eh.ShowDialog();
-            refreshService();
+            RefreshService();
         }
 
         private void btn_Doc_Down_Click(object sender, RoutedEventArgs e)
@@ -7488,7 +7447,7 @@ namespace TGTheraS4
             {
                 string usornäm = c.getNameByID(asad.Id);
                 fagit += usornäm + (fillSpace(len - usornäm.Length, " ")) + " | ";
-                fagit += refreshKmG_PDF(asad.Id);
+                fagit += RefreshKmG_PDF(asad.Id);
                 fagit += "\n";
             }
 
@@ -7545,7 +7504,7 @@ namespace TGTheraS4
             {
                 string usornäm = c.getNameByID(asad.Id);
                 fagit += usornäm + (fillSpace(len - usornäm.Length, " ")) + " | ";
-                fagit += refreshKmG_PDF(asad.Id);
+                fagit += RefreshKmG_PDF(asad.Id);
                 fagit += "\n";
             }
             SaveFileDialog sfd = new SaveFileDialog();
@@ -10372,6 +10331,9 @@ namespace TGTheraS4
         }
 
         public bool isloggedin = false;
+
+        public int SelectedIndex { get => SelectedIndex1; set => SelectedIndex1 = value; }
+        public int SelectedIndex1 { get => selectedIndex; set => selectedIndex = value; }
 
         private void dgNewestDokus_LoadingRow(object sender, DataGridRowEventArgs e)
         {

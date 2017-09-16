@@ -99,12 +99,12 @@ namespace IntranetTG.Objects
             set { isAdmin = value; }
         }
 
-        private int wasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum; //1 = Verwaltung; 2 = Soz. Päd. 3 = beides
+        private int _workingTimeType; //1 = Verwaltung; 2 = Soz. Päd. 3 = beides
 
-        public int WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum
+        public int WorkingTimeType
         {
-            get { return wasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum; }
-            set { wasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum = value; }
+            get { return _workingTimeType; }
+            set { _workingTimeType = value; }
         }
     }
 }

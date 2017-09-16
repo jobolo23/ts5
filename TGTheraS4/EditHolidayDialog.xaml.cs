@@ -126,7 +126,7 @@ namespace TGTheraS4
             LinkedList<DateTime> days = new LinkedList<DateTime>();
             for (DateTime tmp = dateFrom; (dateTo - tmp).TotalDays >= 0; tmp = tmp.Add(new TimeSpan(1, 0, 0, 0, 0)))
             {
-                if (u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (u.WorkingTimeType == 1)
                 {
                     if (tmp.ToString("ddd") != "Sa" && tmp.ToString("ddd") != "So")
                     {
@@ -148,7 +148,7 @@ namespace TGTheraS4
                         }
                     }
                 }
-                else if (u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                else if (u.WorkingTimeType == 2)
                 {
                     if (tmp.ToString("ddd") != "So")
                     {
@@ -216,7 +216,7 @@ namespace TGTheraS4
             LinkedList<DateTime> days = new LinkedList<DateTime>();
             for (DateTime tmp = dateFrom; (dateTo - tmp).TotalDays >= 0; tmp = tmp.Add(new TimeSpan(1, 0, 0, 0, 0)))
             {
-                if (u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
+                if (u.WorkingTimeType == 1)
                 {
                     if (tmp.ToString("ddd") != "Sa" && tmp.ToString("ddd") != "So")
                     {
@@ -238,7 +238,7 @@ namespace TGTheraS4
                         }
                     }
                 }
-                else if (u.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
+                else if (u.WorkingTimeType == 2)
                 {
                     if (tmp.ToString("ddd") != "So")
                     {
