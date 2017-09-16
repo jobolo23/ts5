@@ -104,7 +104,7 @@ namespace TGTheraS4
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
             }
-            deleteOldTempFiles();
+            DeleteOldTempFiles();
 
 
 
@@ -126,7 +126,7 @@ namespace TGTheraS4
         }
 
 
-        public void afterLogin()
+        private void AfterLogin()
         {
             if (isOnline)
             {
@@ -163,14 +163,14 @@ namespace TGTheraS4
         }
 
 
-        public void deleteOldTempFiles()
+        public void DeleteOldTempFiles()
         {
-            string[] fileList = System.IO.Directory.GetFiles(".\\", @"Temp*.*");
+            string[] fileList = Directory.GetFiles(".\\", @"Temp*.*");
             foreach (string file in fileList)
             {
                 try
                 {
-                    System.IO.File.Delete(file);
+                    File.Delete(file);
                 }
                 catch
                 {
@@ -186,11 +186,10 @@ namespace TGTheraS4
             ftp.DownloadFile("logo.tg", "logo.tg");
         }
 
-        public void setAUsercmb()
+        public void SetAUsercmb()
         {
             try
             {
-                view_waiting();
                 string[] items = c.getWorkingtimeUsers().Split('%');
                 User tmp;
                 string[] line;
@@ -210,7 +209,6 @@ namespace TGTheraS4
                     }
                 }
                 cmbAdminUsers.SelectedIndex = index + 1;
-                hide_waiting();
             }
             catch
             {
@@ -219,12 +217,9 @@ namespace TGTheraS4
 
 
 
-        public void setAdmintoolWorkingTime()
+        public void SetAdmintoolWorkingTime()
         {
-            try
-            {
-                view_waiting();
-                userlist = new List<User>();
+            userlist = new List<User>();
                 if (u.IsAdmin == false)
                 {
                     cmbworkingTimeUser.Visibility = System.Windows.Visibility.Hidden;
@@ -270,29 +265,20 @@ namespace TGTheraS4
                     cmbworkingTimeUser.SelectedIndex = index + 1;
 
                 }
-                hide_waiting();
-            }
-            catch
-            {
-                /**/
-                /**/
-            }
         }
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            
                 Login();
 
-                afterLogin();
+                AfterLogin();
 
-                setAdmintoolWorkingTime();
+                SetAdmintoolWorkingTime();
                 setdgvWorkingTime();
                 setdgvMedication();
-                setAUsercmb();
-                view_waiting();
-                cmbAdminUsers.Text = "";
+                SetAUsercmb();
+            cmbAdminUsers.Text = "";
 
                 if (u.IsAdmin == true)
                 {
@@ -326,12 +312,6 @@ namespace TGTheraS4
                 txtContSearch1.Visibility = Visibility.Hidden;
                 txtContSearch2.Visibility = Visibility.Hidden;
                 txtContSearch3.Visibility = Visibility.Hidden;
-
-                hide_waiting();
-            }
-            catch
-            {
-            }
         }
 
         private void txtPW_KeyDown(object sender, KeyEventArgs e)
@@ -339,71 +319,34 @@ namespace TGTheraS4
 
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
-                try
+                Login();
+
+                AfterLogin();
+
+                SetAdmintoolWorkingTime();
+                setdgvWorkingTime();
+                setdgvMedication();
+                SetAUsercmb();
+                cmbAdminUsers.Text = "";
+
+                if (u.IsAdmin == true)
                 {
-
-                    Login();
-
-                    afterLogin();
-
-                    setAdmintoolWorkingTime();
-                    setdgvWorkingTime();
-                    setdgvMedication();
-                    setAUsercmb();
-                    view_waiting();
-                    cmbAdminUsers.Text = "";
-
-                    if (u.IsAdmin == true)
-                    {
-                        btnUrlaubBest.Visibility = Visibility.Visible;
-                        btnUrlaubAbl.Visibility = Visibility.Visible;
-                        chk_allow.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        btnPDFExport.Visibility = Visibility.Hidden;
-                        chk_allow.Visibility = Visibility.Hidden;
-                        btnAllUsersPDF.Visibility = Visibility.Hidden;
-                    }
-                    hide_waiting();
-
+                    btnUrlaubBest.Visibility = Visibility.Visible;
+                    btnUrlaubAbl.Visibility = Visibility.Visible;
+                    chk_allow.Visibility = Visibility.Hidden;
                 }
-                catch (Exception ex)
+                else
                 {
-
-                    MessageBox.Show(ex.ToString());
+                    btnPDFExport.Visibility = Visibility.Hidden;
+                    chk_allow.Visibility = Visibility.Hidden;
+                    btnAllUsersPDF.Visibility = Visibility.Hidden;
                 }
             }
         }
 
 
-
-        private event Action CloseLoadingWindows = delegate { };
-
-        private void ShowLoadingWindow(ref Action CloseLoadingWindows)
-        {
-            loading loadingWindow = new loading();
-            loadingWindow.Show();
-            CloseLoadingWindows +=
-                () => loadingWindow.Dispatcher.BeginInvoke(new ThreadStart(() => loadingWindow.Close()));
-        }
-
-        private void view_waiting()
-        {
-            Thread loadingThread = new Thread(() => ShowLoadingWindow(ref CloseLoadingWindows));
-            loadingThread.SetApartmentState(ApartmentState.STA);
-            loadingThread.Start();
-        }
-
-        private void hide_waiting()
-        {
-            CloseLoadingWindows();
-        }
-
         private void Login()
         {
-            view_waiting();
-
             _generalService.Password = txtPW.Password;
             _generalService.UserName = txtUser.Text;
 
@@ -495,12 +438,10 @@ namespace TGTheraS4
             }
             else
             {
-                hide_waiting();
             }
 
             updatecmbUserKmG(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
             c.setlogin();
-            hide_waiting();
         }
 
 
@@ -937,7 +878,6 @@ namespace TGTheraS4
 
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_waiting();
             try
             {
 
@@ -1082,7 +1022,6 @@ namespace TGTheraS4
                         }
                     }
                 }
-                hide_waiting();
             }
             catch
             {
@@ -1256,7 +1195,6 @@ namespace TGTheraS4
             {
                 if ((bool) !chkMultiday.IsChecked)
                 {
-                    view_waiting();
                     btnRecoverDoku.Visibility = Visibility.Visible;
                     txtDokuAußenkontakt.Background = Brushes.White;
                     txtDokuKoerperlich.Background = Brushes.White;
@@ -1393,13 +1331,10 @@ namespace TGTheraS4
                         txtDokuPflichte.Text = "";
                         txtDokuPsychisch.Text = "";
                         txtDokuSchulisch.Text = "";
-
-                        hide_waiting();
                     }
                 }
                 else
                 {
-                    view_waiting();
                     string[] temp = c.readDokuOverTime(cmbKlient.Text, (DateTime) dateDoku.SelectedDate,
                         (DateTime) dateDokuTo.SelectedDate);
                     txtDokuKoerperlichAnzeige.Text = temp[0];
@@ -1419,7 +1354,6 @@ namespace TGTheraS4
                     txtDokuPflichteAnzeige.IsEnabled = true;
                     txtDokuPsychischAnzeige.IsEnabled = true;
                     txtDokuSchulischAnzeige.IsEnabled = true;
-                    hide_waiting();
                 }
             }
             else
@@ -1639,10 +1573,8 @@ namespace TGTheraS4
 
         private void btnGoToTasks_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             tabMain.SelectedIndex = 10;
             refreshAllTasks();
-            hide_waiting();
         }
 
         int load = 0;
@@ -1741,7 +1673,6 @@ namespace TGTheraS4
 
         private void bnt_Reload_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             bnt_Reload.IsEnabled = false;
             setdgvWorkingTime();
             foreach (string day in c.getNonWorkingDays().Split('%'))
@@ -1749,7 +1680,6 @@ namespace TGTheraS4
                 nonWorkingDays.Add(day);
             }
             bnt_Reload.IsEnabled = true;
-            hide_waiting();
         }
 
 
@@ -2036,7 +1966,6 @@ namespace TGTheraS4
         {
             try
             {
-                view_waiting();
                 DateTime date =
                     new DateTime(
                         Convert.ToInt32(cmb_Year.SelectedValue.ToString()
@@ -2375,7 +2304,6 @@ namespace TGTheraS4
                     lblKrank.Content = "0";
                     uberstdges.Content = "0";
                 }
-                hide_waiting();
             }
             catch (Exception ex)
             {
@@ -3119,23 +3047,17 @@ namespace TGTheraS4
 
         private void AktualisierenAll_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             refreshAllTasks();
-            hide_waiting();
         }
 
         private void btnAktualisierenDienstanweisungen_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             refreshAllInstructions();
-            hide_waiting();
         }
 
         private void btnAktualisierenAufgaben_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             refreshAllTasks();
-            hide_waiting();
         }
 
         private void dgCreatedTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3155,7 +3077,6 @@ namespace TGTheraS4
 
         private void btnGetKlientDaten_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             sozialarbeiter = c.getSozialarbeiter();
             cmbContacts.ItemsSource = sozialarbeiter;
             cmbContacts.DisplayMemberPath = "Fullname";
@@ -3424,7 +3345,6 @@ namespace TGTheraS4
             {
                 MessageBox.Show(ex.ToString());
             }
-            hide_waiting();
         }
 
         private void btnUrlaub_Click(object sender, RoutedEventArgs e)
@@ -4527,14 +4447,12 @@ namespace TGTheraS4
         {
             try
             {
-                view_waiting();
                 if (cmbFVGClient.SelectedIndex != -1 && cmbFVGDoc.SelectedIndex != -1 && cmbFVGDoc.Text != "")
                 {
                     string[] namen = cmbFVGClient.SelectedItem.ToString().Split(' ');
                     editFVG.ContentHtml = c.getBericht_Content(Berichte.ElementAt(cmbFVGDoc.SelectedIndex));
                     editFVG.IsEnabled = true;
                 }
-                hide_waiting();
             }
             catch
             {
@@ -4750,7 +4668,6 @@ namespace TGTheraS4
 
         private void btngetKmG_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             string month = "0";
             string year = "0";
 
@@ -4813,12 +4730,11 @@ namespace TGTheraS4
                     MessageBoxImage.Warning);
             }
             btnKMGActiveEx.IsEnabled = true;
-            hide_waiting();
         }
 
         public void updatecmbUserKmG(string year, string month)
         {
-            new Thread(() => { view_waiting(); }).Start();
+            new Thread(() => { }).Start();
             cmbUserKmG.ItemsSource = null;
             if (Functions.EmployeeList != null)
             {
@@ -4864,13 +4780,11 @@ namespace TGTheraS4
             }
             cmbUserKmG.DisplayMemberPath = "FullName";
             cmbUserKmG.SelectedValuePath = "Id";
-
-            hide_waiting();
         }
 
         private void fillcmbUserKmG(string year, string month)
         {
-            new Thread(() => { view_waiting(); }).Start();
+            new Thread(() => { }).Start();
             cmbUserKmG.ItemsSource = null;
             if (Functions.EmployeeList != null)
             {
@@ -4916,8 +4830,6 @@ namespace TGTheraS4
             }
             cmbUserKmG.DisplayMemberPath = "FullName";
             cmbUserKmG.SelectedValuePath = "Id";
-
-            hide_waiting();
         }
 
         private void btnBerNew_Click(object sender, RoutedEventArgs e)
@@ -5002,8 +4914,6 @@ namespace TGTheraS4
 
         private void bttnLogout_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
-            hide_waiting();
             System.Windows.Forms.Application.Restart();
             System.Windows.Application.Current.Shutdown();
         }
@@ -5546,7 +5456,6 @@ namespace TGTheraS4
 
         private void btn_Doc_Akt_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             try
             {
 
@@ -5566,7 +5475,6 @@ namespace TGTheraS4
             {
                 MessageBox.Show("Wählen Sie einen Klienten aus!");
             }
-            hide_waiting();
         }
 
         public void update_docs(int id)
@@ -5640,7 +5548,6 @@ namespace TGTheraS4
 
         private void btn_Doc_Down_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
                 Document doc = (Document) dgv_Doc_List.SelectedItem;
@@ -5652,7 +5559,6 @@ namespace TGTheraS4
                 if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
                 {
                     FtpHandler ftp = new FtpHandler();
-                    view_waiting();
                     if (ftp.DownloadFile(doc.path, saveFileDialog1.FileName))
                     {
 
@@ -5661,7 +5567,6 @@ namespace TGTheraS4
                         {
                             try
                             {
-                                hide_waiting();
                                 tmp = true;
                                 Process.Start(saveFileDialog1.FileName).WaitForExit();
                             }
@@ -5671,19 +5576,18 @@ namespace TGTheraS4
                         }
                     }
                     if (tmp == false)
-                        hide_waiting();
+                    {
+                    }
                 }
             }
             else
             {
                 MessageBox.Show("Kein Eintrag ausgewählt");
             }
-            hide_waiting();
         }
 
         private void btn_Doc_Up_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.ShowDialog();
             Title tit = new Title(c);
@@ -5709,7 +5613,6 @@ namespace TGTheraS4
                 }
                 update_docs(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())));
             }
-            hide_waiting();
         }
 
         private void btn_wiki_Up_Click(object sender, RoutedEventArgs e)
@@ -5726,7 +5629,6 @@ namespace TGTheraS4
 
 
                     FtpHandler ftp = new FtpHandler();
-                    view_waiting();
                     ftp.UploadFile(ofd.FileName, "data/wiki/" + name);
 
                     long a = new FileInfo(ofd.FileName).Length;
@@ -5736,7 +5638,6 @@ namespace TGTheraS4
 
                     c.addwiki(name, Convert.ToInt32(u.Id), tit.titel);
                     loadWiki();
-                    hide_waiting();
                 }
             }
         }
@@ -5744,7 +5645,6 @@ namespace TGTheraS4
 
         private void btn_Doc_Ers_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
                 Document doc = (Document) dgv_Doc_List.SelectedItem;
@@ -5778,7 +5678,6 @@ namespace TGTheraS4
             {
                 MessageBox.Show("Kein Eintrag ausgewählt");
             }
-            hide_waiting();
         }
 
         private void btn_Zeit_Kilometer_Click(object sender, RoutedEventArgs e)
@@ -5890,7 +5789,6 @@ namespace TGTheraS4
 
         public void KBEingetr()
         {
-            view_waiting();
             string hid = cmbBxKBHaus.SelectedValue.ToString();
             lblKBMaxBelNr.Content = "(" + c.getHighestKBBelNr(hid).ToString() + " ist die Höchste)";
             lblKBKassStand.Content = "Kassastand: " + c.getKBBallance(hid);
@@ -5899,29 +5797,24 @@ namespace TGTheraS4
             txtBxBelNr.Text = (c.getHighestKBBelNr(hid) + 1).ToString();
             txtBxBelNr.Focus();
             txtBxBelNr.SelectAll();
-            hide_waiting();
         }
 
         private void bttnKBAkt_Click(object sender, RoutedEventArgs e)
         {
             //c.KBInsertMonthTransaction();
-            view_waiting();
             if (cmbBxKBHaus.SelectedIndex != -1)
             {
                 string hid = cmbBxKBHaus.SelectedValue.ToString();
                 txtBxBelNr.Text = (c.getHighestKBBelNr(hid) + 1).ToString();
             }
             refreshKBItems();
-            hide_waiting();
         }
 
         private void cmbBxKBHaus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_waiting();
             refreshKBItems();
             //lblKBKst1.Content = "Kassastand am 1." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString() + ": " + c.getKBBal1(cmbBxKBHaus.SelectedValue.ToString(), (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString("yyyy-MM-dd"));
             //lblKBKstL.Content = "Kassastand am " + DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month).ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString() + ": " + "?";
-            hide_waiting();
         }
 
         private void cmbBxKBKnR_DropDownClosed(object sender, EventArgs e)
@@ -5938,7 +5831,6 @@ namespace TGTheraS4
 
         private void bttnKBKnrEintr_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             cmbBxKBHaus.Background = color1;
             txtBxKBKnrKnr.Background = color1;
             if (cmbBxKBHaus.SelectedValue != null)
@@ -6000,12 +5892,10 @@ namespace TGTheraS4
                 cmbBxKBHaus.Background = color1;
                 lblKBErr.Content = "Bitte wählen Sie das Haus aus, für das die Kontonummer eingetragen werden soll!";
             }
-            hide_waiting();
         }
 
         private void bttnKBEintr_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             txtBxBelNr.Background = color1;
             lblKBErr.Background = color1;
             string belnr, knr, beschr, brutto, steuers = "0", netto, mwst, datum, uid, hid;
@@ -6083,7 +5973,6 @@ namespace TGTheraS4
                 /**/
                 /**/
             }
-            hide_waiting();
         }
 
         private void bttnKBExport_Click(object sender, RoutedEventArgs e)
@@ -7254,23 +7143,18 @@ namespace TGTheraS4
 
         private void dtPckrKBFiltVon_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_waiting();
             if (cmbBxKBHaus.SelectedIndex != -1)
             {
                 refreshKBItems();
             }
-            hide_waiting();
-
         }
 
         private void dtPckrKBFiltBis_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_waiting();
             if (cmbBxKBHaus.SelectedIndex != -1)
             {
                 refreshKBItems();
             }
-            hide_waiting();
         }
 
 
@@ -7776,7 +7660,6 @@ namespace TGTheraS4
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
                 Document doc = (Document) dgv_Doc_List.SelectedItem;
@@ -7791,7 +7674,6 @@ namespace TGTheraS4
                 c.deletePath(doc);
                 update_docs(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())));
             }
-            hide_waiting();
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
@@ -7883,7 +7765,6 @@ namespace TGTheraS4
         {
             try
             {
-                view_waiting();
                 //int id = Int32.Parse(c.getIdbyNameClients(cmbMedicClient.SelectedValue.ToString()));
 
 
@@ -7898,9 +7779,6 @@ namespace TGTheraS4
                 //String[,] medics = c.getMedicamentsByClient(id);
 
                 //dgvMedikamente.ItemsSource = medicList;
-                hide_waiting();
-
-
             }
             catch
             {
@@ -7957,7 +7835,6 @@ namespace TGTheraS4
 
             try
             {
-                view_waiting();
                 cmbFVGDoc.Items.Clear();
                 Berichte = new List<Klienten_Berichte>();
 
@@ -8059,8 +7936,6 @@ namespace TGTheraS4
                         cmbFVGDoc.Items.Add(item.name);
                     }
                 }
-
-                hide_waiting();
 
                 //zu cmbFVGDoc hinzufügen
             }
@@ -8270,7 +8145,6 @@ namespace TGTheraS4
 
         private void btnFvgNew_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             AddBerichtDialog abd = new AddBerichtDialog();
             abd.ShowDialog();
             if (abd.Name != null)
@@ -8312,7 +8186,6 @@ namespace TGTheraS4
                 cmbFVGDoc.SelectedIndex = Berichte.Count() - 1;
                 editFVG.IsEnabled = true;
             }
-            hide_waiting();
         }
 
         private void btnFvgC_Click(object sender, RoutedEventArgs e)
@@ -8455,7 +8328,6 @@ namespace TGTheraS4
 
                     WikiDoc tmp = (WikiDoc) dgvWikiDocs.SelectedItem;
                     FtpHandler ftp = new FtpHandler();
-                    view_waiting();
                     c.delwikiDoc(tmp);
                     try
                     {
@@ -8469,7 +8341,6 @@ namespace TGTheraS4
 
 
                     loadWiki();
-                    hide_waiting();
                 }
             }
             else
@@ -8523,8 +8394,6 @@ namespace TGTheraS4
 
         void TS4_Closing(object sender, CancelEventArgs e)
         {
-            view_waiting();
-            hide_waiting();
         }
 
 
@@ -9546,7 +9415,6 @@ namespace TGTheraS4
 
                     string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
                     FtpHandler ftp = new FtpHandler();
-                    view_waiting();
                     try
                     {
                         ftp.DeleteFile(doc.path);
@@ -9563,7 +9431,6 @@ namespace TGTheraS4
 
                     c.updatewiki(name, Convert.ToInt32(u.Id), doc);
                     loadWiki();
-                    hide_waiting();
                 }
             }
             else
@@ -9581,11 +9448,9 @@ namespace TGTheraS4
                 tit.ShowDialog();
                 if (tit.titel != "-1")
                 {
-                    view_waiting();
                     c.renameWiki(tmp, tit.titel, u);
 
                     loadWiki();
-                    hide_waiting();
                 }
             }
             else
@@ -9603,10 +9468,8 @@ namespace TGTheraS4
                 if (rate.rate != -1)
                 {
                     WikiDoc tmp = (WikiDoc) dgvWikiDocs.SelectedItem;
-                    view_waiting();
                     c.setWikiRating(u.Id, rate.rate, tmp);
                     loadWiki();
-                    hide_waiting();
                 }
             }
             else
@@ -9637,7 +9500,6 @@ namespace TGTheraS4
                                         "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                                 if (msgboxResult == MessageBoxResult.Yes)
                                 {
-                                    view_waiting();
                                     string medi_id = "";
                                     foreach (string medi in medis)
                                     {
@@ -9664,7 +9526,6 @@ namespace TGTheraS4
                                     btnAddNewMedi.Content = "hinzufügen";
                                     btnMediUndoChanges.Visibility = Visibility.Hidden;
                                     edit_medi = false;
-                                    hide_waiting();
                                     MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!", MessageBoxButton.OK,
                                         MessageBoxImage.Information);
                                 }
@@ -9675,7 +9536,6 @@ namespace TGTheraS4
                             }
                             else
                             {
-                                view_waiting();
                                 string medi_id = "";
                                 foreach (string medi in medis)
                                 {
@@ -9751,7 +9611,6 @@ namespace TGTheraS4
                                             "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                                     if (msgboxResult1 == MessageBoxResult.Yes)
                                     {
-                                        view_waiting();
                                         string medi_id = "";
                                         foreach (string medi in medis)
                                         {
@@ -9779,7 +9638,6 @@ namespace TGTheraS4
                                         btnAddNewMedi.Content = "hinzufügen";
                                         btnMediUndoChanges.Visibility = Visibility.Hidden;
                                         edit_medi = false;
-                                        hide_waiting();
                                         MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!",
                                             MessageBoxButton.OK, MessageBoxImage.Information);
                                     }
@@ -9790,7 +9648,6 @@ namespace TGTheraS4
                                 }
                                 else
                                 {
-                                    view_waiting();
                                     string medi_id = "";
                                     foreach (string medi in medis)
                                     {
@@ -9848,7 +9705,6 @@ namespace TGTheraS4
                     //NIX
                 }
             }
-            hide_waiting();
         }
 
         private void btnDeleteSelectedMedi_Click(object sender, RoutedEventArgs e)
@@ -9857,11 +9713,9 @@ namespace TGTheraS4
             {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
-                    view_waiting();
                     Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                     c.cancelMediForClient(mmm.cmId.ToString());
                     update_medications();
-                    hide_waiting();
                     MessageBox.Show("Das Medikament wurde abgesetzt!", "Erfolg!", MessageBoxButton.OK,
                         MessageBoxImage.Information);
 
@@ -9891,11 +9745,9 @@ namespace TGTheraS4
                             "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (msgboxResult == MessageBoxResult.Yes)
                     {
-                        view_waiting();
                         Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                         c.deleteMediForClient(mmm.cmId.ToString());
                         update_medications();
-                        hide_waiting();
                         MessageBox.Show("Das Medikament wurde gelöscht!", "Erfolg!", MessageBoxButton.OK,
                             MessageBoxImage.Information);
                     }
@@ -9922,12 +9774,10 @@ namespace TGTheraS4
             {
                 if (txtNewMediName.Text != "" && txtNewMediDescription.Text != "")
                 {
-                    view_waiting();
                     c.addNewMedi(txtNewMediName.Text, txtNewMediDescription.Text, u.Id.ToString());
                     update_medications();
                     txtNewMediName.Text = "";
                     txtNewMediDescription.Text = "";
-                    hide_waiting();
                     MessageBox.Show("Das Medikament wurde hinzugefügt!", "Erfolg!", MessageBoxButton.OK,
                         MessageBoxImage.Information);
                 }
@@ -9983,7 +9833,6 @@ namespace TGTheraS4
             {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
-                    view_waiting();
                     edit_medi = true;
                     Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                     btnAddNewMedi.Content = "Änderungen speichern";
@@ -9995,8 +9844,6 @@ namespace TGTheraS4
                     dtpNewMediFrom.SelectedDate = c.getMediDateFrom(mmm.cmId);
                     dtpNewMediTo.SelectedDate = c.getMediDateTo(mmm.cmId);
                     btnMediUndoChanges.Visibility = Visibility.Visible;
-
-                    hide_waiting();
                 }
                 else
                 {
@@ -10012,7 +9859,6 @@ namespace TGTheraS4
 
         private void btnMediUndoChanges_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             txtNewMediMorning.Text = "";
             txtNewMediMidday.Text = "";
             txtNewMediEvening.Text = "";
@@ -10024,7 +9870,6 @@ namespace TGTheraS4
             edit_medi = false;
             update_medications();
             btnMediUndoChanges.Visibility = Visibility.Hidden;
-            hide_waiting();
         }
 
         private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -10331,9 +10176,7 @@ namespace TGTheraS4
 
         private void btnAktualisierenNewestDokus_Click(object sender, RoutedEventArgs e)
         {
-            view_waiting();
             refreshNewestDokus();
-            hide_waiting();
         }
 
         private void btnRecoverDoku_Click(object sender, RoutedEventArgs e)
