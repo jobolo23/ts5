@@ -1904,8 +1904,7 @@ namespace TGTheraS4
         {
             TimeSpan ts = TimeSpan.FromTicks((TimeSpan.TicksPerDay * 7));
             DateTime dt = DateTime.Now - ts;
-            string[] date = dt.ToString().Split(' ')[0].Split('.');
-            string sql_date = date[2] + "-" + date[1] + "-" + date[0];
+            string sql_date = dt.ToString("yyyy-MM-dd");
             List<NewestDokus> newestDokusList = c.getDokusByWgsAndDate(u.Services, sql_date);
             dgNewestDokus.ItemsSource = newestDokusList;
         }
