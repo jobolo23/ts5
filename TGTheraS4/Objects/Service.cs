@@ -1,36 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TheraS5.Objects
+﻿namespace TheraS5.Objects
 {
-   public class Service
+    public class Service
     {
-       private string id;
-
-        public string Id
+        public Service()
         {
-            get { return id; }
-            set { id = value; }
         }
+
+        public Service(string id, string name)
+        {
+            Id = id;
+            this.name = name;
+        }
+
+        public string Id { get; set; }
+
         private string name { get; set; }
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
-        }
-
-        public Service()
-        {
-
-        }
-
-        public Service(String id, String name)
-        {
-            this.id = id;
-            this.name = name;
+            get => name;
+            set => name = value;
         }
     }
 }

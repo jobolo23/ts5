@@ -1,80 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IntranetTG.Objects;
 using System.IO;
-using System.Windows;
+using IntranetTG.Objects;
 
 namespace IntranetTG
 {
-    class FileHandler
+    internal class FileHandler
 
         //##########################aal##################
     {
         //wohin damit?
 
-        
-        
 
-        public static List<User> users = null;
+        public static List<User> users;
 
 
-        public FileHandler()
+        public static void writeUserInFile(User newUser)
         {
-            
-        }
-
-        public static void writeUserInFile(User newUser) {
             try
             {
                 users.Add(newUser);
 
 
-                String[] usersInStrings = new String[users.Count];
-                
-                int i = 0;
-                foreach (User user in users)
+                var usersInStrings = new string[users.Count];
+
+                var i = 0;
+                foreach (var user in users)
                 {
-                    usersInStrings[i] = (user.Username + "," + user.Password); 
-                        i++;
+                    usersInStrings[i] = user.Username + "," + user.Password;
+                    i++;
                 }
 
                 WriteFile("users.tg", usersInStrings);
-
-   }
+            }
             catch (Exception)
             {
-                
                 throw new Exception("No userdata in file");
             }
         }
 
-        public static void WriteFile(String filename, String[] stringlines)
+        public static void WriteFile(string filename, string[] stringlines)
         {
-            StreamWriter file = new StreamWriter(filename);
+            var file = new StreamWriter(filename);
             file.Write(stringlines);
             file.Close();
         }
 
-        public static List<User> readUserFromFile() {
-
+        public static List<User> readUserFromFile()
+        {
             users = new List<User>();
             try
             {
-                string[] lines = System.IO.File.ReadAllLines("users.tg");
+                var lines = File.ReadAllLines("users.tg");
 
-                foreach (string line in lines)
+                foreach (var line in lines)
                 {
+                    var subStrings = line.Split(',');
+                    var userFromFile = new User();
 
-                    String[] subStrings = line.Split(new char[] { ',' });
-                    User userFromFile = new User();
-
-                    userFromFile.Username = subStrings[0];                   
+                    userFromFile.Username = subStrings[0];
                     userFromFile.Password = subStrings[1];
-                    
 
-                    string[] houses = subStrings[2].Split('$');
+
+                    var houses = subStrings[2].Split('$');
 
                     userFromFile.Services = houses;
 
@@ -87,20 +75,17 @@ namespace IntranetTG
                         userFromFile.IsAdmin = false;
                     }
                     users.Add(userFromFile);
-                                     
-                }              
+                }
             }
 
             catch (Exception)
             {
                 throw new Exception("No users read from file");
             }
-        
-            return users;
 
-            
-            
+            return users;
+        }
     }
-  }
+
     //#########################eal#######################
 }

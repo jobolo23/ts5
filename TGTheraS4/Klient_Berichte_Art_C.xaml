@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Klient_Berichte_Art_C" Height="158.077" Width="399.231">
     <Grid>
-        <ComboBox x:Name="cmbArt" HorizontalAlignment="Left" Margin="26,26,0,0" VerticalAlignment="Top" Width="348"/>
-        <Button x:Name="btn_OK" Content="OK" HorizontalAlignment="Left" Margin="26,89,0,0" VerticalAlignment="Top" Width="75" Click="btn_OK_Click"/>
-        <Button x:Name="btnAb" Content="Abbrechen" HorizontalAlignment="Left" Margin="299,89,0,0" VerticalAlignment="Top" Width="75" Click="btnAb_Click"/>
+        <ComboBox x:Name="cmbArt" HorizontalAlignment="Left" Margin="26,26,0,0" VerticalAlignment="Top" Width="348" />
+        <Button x:Name="btn_OK" Content="OK" HorizontalAlignment="Left" Margin="26,89,0,0" VerticalAlignment="Top"
+                Width="75" Click="btn_OK_Click" />
+        <Button x:Name="btnAb" Content="Abbrechen" HorizontalAlignment="Left" Margin="299,89,0,0"
+                VerticalAlignment="Top" Width="75" Click="btnAb_Click" />
 
     </Grid>
 </Window>

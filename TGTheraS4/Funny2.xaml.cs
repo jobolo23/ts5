@@ -1,27 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für Funny2.xaml
+    ///     Interaktionslogik für Funny2.xaml
     /// </summary>
     public partial class Funny2 : Window
     {
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        int value = 0;
-        public int selected = 0;
+        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        public int selected;
+        private int value;
 
         public Funny2()
         {
@@ -30,8 +20,8 @@ namespace TheraS5
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
             progressBar1.Maximum = 10;
@@ -43,11 +33,11 @@ namespace TheraS5
             {
                 dispatcherTimer.Stop();
                 choose();
-                this.Close();
+                Close();
             }
             progressBar1.Value = value;
             label3.Content = 10 - value;
-            button1.Content = "OK ( " + (10 - value).ToString() + " )";
+            button1.Content = "OK ( " + (10 - value) + " )";
             value++;
         }
 
@@ -75,7 +65,7 @@ namespace TheraS5
         {
             dispatcherTimer.Stop();
             choose();
-            this.Close();
+            Close();
         }
     }
 }

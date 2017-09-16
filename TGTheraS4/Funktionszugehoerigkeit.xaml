@@ -5,39 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheraS5"
         mc:Ignorable="d"
-        Title="Funktionszugehoerigkeit" Height="336.052" Width="848.498" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Funktionszugehoerigkeit" Height="336.052" Width="848.498" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80*"/>
-            <RowDefinition Height="44*"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="78*"/>
-            <RowDefinition Height="55*"/>
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="44*" />
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="78*" />
+            <RowDefinition Height="55*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="202*"/>
-            <ColumnDefinition Width="17*"/>
-            <ColumnDefinition Width="126*"/>
-            <ColumnDefinition Width="76*"/>
+            <ColumnDefinition Width="202*" />
+            <ColumnDefinition Width="17*" />
+            <ColumnDefinition Width="126*" />
+            <ColumnDefinition Width="76*" />
         </Grid.ColumnDefinitions>
         <GroupBox x:Name="gbHouseAll" Margin="9,24,2,26" Header="Alle Funktionen" Grid.RowSpan="5">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <DataGrid x:Name="dgFuncAll" IsReadOnly="True" ItemsSource="{Binding Source=func}" SelectionMode="Single" FontWeight="Normal" Margin="0"/>
-                <Button x:Name="btnNewFunc" Content="Neue Funktion hinzufügen" Height="30" Margin="0" FontWeight="Bold" Click="btnNewFunc_Click" Grid.Row="1" />
-                <Button x:Name="btnNewEditFunc" Content="Funktion bearbeiten" Height="30" Margin="0" FontWeight="Bold" Click="btnNewEditFunc_Click" Grid.Row="2" />
+                <DataGrid x:Name="dgFuncAll" IsReadOnly="True" ItemsSource="{Binding Source=func}"
+                          SelectionMode="Single" FontWeight="Normal" Margin="0" />
+                <Button x:Name="btnNewFunc" Content="Neue Funktion hinzufügen" Height="30" Margin="0" FontWeight="Bold"
+                        Click="btnNewFunc_Click" Grid.Row="1" />
+                <Button x:Name="btnNewEditFunc" Content="Funktion bearbeiten" Height="30" Margin="0" FontWeight="Bold"
+                        Click="btnNewEditFunc_Click" Grid.Row="2" />
 
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gbFuncSelected" Margin="3,24,0,54" Header="Ausgewählte Funktionen" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="2" >
-            <DataGrid x:Name="dgHouseSelected" ItemsSource="{Binding Source=selected}" IsReadOnly="True" SelectionMode="Single" FontWeight="Normal" Margin="0" RenderTransformOrigin="0.5,0.5"/>
+        <GroupBox x:Name="gbFuncSelected" Margin="3,24,0,54" Header="Ausgewählte Funktionen" Grid.Column="2"
+                  Grid.RowSpan="4" Grid.ColumnSpan="2">
+            <DataGrid x:Name="dgHouseSelected" ItemsSource="{Binding Source=selected}" IsReadOnly="True"
+                      SelectionMode="Single" FontWeight="Normal" Margin="0" RenderTransformOrigin="0.5,0.5" />
         </GroupBox>
-        <Button x:Name="btnAdd" Content="&gt;" Width="30" Height="30" Margin="0" Click="btnAdd_Click" FontWeight="Bold" Grid.Column="1" Grid.Row="1" />
-        <Button x:Name="btnDel" Content="&lt;" Width="30" Height="30" Margin="0" Click="btnDel_Click" FontWeight="Bold" Grid.Column="1" Grid.Row="2" />
-        <Button x:Name="btnOK" Content="OK" Height="30" Margin="0" FontWeight="Bold" Click="btnOK_Click" Grid.Column="3" Grid.Row="4" />
+        <Button x:Name="btnAdd" Content="&gt;" Width="30" Height="30" Margin="0" Click="btnAdd_Click" FontWeight="Bold"
+                Grid.Column="1" Grid.Row="1" />
+        <Button x:Name="btnDel" Content="&lt;" Width="30" Height="30" Margin="0" Click="btnDel_Click" FontWeight="Bold"
+                Grid.Column="1" Grid.Row="2" />
+        <Button x:Name="btnOK" Content="OK" Height="30" Margin="0" FontWeight="Bold" Click="btnOK_Click"
+                Grid.Column="3" Grid.Row="4" />
     </Grid>
 </Window>

@@ -1,44 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für SelectKBColumns.xaml
+    ///     Interaktionslogik für SelectKBColumns.xaml
     /// </summary>
     public partial class SelectKBColumns : Window
     {
-        public bool closed = false, canceled = false, ok = false;
-        private bool PDF = false, CSV = false;
+        private readonly string belhead = "Belegnummer";
+        private readonly string dathead = "Datum";
+        private readonly string komhead = "Kommentar";
+        private readonly string brhead = "Bruttobetrag";
+        private readonly string einhead = "Einnahmen";
+        private readonly string aushead = "Ausgaben";
+        private readonly string steuhead = "Steuersatz";
+        private readonly string netthead = "Nettobetrag";
+        private readonly string mwsthead = "Mehrwertsteuer";
+        private readonly string ksssthead = "Kassastand";
+        private readonly string knrhead = "Kontonummer";
+        private readonly string eintrhead = "Eingetragen von";
+        public bool closed, canceled, ok;
 
-        private string belhead = "Belegnummer", dathead = "Datum", komhead = "Kommentar", brhead = "Bruttobetrag", einhead = "Einnahmen", aushead = "Ausgaben", steuhead = "Steuersatz", netthead = "Nettobetrag", mwsthead = "Mehrwertsteuer", ksssthead = "Kassastand", knrhead = "Kontonummer", eintrhead = "Eingetragen von";
-
-        private DataGridTextColumn dgtcbel, dgtcdat, dgtckomm, dgtcbr, dgtcein, dgtcaus, dgtcsteu, dgtcnett, dgtcmwst, dgtckassst, dgtcknr, dgtceinga;
+        private readonly DataGridTextColumn dgtcbel;
+        private readonly DataGridTextColumn dgtcdat;
+        private readonly DataGridTextColumn dgtckomm;
+        private readonly DataGridTextColumn dgtcbr;
+        private readonly DataGridTextColumn dgtcein;
+        private readonly DataGridTextColumn dgtcaus;
+        private readonly DataGridTextColumn dgtcsteu;
+        private readonly DataGridTextColumn dgtcnett;
+        private readonly DataGridTextColumn dgtcmwst;
+        private readonly DataGridTextColumn dgtckassst;
+        private readonly DataGridTextColumn dgtcknr;
+        private readonly DataGridTextColumn dgtceinga;
+        private readonly bool PDF;
+        private bool CSV;
 
         public SelectKBColumns(bool forPDF)
         {
-            dgtcbel = new DataGridTextColumn { Header = belhead };
-            dgtcdat = new DataGridTextColumn { Header = dathead };
-            dgtckomm = new DataGridTextColumn { Header = komhead };
-            dgtcbr = new DataGridTextColumn { Header = brhead };
-            dgtcein = new DataGridTextColumn { Header = einhead };
-            dgtcaus = new DataGridTextColumn { Header = aushead };
-            dgtcsteu = new DataGridTextColumn { Header = steuhead };
-            dgtcnett = new DataGridTextColumn { Header = netthead };
-            dgtcmwst = new DataGridTextColumn { Header = mwsthead };
-            dgtckassst = new DataGridTextColumn { Header = ksssthead };
-            dgtcknr = new DataGridTextColumn { Header = knrhead };
-            dgtceinga = new DataGridTextColumn { Header = eintrhead };
+            dgtcbel = new DataGridTextColumn {Header = belhead};
+            dgtcdat = new DataGridTextColumn {Header = dathead};
+            dgtckomm = new DataGridTextColumn {Header = komhead};
+            dgtcbr = new DataGridTextColumn {Header = brhead};
+            dgtcein = new DataGridTextColumn {Header = einhead};
+            dgtcaus = new DataGridTextColumn {Header = aushead};
+            dgtcsteu = new DataGridTextColumn {Header = steuhead};
+            dgtcnett = new DataGridTextColumn {Header = netthead};
+            dgtcmwst = new DataGridTextColumn {Header = mwsthead};
+            dgtckassst = new DataGridTextColumn {Header = ksssthead};
+            dgtcknr = new DataGridTextColumn {Header = knrhead};
+            dgtceinga = new DataGridTextColumn {Header = eintrhead};
 
             InitializeComponent();
             chkBxKBSelDat.IsChecked = true;
@@ -50,33 +62,32 @@ namespace TheraS5
             chkBxKBSelKnr.IsChecked = true;
             if (forPDF)
             {
-                this.PDF = true;
-                this.CSV = false;
+                PDF = true;
+                CSV = false;
             }
             else
             {
-                this.CSV = true;
-                this.PDF = false;
+                CSV = true;
+                PDF = false;
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void bttnKBSelColOK_Click(object sender, RoutedEventArgs e)
         {
-            this.ok = true;
-            this.closed = true;
-            this.Close();
+            ok = true;
+            closed = true;
+            Close();
         }
 
         private void bttnKBSelColCan_Click(object sender, RoutedEventArgs e)
         {
-            this.canceled = true;
-            this.closed = true;
-            this.Close();
+            canceled = true;
+            closed = true;
+            Close();
         }
 
         //CHECKBOX EVENTS

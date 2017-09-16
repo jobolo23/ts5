@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Monat auswählen" Height="336" Width="292">
     <Grid>
-        <Calendar Height="167" HorizontalAlignment="Left" Name="calMS" VerticalAlignment="Top" Width="246" Margin="12,42,0,0" SelectionMode="SingleDate" DisplayMode="Year" DisplayModeChanged="calMS_DisplayModeChanged" />
-        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="12,262,0,0" Name="bttnMSCan" VerticalAlignment="Top" Width="120" Click="bttnMSCan_Click" />
-        <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,262,12,0" Name="bttnMSOK" VerticalAlignment="Top" Width="120" Click="bttnMSOK_Click" />
+        <Calendar Height="167" HorizontalAlignment="Left" Name="calMS" VerticalAlignment="Top" Width="246"
+                  Margin="12,42,0,0" SelectionMode="SingleDate" DisplayMode="Year"
+                  DisplayModeChanged="calMS_DisplayModeChanged" />
+        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="12,262,0,0" Name="bttnMSCan"
+                VerticalAlignment="Top" Width="120" Click="bttnMSCan_Click" />
+        <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,262,12,0" Name="bttnMSOK"
+                VerticalAlignment="Top" Width="120" Click="bttnMSOK_Click" />
     </Grid>
 </Window>

@@ -4,15 +4,18 @@
         Title="ShowReadInstruction" Height="397" Width="599">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="155*"/>
-            <RowDefinition Height="28*"/>
+            <RowDefinition Height="155*" />
+            <RowDefinition Height="28*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="482*"/>
-            <ColumnDefinition Width="109*"/>
+            <ColumnDefinition Width="482*" />
+            <ColumnDefinition Width="109*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnabbrechen" VerticalAlignment="Top" Width="75" DataContext="{Binding}" Click="btnabbrechen_Click" Grid.Column="1" Grid.Row="1" />
-        <DataGrid AutoGenerateColumns="True" Height="310" HorizontalAlignment="Left" Name="dgReadInstruction" VerticalAlignment="Top" Width="482" ItemsSource="{Binding Source=l}" IsReadOnly="True" />
+        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnabbrechen"
+                VerticalAlignment="Top" Width="75" DataContext="{Binding}" Click="btnabbrechen_Click" Grid.Column="1"
+                Grid.Row="1" />
+        <DataGrid AutoGenerateColumns="True" Height="310" HorizontalAlignment="Left" Name="dgReadInstruction"
+                  VerticalAlignment="Top" Width="482" ItemsSource="{Binding Source=l}" IsReadOnly="True" />
 
     </Grid>
 </Window>

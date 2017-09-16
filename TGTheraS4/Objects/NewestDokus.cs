@@ -1,27 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IntranetTG;
-
-namespace TheraS5.Objects
+﻿namespace TheraS5.Objects
 {
     public class NewestDokus
     {
-        
-
-        public string name { get; set; }
-        public string tag { get; set; }
-        public string wg { get; set; }
-        public string ersteller { get; set; }
-        public string art { get; set; }
-        public string created { get; set; }
-        public string id { get; set; }
-
-
-        public NewestDokus(String name, String tag, String wg, String ersteller, String art, String created, String id)
+        public NewestDokus(string name, string tag, string wg, string ersteller, string art, string created, string id)
         {
-
             this.name = name;
             this.tag = tag;
             this.wg = wg;
@@ -30,5 +12,14 @@ namespace TheraS5.Objects
             this.created = created;
             this.id = id;
         }
+
+
+        public string name { get; set; }
+        public string tag { get; set; }
+        public string wg { get; set; }
+        public string ersteller { get; set; }
+        public string art { get; set; }
+        public string created { get; set; }
+        public string id { get; set; }
     }
 }

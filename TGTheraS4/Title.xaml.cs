@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für Title.xaml
+    ///     Interaktionslogik für Title.xaml
     /// </summary>
     public partial class Title : Window
     {
-        public string titel = "-1";
         public SQLCommands c;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        public string titel = "-1";
+
         public Title(SQLCommands sql)
         {
             c = sql;
@@ -52,12 +44,13 @@ namespace TheraS5
                     if (c.checkWikiName(textBox1.Text.Trim()))
                     {
                         titel = textBox1.Text.Trim();
-                        this.Close();
+                        Close();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Verbotenes Zeichen verwenden! ( \' oder \" )" , "SQL Injection", MessageBoxButton.OK, MessageBoxImage.Stop);
+                    MessageBox.Show("Verbotenes Zeichen verwenden! ( \' oder \" )", "SQL Injection",
+                        MessageBoxButton.OK, MessageBoxImage.Stop);
                     textBox1.Background = color2;
                 }
             }

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Windows;
 
-
-
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für loading.xaml
+    ///     Interaktionslogik für loading.xaml
     /// </summary>
     public partial class loading : Window
     {
@@ -16,24 +14,18 @@ namespace TheraS5
             //pb_load.IsIndeterminate = true;
         }
 
-        
+
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             // Parallel.Invoke(Drehen);
-            
-
         }
 
         public void RotateWheelEvent(object sender, EventArgs args)
         {
-            
         }
 
         private void Drehen()
         {
-           
-
-
             /*
         
             DoubleAnimation da = new DoubleAnimation
@@ -46,17 +38,11 @@ namespace TheraS5
         
 
             */
-
-
-
-
-
         }
-        
+
 
         private void Grid_Loaded_1(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

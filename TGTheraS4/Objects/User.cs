@@ -1,110 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IntranetTG.Objects
+﻿namespace IntranetTG.Objects
 {
-   public class User
+    public class User
     {
+        public User()
+        {
+        }
 
-        public User() { }
-
-        public User(string userName, string userPassword,string dbPwdHash) {
-
-            username = userName;
-            password = userPassword;
-            this.dbPwdHash = dbPwdHash;
-        
+        public User(string userName, string userPassword, string dbPwdHash)
+        {
+            Username = userName;
+            Password = userPassword;
+            DbPwdHash = dbPwdHash;
         }
 
         public User(string userName, string firstname, string lastname, int id)
         {
-            this.kostalid = id;
-            this.username = userName;
-            this.firstname = firstname;
-            this.lastname = lastname;
-
+            Kostalid = id;
+            Username = userName;
+            Firstname = firstname;
+            Lastname = lastname;
         }
 
-        private int kostalid;
-        public int Kostalid
-        {
-            get { return kostalid; }
-            set { kostalid = value; }
-        }
+        public int Kostalid { get; set; }
 
-        private string firstname;
-        public string Firstname
-        {
-            get { return firstname; }
-            set { firstname = value; }
-        }
+        public string Firstname { get; set; }
 
-        private string lastname;
-        public string Lastname
-        {
-            get { return lastname; }
-            set { lastname = value; }
-        }
+        public string Lastname { get; set; }
 
-        private string id;
+        public string Id { get; set; }
 
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        public string DbPwdHash { get; set; }
 
-       private string dbPwdHash;
+        public string Username { get; set; }
 
-        public string DbPwdHash
-        {
-            get { return dbPwdHash; }
-            set { dbPwdHash = value; }
-        }
+        public string Password { get; set; }
 
-        
-        private string username;
+        public string[] Services { get; set; }
 
-        public string Username
-        {
-            get { return username; }
-            set { username = value; }
-        }
+        public bool IsAdmin { get; set; }
 
-        private string password;
-
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
-
-
-        private string[] services;
-
-        public string [] Services
-        {
-            get { return services; }
-            set { services = value; }
-        }
-
-        private bool isAdmin;
-       
-        public bool IsAdmin
-        {
-            get { return isAdmin; }
-            set { isAdmin = value; }
-        }
-
-        private int _workingTimeType; //1 = Verwaltung; 2 = Soz. Päd. 3 = beides
-
-        public int WorkingTimeType
-        {
-            get { return _workingTimeType; }
-            set { _workingTimeType = value; }
-        }
+        public int WorkingTimeType { get; set; }
     }
 }

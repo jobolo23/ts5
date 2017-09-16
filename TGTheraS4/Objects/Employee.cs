@@ -1,82 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IntranetTG.Objects
 {
-   public class Employee
+    public class Employee
     {
-       //####################################Anfang AL#####################
-       //Stammdaten objekt
+        //####################################Anfang AL#####################
+        //Stammdaten objekt
 
-        public Employee() { }
+        public Employee()
+        {
+        }
 
 
         public Employee(string firstname, string lastname)
         {
-            firstName = firstname;
-            lastName = lastname;        
-        }
-        private string id;
-
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
+            FirstName = firstname;
+            LastName = lastname;
         }
 
+        public string Id { get; set; }
 
-        private string firstName;
+        public string FirstName { get; set; }
 
-        public string FirstName
-        {
-            get { return firstName; }
-            set { firstName = value; }
-        }
+        public string LastName { get; set; }
 
-        private string lastName;
+        public string FullName { get; set; }
 
-        public string LastName
-        {
-            get { return lastName; }
-            set { lastName = value; }
-        }
+        public User User { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime LastLogin { get; set; }
 
 
-        private string fullName;
-
-        public string FullName
-        {
-            get { return fullName; }
-            set { fullName = value; }
-        }
-
-        private User user;
-
-        public User User
-        {
-            get { return user; }
-            set { user = value; }
-        }
-
-        private DateTime start;
-
-        public DateTime Start
-        {
-            get { return start; }
-            set { start = value; }
-        }
-        private DateTime lastLogin;
-
-        public DateTime LastLogin
-        {
-            get { return lastLogin; }
-            set { lastLogin = value; }
-        }
-
-
-       //#####################################Ende AL#######################
-
+        //#####################################Ende AL#######################
     }
 }

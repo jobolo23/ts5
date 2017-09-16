@@ -1,29 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 using TheraS5.Objects;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für ShowReadInstruction.xaml
+    ///     Interaktionslogik für ShowReadInstruction.xaml
     /// </summary>
     public partial class ShowReadInstruction : Window
     {
-        private SQLCommands c;
-        private List<ReadInstruction> l = new List<ReadInstruction>();
+        private readonly SQLCommands c;
+        private readonly List<ReadInstruction> l = new List<ReadInstruction>();
 
-        public ShowReadInstruction(String date, String title, String desc, SQLCommands sql)
+        public ShowReadInstruction(string date, string title, string desc, SQLCommands sql)
         {
             InitializeComponent();
             c = sql;
@@ -33,8 +23,7 @@ namespace TheraS5
 
         private void btnabbrechen_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
-
     }
 }

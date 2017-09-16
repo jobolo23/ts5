@@ -1,44 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 
 namespace TheraS5.Objects
 {
-    class Medicaments
+    internal class Medicaments
     {
-
-        public Medicaments(string p, string p_2, string p_3, string p_4, string p_5, bool p_6, bool p_7, bool p_8, bool p_9, string id,string cmid, string created)
+        public Medicaments(string p, string p_2, string p_3, string p_4, string p_5, bool p_6, bool p_7, bool p_8,
+            bool p_9, string id, string cmid, string created)
         {
             // TODO: Complete member initialization
-            this.name = p;
-            this.morning = p_2;
-            this.midday = p_3;
-            this.evening = p_4;
-            this.night = p_5;
-            this.morningConfirmed = p_6;
-            this.middayConfirmed = p_7;
-            this.eveningConfirmed = p_8;
-            this.nightConfirmed = p_9;
-            this.mediId = id;
-            this.cmId = cmid;
+            name = p;
+            morning = p_2;
+            midday = p_3;
+            evening = p_4;
+            night = p_5;
+            morningConfirmed = p_6;
+            middayConfirmed = p_7;
+            eveningConfirmed = p_8;
+            nightConfirmed = p_9;
+            mediId = id;
+            cmId = cmid;
             this.created = Convert.ToDateTime(created);
         }
 
-        public Medicaments(string name, string morning, string midday, string evening, string night, string mediID, string cmID)
+        public Medicaments(string name, string morning, string midday, string evening, string night, string mediID,
+            string cmID)
         {
             this.name = name;
             this.morning = morning;
             this.midday = midday;
             this.evening = evening;
             this.night = night;
-            this.mediId = mediID;
-            this.cmId = cmID; 
+            mediId = mediID;
+            cmId = cmID;
         }
-
-
-
 
 
         public string name { get; set; }
@@ -53,6 +47,5 @@ namespace TheraS5.Objects
         public bool eveningConfirmed { get; set; }
         public bool nightConfirmed { get; set; }
         public DateTime created { get; set; }
-
     }
 }

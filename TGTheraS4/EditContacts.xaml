@@ -4,55 +4,89 @@
         Title="EditContacts" Height="418" Width="644">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="216*"/>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="201*"/>
+            <ColumnDefinition Width="139*" />
+            <ColumnDefinition Width="216*" />
+            <ColumnDefinition Width="80*" />
+            <ColumnDefinition Width="201*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Label Content="Nachname" Height="28" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Center" Grid.Row="3" />
-        <Label Content="Telefonnummer" Height="28" HorizontalAlignment="Center" Name="label2" VerticalAlignment="Center" Grid.Row="7" />
-        <Label Content="Vorname" Height="28" HorizontalAlignment="Center" Name="label3" VerticalAlignment="Center" Grid.Row="2" />
-        <Label Content="Stadt" Height="28" HorizontalAlignment="Center" Name="label4" VerticalAlignment="Center" Grid.Row="5" />
-        <Label Content="E-Mail" Height="28" HorizontalAlignment="Center" Name="label5" VerticalAlignment="Center" Grid.Row="6" />
-        <Label Content="Straße" Height="28" HorizontalAlignment="Center" Name="label6" VerticalAlignment="Center" Grid.Row="4" />
-        <Label Content="Institutionen" Height="28" HorizontalAlignment="Center" Margin="0,1,0,0" Name="label7" VerticalAlignment="Center" Grid.Row="8" />
-        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Right" Name="btnCancel" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" Grid.Row="9" Grid.Column="3" />
-        <Button Content="Speichern" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" Grid.Row="9" Grid.Column="3" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtfirstname" VerticalAlignment="Center" Width="120" TabIndex="3" Grid.Row="2" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtlastname" VerticalAlignment="Center" Width="120" TabIndex="4" Grid.Row="3" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtstreet" VerticalAlignment="Center" Width="120" TabIndex="5" Grid.Row="4" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtcity" VerticalAlignment="Center" Width="120" TabIndex="6" Grid.Row="5" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtemail" VerticalAlignment="Center" Width="120" TabIndex="7" Grid.Row="6" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtphone" VerticalAlignment="Center" Width="120" TabIndex="8" Grid.Row="7" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtinstitution" VerticalAlignment="Center" Width="120" TabIndex="9" Grid.Row="8" Grid.Column="1" />
+        <Label Content="Nachname" Height="28" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Center"
+               Grid.Row="3" />
+        <Label Content="Telefonnummer" Height="28" HorizontalAlignment="Center" Name="label2"
+               VerticalAlignment="Center" Grid.Row="7" />
+        <Label Content="Vorname" Height="28" HorizontalAlignment="Center" Name="label3" VerticalAlignment="Center"
+               Grid.Row="2" />
+        <Label Content="Stadt" Height="28" HorizontalAlignment="Center" Name="label4" VerticalAlignment="Center"
+               Grid.Row="5" />
+        <Label Content="E-Mail" Height="28" HorizontalAlignment="Center" Name="label5" VerticalAlignment="Center"
+               Grid.Row="6" />
+        <Label Content="Straße" Height="28" HorizontalAlignment="Center" Name="label6" VerticalAlignment="Center"
+               Grid.Row="4" />
+        <Label Content="Institutionen" Height="28" HorizontalAlignment="Center" Margin="0,1,0,0" Name="label7"
+               VerticalAlignment="Center" Grid.Row="8" />
+        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Right" Name="btnCancel" VerticalAlignment="Top"
+                Width="75" Click="btnCancel_Click" Grid.Row="9" Grid.Column="3" />
+        <Button Content="Speichern" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnSave"
+                VerticalAlignment="Top" Width="75" Click="btnSave_Click" Grid.Row="9" Grid.Column="3" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtfirstname" VerticalAlignment="Center" Width="120"
+                 TabIndex="3" Grid.Row="2" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtlastname" VerticalAlignment="Center" Width="120"
+                 TabIndex="4" Grid.Row="3" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtstreet" VerticalAlignment="Center" Width="120"
+                 TabIndex="5" Grid.Row="4" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtcity" VerticalAlignment="Center" Width="120"
+                 TabIndex="6" Grid.Row="5" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtemail" VerticalAlignment="Center" Width="120"
+                 TabIndex="7" Grid.Row="6" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtphone" VerticalAlignment="Center" Width="120"
+                 TabIndex="8" Grid.Row="7" Grid.Column="1" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtinstitution" VerticalAlignment="Center" Width="120"
+                 TabIndex="9" Grid.Row="8" Grid.Column="1" />
 
-        <Label Content="Land" Height="28" HorizontalAlignment="Center" Name="label8" VerticalAlignment="Center" Grid.Column="2" />
-        <Label Content="PLZ" Height="28" HorizontalAlignment="Center" Name="label9" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" />
-        <Label Content="Abteilung" Height="28" HorizontalAlignment="Center" Name="label11" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" />
-        <Label Content="Funktion" Height="28" HorizontalAlignment="Center" Name="label12" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtcountry" VerticalAlignment="Center" Width="120" TabIndex="10" Grid.Column="3" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtzip" VerticalAlignment="Center" Width="120" TabIndex="11" Grid.Row="1" Grid.Column="3" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtdepartment" VerticalAlignment="Center" Width="120" TabIndex="13" Grid.Row="3" Grid.Column="3" />
-        <TextBox Height="23" HorizontalAlignment="Center" Name="txtfunc" VerticalAlignment="Center" Width="120" TabIndex="14" TextChanged="txtfunc_TextChanged" ToolTip="Bei Sozialarbeitern muss das Wort &quot;Sozialarbeiter&quot; enthalten sein!" Grid.Row="4" Grid.Column="3" />
-        <Label Content="Kommentar" Height="28" HorizontalAlignment="Center" x:Name="label12_Copy" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" />
-        <TextBox Height="117" AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Center" x:Name="txtcomment" VerticalAlignment="Center" Width="201" TabIndex="15" Grid.Row="5" Grid.RowSpan="3" Grid.Column="3" />
-        <Label Content="Firma" Height="28" HorizontalAlignment="Center" x:Name="label12_Copy1" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" />
-        <TextBox Height="23" HorizontalAlignment="Center" x:Name="txtcompany" VerticalAlignment="Center" Width="120" TabIndex="12" Grid.Row="2" Grid.Column="3" />
-        <Label Content="Anrede" Height="28" HorizontalAlignment="Center" x:Name="label3_Copy" VerticalAlignment="Center" />
-        <ComboBox x:Name="cmbsalu" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" TabIndex="1" Grid.Column="1"/>
-        <Label Content="Titel" Height="28" HorizontalAlignment="Center" x:Name="label3_Copy1" VerticalAlignment="Center" Grid.Row="1" />
-        <ComboBox x:Name="cmbtitel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" TabIndex="2" Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Land" Height="28" HorizontalAlignment="Center" Name="label8" VerticalAlignment="Center"
+               Grid.Column="2" />
+        <Label Content="PLZ" Height="28" HorizontalAlignment="Center" Name="label9" VerticalAlignment="Center"
+               Grid.Row="1" Grid.Column="2" />
+        <Label Content="Abteilung" Height="28" HorizontalAlignment="Center" Name="label11" VerticalAlignment="Center"
+               Grid.Row="3" Grid.Column="2" />
+        <Label Content="Funktion" Height="28" HorizontalAlignment="Center" Name="label12" VerticalAlignment="Center"
+               Grid.Row="4" Grid.Column="2" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtcountry" VerticalAlignment="Center" Width="120"
+                 TabIndex="10" Grid.Column="3" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtzip" VerticalAlignment="Center" Width="120"
+                 TabIndex="11" Grid.Row="1" Grid.Column="3" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtdepartment" VerticalAlignment="Center" Width="120"
+                 TabIndex="13" Grid.Row="3" Grid.Column="3" />
+        <TextBox Height="23" HorizontalAlignment="Center" Name="txtfunc" VerticalAlignment="Center" Width="120"
+                 TabIndex="14" TextChanged="txtfunc_TextChanged"
+                 ToolTip="Bei Sozialarbeitern muss das Wort &quot;Sozialarbeiter&quot; enthalten sein!" Grid.Row="4"
+                 Grid.Column="3" />
+        <Label Content="Kommentar" Height="28" HorizontalAlignment="Center" x:Name="label12_Copy"
+               VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" />
+        <TextBox Height="117" AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Center" x:Name="txtcomment"
+                 VerticalAlignment="Center" Width="201" TabIndex="15" Grid.Row="5" Grid.RowSpan="3" Grid.Column="3" />
+        <Label Content="Firma" Height="28" HorizontalAlignment="Center" x:Name="label12_Copy1"
+               VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" />
+        <TextBox Height="23" HorizontalAlignment="Center" x:Name="txtcompany" VerticalAlignment="Center" Width="120"
+                 TabIndex="12" Grid.Row="2" Grid.Column="3" />
+        <Label Content="Anrede" Height="28" HorizontalAlignment="Center" x:Name="label3_Copy"
+               VerticalAlignment="Center" />
+        <ComboBox x:Name="cmbsalu" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" TabIndex="1"
+                  Grid.Column="1" />
+        <Label Content="Titel" Height="28" HorizontalAlignment="Center" x:Name="label3_Copy1"
+               VerticalAlignment="Center" Grid.Row="1" />
+        <ComboBox x:Name="cmbtitel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" TabIndex="2"
+                  Grid.Row="1" Grid.Column="1" />
     </Grid>
 </Window>

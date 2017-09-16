@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 using TheraS5.Objects;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für EditContacts.xaml
+    ///     Interaktionslogik für EditContacts.xaml
     /// </summary>
     public partial class EditContacts : Window
     {
-        public bool newone = false;
-        public string userid = "";
         public SQLCommands c;
-        List<Salutations> sal = new List<Salutations>();
-        List<IntranetTG.Objects.Title> tit = new List<IntranetTG.Objects.Title>();
-        public Contacts selectedItem;
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
         public bool neu = true;
-        public bool saved = false;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        public bool newone;
+        private readonly List<Salutations> sal = new List<Salutations>();
+        public bool saved;
+        public Contacts selectedItem;
+        private readonly List<IntranetTG.Objects.Title> tit = new List<IntranetTG.Objects.Title>();
+        public string userid = "";
 
         public EditContacts(string userid, SQLCommands sql)
         {
@@ -93,7 +85,7 @@ namespace TheraS5
             txtfunc.Text = selectedItem.function;
             txtcomment.Text = selectedItem.comment;
             txtcompany.Text = selectedItem.company;
-            foreach (IntranetTG.Objects.Title t in tit)
+            foreach (var t in tit)
             {
                 if (t.Name == selectedItem.title)
                 {
@@ -102,7 +94,7 @@ namespace TheraS5
                 }
             }
 
-            foreach (Salutations t in sal)
+            foreach (var t in sal)
             {
                 if (t.Name == selectedItem.salutation)
                 {
@@ -114,12 +106,12 @@ namespace TheraS5
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         public bool check()
         {
-            bool ret = true;
+            var ret = true;
 
             txtfirstname.Background = color1;
             if (txtfirstname.Text.Trim() == "")
@@ -210,12 +202,19 @@ namespace TheraS5
             {
                 if (neu)
                 {
-                    c.setContacts(userid, txtinstitution.Text, ((Salutations)cmbsalu.SelectedItem).id, ((IntranetTG.Objects.Title)cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text, txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text, txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text);
+                    c.setContacts(userid, txtinstitution.Text, ((Salutations) cmbsalu.SelectedItem).id,
+                        ((IntranetTG.Objects.Title) cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text,
+                        txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text,
+                        txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text);
                     newone = true;
-                    this.Close();
-                }else
+                    Close();
+                }
+                else
                 {
-                    c.changeContacts2(userid, txtinstitution.Text, ((Salutations)cmbsalu.SelectedItem).id, ((IntranetTG.Objects.Title)cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text, txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text, txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text, selectedItem.id);
+                    c.changeContacts2(userid, txtinstitution.Text, ((Salutations) cmbsalu.SelectedItem).id,
+                        ((IntranetTG.Objects.Title) cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text,
+                        txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text,
+                        txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text, selectedItem.id);
                     saved = true;
                     selectedItem.firstname = txtfirstname.Text;
                     selectedItem.lastname = txtlastname.Text;
@@ -232,17 +231,18 @@ namespace TheraS5
                     selectedItem.company = txtcompany.Text;
                     selectedItem.title = cmbtitel.Text;
                     selectedItem.salutation = cmbsalu.Text;
-                    this.Close();
+                    Close();
                 }
-            }else
+            }
+            else
             {
-                MessageBox.Show("Bitte geben Sie alle Werte ein!", "Fehler", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Bitte geben Sie alle Werte ein!", "Fehler", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
 
         private void txtfunc_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
     }
 }

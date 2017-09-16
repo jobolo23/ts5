@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IntranetTG;
 
 namespace TheraS5.Objects
 {
-    class Taschengeld
+    internal class Taschengeld
     {
-        public string name { get; set; }
-        public string date { get; set; }
-        public string in_ { get; set; }
-        public string out_ { get; set; }
-        public string state { get; set; }
-        public string comment { get; set; }
-
-        public Taschengeld(String name, String date, String in_, String out_, String state, String comment)
+        public Taschengeld(string name, string date, string in_, string out_, string state, string comment)
         {
             this.name = name;
 
@@ -33,5 +22,12 @@ namespace TheraS5.Objects
             this.in_ = in_;
             this.comment = comment;
         }
+
+        public string name { get; set; }
+        public string date { get; set; }
+        public string in_ { get; set; }
+        public string out_ { get; set; }
+        public string state { get; set; }
+        public string comment { get; set; }
     }
 }

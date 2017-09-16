@@ -1,28 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IntranetTG.Objects
+﻿namespace IntranetTG.Objects
 {
     public class Project
     {
+        public string Id { get; set; }
 
-        private string id;
-
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-
-        }
-
+        public string Name { get; set; }
     }
 }

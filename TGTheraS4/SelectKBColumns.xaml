@@ -4,30 +4,59 @@
         Title="Splaten auswählen" Height="238" Width="1164" ResizeMode="NoResize"
         FontWeight="Bold" FontSize="14" Loaded="Window_Loaded">
     <Grid>
-        <GroupBox Header="Felder auswählen" Height="74" HorizontalAlignment="Left" Margin="12,12,0,0" Name="grpBxKBSelCols" VerticalAlignment="Top" Width="1117">
+        <GroupBox Header="Felder auswählen" Height="74" HorizontalAlignment="Left" Margin="12,12,0,0"
+                  Name="grpBxKBSelCols" VerticalAlignment="Top" Width="1117">
             <Grid>
-                <CheckBox Content="Belegnummer" Height="16" HorizontalAlignment="Left" Margin="6,6,0,0" Name="chkBxKBSelBelNr" VerticalAlignment="Top" Checked="chkBxKBSelBelNr_Checked" Unchecked="chkBxKBSelBelNr_Unchecked" />
-                <CheckBox Content="Datum" Height="16" HorizontalAlignment="Left" Margin="186,6,0,0" Name="chkBxKBSelDat" VerticalAlignment="Top" Checked="chkBxKBSelDat_Checked" Unchecked="chkBxKBSelDat_Unchecked" />
-                <CheckBox Content="Kommentar" Height="16" HorizontalAlignment="Left" Margin="366,6,0,0" Name="chkBxKBSelComm" VerticalAlignment="Top" Checked="chkBxKBSelComm_Checked" Unchecked="chkBxKBSelComm_Unchecked" />
-                <CheckBox Content="Bruttobetrag" Height="16" HorizontalAlignment="Left" Margin="546,6,0,0" Name="chkBxKBSelBrutto" VerticalAlignment="Top" Checked="chkBxKBSelBrutto_Checked" Unchecked="chkBxKBSelBrutto_Unchecked" />
-                <CheckBox Content="Einnahmen" Height="16" HorizontalAlignment="Left" Margin="726,6,0,0" Name="chkBxKBSelEinn" VerticalAlignment="Top" Checked="chkBxKBSelEinn_Checked" Unchecked="chkBxKBSelEinn_Unchecked" />
-                <CheckBox Content="Ausgaben" Height="16" HorizontalAlignment="Left" Margin="906,6,0,0" Name="chkBxKBSelAusg" VerticalAlignment="Top" Checked="chkBxKBSelAusg_Checked" Unchecked="chkBxKBSelAusg_Unchecked" />
-                <CheckBox Content="Steuersatz" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="chkBxKBSelSteuers" VerticalAlignment="Top" Checked="chkBxKBSelSteuers_Checked" Unchecked="chkBxKBSelSteuers_Unchecked" />
-                <CheckBox Content="Nettobetrag" Height="16" HorizontalAlignment="Left" Margin="186,28,0,0" Name="chkBxKBSelNetto" VerticalAlignment="Top" Unchecked="chkBxKBSelNetto_Unchecked" Checked="chkBxKBSelNetto_Checked" />
-                <CheckBox Content="Mehrwertsteuer" Height="16" HorizontalAlignment="Left" Margin="366,28,0,0" Name="chkBxKBSelMWST" VerticalAlignment="Top" Checked="chkBxKBSelMWST_Checked" Unchecked="chkBxKBSelMWST_Unchecked" />
-                <CheckBox Content="Kontonummer" Height="16" HorizontalAlignment="Left" Margin="726,26,0,0" Name="chkBxKBSelKnr" VerticalAlignment="Top" Checked="chkBxKBSelKnr_Checked" Unchecked="chkBxKBSelKnr_Unchecked" />
-                <CheckBox Content="Einträger" Height="16" HorizontalAlignment="Left" Margin="906,26,0,0" Name="chkBxKBSelEintr" VerticalAlignment="Top" Checked="chkBxKBSelEintr_Checked" Unchecked="chkBxKBSelEintr_Unchecked" />
-                <CheckBox Content="Kassastand" Height="16" HorizontalAlignment="Left" Margin="546,26,0,0" Name="chkBxKBSelKassst" VerticalAlignment="Top" Checked="chkBxKBSelKassst_Checked" Unchecked="chkBxKBSelKassst_Unchecked" />
+                <CheckBox Content="Belegnummer" Height="16" HorizontalAlignment="Left" Margin="6,6,0,0"
+                          Name="chkBxKBSelBelNr" VerticalAlignment="Top" Checked="chkBxKBSelBelNr_Checked"
+                          Unchecked="chkBxKBSelBelNr_Unchecked" />
+                <CheckBox Content="Datum" Height="16" HorizontalAlignment="Left" Margin="186,6,0,0"
+                          Name="chkBxKBSelDat" VerticalAlignment="Top" Checked="chkBxKBSelDat_Checked"
+                          Unchecked="chkBxKBSelDat_Unchecked" />
+                <CheckBox Content="Kommentar" Height="16" HorizontalAlignment="Left" Margin="366,6,0,0"
+                          Name="chkBxKBSelComm" VerticalAlignment="Top" Checked="chkBxKBSelComm_Checked"
+                          Unchecked="chkBxKBSelComm_Unchecked" />
+                <CheckBox Content="Bruttobetrag" Height="16" HorizontalAlignment="Left" Margin="546,6,0,0"
+                          Name="chkBxKBSelBrutto" VerticalAlignment="Top" Checked="chkBxKBSelBrutto_Checked"
+                          Unchecked="chkBxKBSelBrutto_Unchecked" />
+                <CheckBox Content="Einnahmen" Height="16" HorizontalAlignment="Left" Margin="726,6,0,0"
+                          Name="chkBxKBSelEinn" VerticalAlignment="Top" Checked="chkBxKBSelEinn_Checked"
+                          Unchecked="chkBxKBSelEinn_Unchecked" />
+                <CheckBox Content="Ausgaben" Height="16" HorizontalAlignment="Left" Margin="906,6,0,0"
+                          Name="chkBxKBSelAusg" VerticalAlignment="Top" Checked="chkBxKBSelAusg_Checked"
+                          Unchecked="chkBxKBSelAusg_Unchecked" />
+                <CheckBox Content="Steuersatz" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0"
+                          Name="chkBxKBSelSteuers" VerticalAlignment="Top" Checked="chkBxKBSelSteuers_Checked"
+                          Unchecked="chkBxKBSelSteuers_Unchecked" />
+                <CheckBox Content="Nettobetrag" Height="16" HorizontalAlignment="Left" Margin="186,28,0,0"
+                          Name="chkBxKBSelNetto" VerticalAlignment="Top" Unchecked="chkBxKBSelNetto_Unchecked"
+                          Checked="chkBxKBSelNetto_Checked" />
+                <CheckBox Content="Mehrwertsteuer" Height="16" HorizontalAlignment="Left" Margin="366,28,0,0"
+                          Name="chkBxKBSelMWST" VerticalAlignment="Top" Checked="chkBxKBSelMWST_Checked"
+                          Unchecked="chkBxKBSelMWST_Unchecked" />
+                <CheckBox Content="Kontonummer" Height="16" HorizontalAlignment="Left" Margin="726,26,0,0"
+                          Name="chkBxKBSelKnr" VerticalAlignment="Top" Checked="chkBxKBSelKnr_Checked"
+                          Unchecked="chkBxKBSelKnr_Unchecked" />
+                <CheckBox Content="Einträger" Height="16" HorizontalAlignment="Left" Margin="906,26,0,0"
+                          Name="chkBxKBSelEintr" VerticalAlignment="Top" Checked="chkBxKBSelEintr_Checked"
+                          Unchecked="chkBxKBSelEintr_Unchecked" />
+                <CheckBox Content="Kassastand" Height="16" HorizontalAlignment="Left" Margin="546,26,0,0"
+                          Name="chkBxKBSelKassst" VerticalAlignment="Top" Checked="chkBxKBSelKassst_Checked"
+                          Unchecked="chkBxKBSelKassst_Unchecked" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Felder anordnen" Height="65" HorizontalAlignment="Left" Margin="12,92,0,0" Name="grpBxKBOrderCols" VerticalAlignment="Top" Width="1117">
+        <GroupBox Header="Felder anordnen" Height="65" HorizontalAlignment="Left" Margin="12,92,0,0"
+                  Name="grpBxKBOrderCols" VerticalAlignment="Top" Width="1117">
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="dgvKBOrder" VerticalAlignment="Top" Width="1093" HorizontalScrollBarVisibility="Auto">
-                </DataGrid>
+                <DataGrid AutoGenerateColumns="False" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0"
+                          Name="dgvKBOrder" VerticalAlignment="Top" Width="1093" HorizontalScrollBarVisibility="Auto" />
             </Grid>
         </GroupBox>
-        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="824,164,0,0" Name="bttnKBSelColCan" VerticalAlignment="Top" Width="150" Click="bttnKBSelColCan_Click" />
-        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="980,164,0,0" Name="bttnKBSelColOK" VerticalAlignment="Top" Width="150" Click="bttnKBSelColOK_Click" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="18,159,0,0" Name="lblKBHinw" VerticalAlignment="Top" />
+        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="824,164,0,0" Name="bttnKBSelColCan"
+                VerticalAlignment="Top" Width="150" Click="bttnKBSelColCan_Click" />
+        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="980,164,0,0" Name="bttnKBSelColOK"
+                VerticalAlignment="Top" Width="150" Click="bttnKBSelColOK_Click" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="18,159,0,0" Name="lblKBHinw"
+               VerticalAlignment="Top" />
     </Grid>
 </Window>

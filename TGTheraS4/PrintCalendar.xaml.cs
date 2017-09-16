@@ -1,29 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace TheraS5.Objects
 {
     /// <summary>
-    /// Interaktionslogik für PrintCalendar.xaml
+    ///     Interaktionslogik für PrintCalendar.xaml
     /// </summary>
     public partial class PrintCalendar : Window
     {
+        private string ret = "NULL";
+
         public PrintCalendar()
         {
             InitializeComponent();
         }
-
-        private string ret = "NULL";
 
         private void btnSavePDFCal_Click(object sender, RoutedEventArgs e)
         {
@@ -63,7 +52,7 @@ namespace TheraS5.Objects
                     break;
             }
 
-            this.Close();
+            Close();
         }
 
         private void dlgPrintCal_Loaded(object sender, RoutedEventArgs e)
@@ -78,7 +67,7 @@ namespace TheraS5.Objects
 
         public string getIt()
         {
-            this.Close();
+            Close();
             return ret;
         }
     }

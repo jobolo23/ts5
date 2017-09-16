@@ -1,9 +1,12 @@
 ﻿<Window x:Name="dlgPrintCal" x:Class="TheraS5.Objects.PrintCalendar"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="174.912" Width="332.862" Title="Tagesplan drucken" Loaded="dlgPrintCal_Loaded">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="174.912" Width="332.862"
+        Title="Tagesplan drucken" Loaded="dlgPrintCal_Loaded">
     <Grid HorizontalAlignment="Left" Width="325">
-        <Button x:Name="btnSavePDFCal" Content="zur Druckvorschau" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="305" Click="btnSavePDFCal_Click"/>
-        <ListBox x:Name="slctServiceForPrint" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="305"/>
+        <Button x:Name="btnSavePDFCal" Content="zur Druckvorschau" HorizontalAlignment="Left" Margin="10,115,0,0"
+                VerticalAlignment="Top" Width="305" Click="btnSavePDFCal_Click" />
+        <ListBox x:Name="slctServiceForPrint" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0"
+                 VerticalAlignment="Top" Width="305" />
 
     </Grid>
 </Window>

@@ -1,37 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
-
 using IntranetTG.Objects;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaction logic for EditWorkingTimeDialog.xaml
+    ///     Interaction logic for EditWorkingTimeDialog.xaml
     /// </summary>
     public partial class EditWorkingTimeDialog : Window
     {
-        private SQLCommands commands;
+        private readonly bool check;
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly SQLCommands commands;
+        private object[] editData;
+        private bool isNew;
+        private readonly int month;
         public List<Project> projects = new List<Project>();
         public string projectString = "";
-        private bool isNew = false;
-        object[] editData = null;
-        int userid;
-        private int month;
-        private int year;
-        private bool check;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly int userid;
+        private readonly int year;
 
         public EditWorkingTimeDialog(SQLCommands sql)
         {
@@ -40,9 +33,9 @@ namespace TheraS5
             dpFrom.Text = DateTime.Now.ToShortDateString();
             //tpFrom.Value = DateTime.Now;
             isNew = true;
-            this.month = -1;
-            this.check = false;
-            this.year = -1;
+            month = -1;
+            check = false;
+            year = -1;
             userid = -1;
         }
 
@@ -74,11 +67,11 @@ namespace TheraS5
             cbxType.Text = data[4].ToString();
         }
 
-        public bool checkIT(String data)
+        public bool checkIT(string data)
         {
-            bool trueStory = true;
+            var trueStory = true;
 
-            string[] tmp = new string[2];
+            var tmp = new string[2];
             tmp = data.Split(':');
             if ((tmp[0].Length > 2) | (tmp[1].Length > 2))
             {
@@ -104,12 +97,13 @@ namespace TheraS5
             dpTo.Background = color1;
             txtComment.Background = color1;
 
-            bool trueStory = true;
+            var trueStory = true;
             try
             {
                 if (dpFrom.SelectedDate.Value > DateTime.Now)
                 {
-                    MessageBox.Show("Von Datum liegt in der Zukunft", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Von Datum liegt in der Zukunft", "Fehler", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                     dpFrom.Background = color2;
                     return;
                 }
@@ -128,7 +122,7 @@ namespace TheraS5
                 }
                 trueStory = checkIT(txt_bis.Text);
 
-                string[] a = txt_von.Text.Split(':');
+                var a = txt_von.Text.Split(':');
                 if (a[0] == "24")
                 {
                     MessageBox.Show("Falsche Zeit eingetragen", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -143,16 +137,16 @@ namespace TheraS5
                     return;
                 }
 
-                TimeSpan temp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
+                var temp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
                 if (temp.Days == 0)
                 {
                     //Wenn am selben Tag ended wie anfängt, muss die Bis-Uhrzeit größer als die Von-Uhrzeit sein!
-                    String[] tmp = txt_von.Text.Split(':');
-                    int von_hour = Convert.ToInt32(tmp[0]);
-                    int von_min = Convert.ToInt32(tmp[1]);
+                    var tmp = txt_von.Text.Split(':');
+                    var von_hour = Convert.ToInt32(tmp[0]);
+                    var von_min = Convert.ToInt32(tmp[1]);
                     tmp = txt_bis.Text.Split(':');
-                    int bis_hour = Convert.ToInt32(tmp[0]);
-                    int bis_min = Convert.ToInt32(tmp[1]);
+                    var bis_hour = Convert.ToInt32(tmp[0]);
+                    var bis_min = Convert.ToInt32(tmp[1]);
 
                     if (von_hour == bis_hour)
                     {
@@ -166,13 +160,10 @@ namespace TheraS5
                     {
                         trueStory = false;
                     }
-
                 }
-
             }
-            catch 
+            catch
             {
-                
                 trueStory = false;
             }
             if (!trueStory)
@@ -185,68 +176,79 @@ namespace TheraS5
 
             if (txtComment.Text.Contains('"') | txtComment.Text.Contains("'"))
             {
-                MessageBox.Show("Illegales Zeichen '\"' oder \"'\" verwendet", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Illegales Zeichen '\"' oder \"'\" verwendet", "Fehler", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtComment.Background = color2;
                 return;
             }
-            String[] time = txt_von.Text.Split(':');
-            int hour = Convert.ToInt32(time[0]);
-            int minute = Convert.ToInt32(time[1]);
+            var time = txt_von.Text.Split(':');
+            var hour = Convert.ToInt32(time[0]);
+            var minute = Convert.ToInt32(time[1]);
 
-            DateTime dateFrom = new DateTime(dpFrom.SelectedDate.Value.Year, dpFrom.SelectedDate.Value.Month, dpFrom.SelectedDate.Value.Day, hour, minute, 0);
+            var dateFrom = new DateTime(dpFrom.SelectedDate.Value.Year, dpFrom.SelectedDate.Value.Month,
+                dpFrom.SelectedDate.Value.Day, hour, minute, 0);
 
             time = txt_bis.Text.Split(':');
             hour = Convert.ToInt32(time[0]);
             minute = Convert.ToInt32(time[1]);
 
-            DateTime dateTo = new DateTime(dpTo.SelectedDate.Value.Year, dpTo.SelectedDate.Value.Month, dpTo.SelectedDate.Value.Day, hour, minute, 0);
+            var dateTo = new DateTime(dpTo.SelectedDate.Value.Year, dpTo.SelectedDate.Value.Month,
+                dpTo.SelectedDate.Value.Day, hour, minute, 0);
 
             //... Aufteilung in Tag und Nachtstunden
 
             if (!setwt(userid, cbxType.SelectionBoxItem.ToString(), dateFrom, dateTo, txtComment.Text))
             {
-                MessageBox.Show("Fehler beim Eintragen. Möglicherweiße gibt es diesen Datensatz bereits oder es gibt einen Fehler bei der Internetverbindung!", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    "Fehler beim Eintragen. Möglicherweiße gibt es diesen Datensatz bereits oder es gibt einen Fehler bei der Internetverbindung!",
+                    "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
-                this.Close();
+                Close();
             }
         }
 
         public bool setwt(int uid, string art, DateTime datetimefrom, DateTime datetimeto, string comment)
         {
-            bool noprobs = true;
-            TimeSpan tmp = new TimeSpan();
-            TimeSpan minutes = new TimeSpan(0, 0, 0);
-            bool sameday = false;
+            var noprobs = true;
+            var tmp = new TimeSpan();
+            var minutes = new TimeSpan(0, 0, 0);
+            var sameday = false;
 
             tmp = datetimeto - datetimefrom;
 
-            DateTime nextday = datetimefrom + new TimeSpan(24, 0, 0);
-            if (datetimeto.Day == nextday.Day && datetimeto.Month == nextday.Month && datetimeto.Year == nextday.Year && datetimeto.Hour == 0 && datetimeto.Minute == 0)
+            var nextday = datetimefrom + new TimeSpan(24, 0, 0);
+            if (datetimeto.Day == nextday.Day && datetimeto.Month == nextday.Month && datetimeto.Year == nextday.Year &&
+                datetimeto.Hour == 0 && datetimeto.Minute == 0)
             {
                 sameday = true;
             }
-            else if (datetimefrom.Day == datetimeto.Day && datetimefrom.Month == datetimeto.Month && datetimefrom.Year == datetimeto.Year)
+            else if (datetimefrom.Day == datetimeto.Day && datetimefrom.Month == datetimeto.Month &&
+                     datetimefrom.Year == datetimeto.Year)
             {
                 sameday = true;
             }
 
             if (sameday && tmp.TotalDays <= 1)
             {
-                bool check = false;
+                var check = false;
                 //Nachtdienst
                 //Nachtdienst von 0 - 6
 
                 // if (((datetimefrom.Year == datetimeto.Year) && (datetimefrom.Month == datetimeto.Month) && (datetimefrom.Day == datetimeto.Day)) && (datetimefrom.Hour >= 0 && ((datetimefrom.Hour <= 5) | (datetimefrom.Hour == 6 && datetimefrom.Minute == 0))))
-                if (sameday && (datetimefrom.Hour >= 0 && ((datetimefrom.Hour <= 5) | (datetimefrom.Hour == 6 && datetimefrom.Minute == 0))))
+                if (sameday && datetimefrom.Hour >= 0 && (datetimefrom.Hour <= 5) |
+                    (datetimefrom.Hour == 6 && datetimefrom.Minute == 0))
                 {
-                    if (((datetimefrom.Year == datetimeto.Year) && (datetimefrom.Month == datetimeto.Month) && (datetimefrom.Day == datetimeto.Day)) && (datetimeto.Hour >= 0 && ((datetimeto.Hour <= 5) | (datetimeto.Hour == 6 && datetimeto.Minute == 0))))
+                    if (datetimefrom.Year == datetimeto.Year && datetimefrom.Month == datetimeto.Month &&
+                        datetimefrom.Day == datetimeto.Day && datetimeto.Hour >= 0 && (datetimeto.Hour <= 5) |
+                        (datetimeto.Hour == 6 && datetimeto.Minute == 0))
                     {
                         check = true;
                         if (art != "Dienst")
                         {
-                            if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, datetimeto, art + " - " + comment))
+                            if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, datetimeto,
+                                art + " - " + comment))
                             {
                                 noprobs = false;
                             }
@@ -264,12 +266,14 @@ namespace TheraS5
                 //Nachtdienst von 22 - 0
                 if (datetimefrom.Hour >= 22 && datetimefrom.Hour <= 23)
                 {
-                    if ((datetimeto.Hour >= 22 && datetimeto.Hour <= 23) | (datetimeto.Hour == 0 && datetimeto.Minute == 0))
+                    if ((datetimeto.Hour >= 22 && datetimeto.Hour <= 23) |
+                        (datetimeto.Hour == 0 && datetimeto.Minute == 0))
                     {
                         check = true;
                         if (art != "Dienst")
                         {
-                            if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, datetimeto, art + " - " + comment))
+                            if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, datetimeto,
+                                art + " - " + comment))
                             {
                                 noprobs = false;
                             }
@@ -286,14 +290,17 @@ namespace TheraS5
 
                 //Tagdienst
                 //Tagdienst von 6 - 22
-                if (datetimefrom.Hour >= 6 && ((datetimefrom.Hour <= 21) | (datetimefrom.Hour == 22 && datetimefrom.Minute == 0)))
+                if (datetimefrom.Hour >= 6 && (datetimefrom.Hour <= 21) |
+                    (datetimefrom.Hour == 22 && datetimefrom.Minute == 0))
                 {
-                    if (datetimeto.Hour >= 6 && ((datetimeto.Hour <= 21) | (datetimeto.Hour == 22 && datetimeto.Minute == 0)))
+                    if (datetimeto.Hour >= 6 && (datetimeto.Hour <= 21) |
+                        (datetimeto.Hour == 22 && datetimeto.Minute == 0))
                     {
                         check = true;
                         if (art != "Dienst")
                         {
-                            if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom, datetimeto, art + " - " + comment))
+                            if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom, datetimeto,
+                                art + " - " + comment))
                             {
                                 noprobs = false;
                             }
@@ -314,40 +321,53 @@ namespace TheraS5
                 if (check == false)
                 {
                     //Dienst von 0 - ?
-                    if (datetimefrom.Hour >= 0 && ((datetimefrom.Hour <= 5) | (datetimefrom.Hour == 6 && datetimefrom.Minute == 0)))
+                    if (datetimefrom.Hour >= 0 && (datetimefrom.Hour <= 5) |
+                        (datetimefrom.Hour == 6 && datetimefrom.Minute == 0))
                     {
-                        if ((datetimeto.Hour >= 6) | (tmp.TotalDays == 1) | (datetimeto.Hour == 0 && datetimeto.Minute == 0))
+                        if ((datetimeto.Hour >= 6) | (tmp.TotalDays == 1) |
+                            (datetimeto.Hour == 0 && datetimeto.Minute == 0))
                         {
                             if (!(datetimefrom.Hour == 6 && datetimefrom.Minute == 0))
                             {
                                 if (art != "Dienst")
                                 {
-                                    if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), art + " - " + comment))
+                                    if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom,
+                                        new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                        art + " - " + comment))
                                     {
                                         noprobs = false;
                                     }
                                 }
                                 else
                                 {
-                                    if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom, new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), comment))
+                                    if (!commands.setWorkingtime(uid, "Nachtdienst", datetimefrom,
+                                        new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                        comment))
                                     {
                                         noprobs = false;
                                     }
                                 }
                             }
                         }
-                        if ((datetimeto.Hour >= 22) | (tmp.TotalDays == 1) | (datetimeto.Hour == 0 && datetimeto.Minute == 0))
+                        if ((datetimeto.Hour >= 22) | (tmp.TotalDays == 1) |
+                            (datetimeto.Hour == 0 && datetimeto.Minute == 0))
                         {
                             if (art != "Dienst")
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), art + " - " + comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    art + " - " + comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             else
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    comment))
                                 {
                                     noprobs = false;
                                 }
@@ -356,14 +376,18 @@ namespace TheraS5
                             {
                                 if (art != "Dienst")
                                 {
-                                    if (!commands.setWorkingtime(uid, "Nachtdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), datetimeto, art + " - " + comment))
+                                    if (!commands.setWorkingtime(uid, "Nachtdienst",
+                                        new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                        datetimeto, art + " - " + comment))
                                     {
                                         noprobs = false;
                                     }
                                 }
                                 else
                                 {
-                                    if (!commands.setWorkingtime(uid, "Nachtdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), datetimeto, comment))
+                                    if (!commands.setWorkingtime(uid, "Nachtdienst",
+                                        new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                        datetimeto, comment))
                                     {
                                         noprobs = false;
                                     }
@@ -374,14 +398,18 @@ namespace TheraS5
                         {
                             if (art != "Dienst")
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), datetimeto, art + " - " + comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    datetimeto, art + " - " + comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             else
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), datetimeto, comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    datetimeto, comment))
                                 {
                                     noprobs = false;
                                 }
@@ -389,34 +417,43 @@ namespace TheraS5
                         }
                     }
                     //Dienst von 6 - ?
-                    else if (datetimefrom.Hour >= 6 && ((datetimefrom.Hour <= 21) | (datetimefrom.Hour == 0 && datetimefrom.Minute == 0)))
+                    else if (datetimefrom.Hour >= 6 && (datetimefrom.Hour <= 21) |
+                             (datetimefrom.Hour == 0 && datetimefrom.Minute == 0))
                     {
                         if ((datetimeto.Hour >= 22) | (datetimeto.Hour == 0))
                         {
                             if (art != "Dienst")
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom, new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), art + " - " + comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom,
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    art + " - " + comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             else
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom, new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst", datetimefrom,
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             if (art != "Dienst")
                             {
-                                if (!commands.setWorkingtime(uid, "Nachtdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), datetimeto, art + " - " + comment))
+                                if (!commands.setWorkingtime(uid, "Nachtdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    datetimeto, art + " - " + comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             else
                             {
-                                if (!commands.setWorkingtime(uid, "Nachtdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0), datetimeto, comment))
+                                if (!commands.setWorkingtime(uid, "Nachtdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 22, 0, 0),
+                                    datetimeto, comment))
                                 {
                                     noprobs = false;
                                 }
@@ -426,14 +463,18 @@ namespace TheraS5
                         {
                             if (art != "Dienst")
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), datetimeto, art + " - " + comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    datetimeto, art + " - " + comment))
                                 {
                                     noprobs = false;
                                 }
                             }
                             else
                             {
-                                if (!commands.setWorkingtime(uid, "Tagdienst", new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0), datetimeto, comment))
+                                if (!commands.setWorkingtime(uid, "Tagdienst",
+                                    new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 6, 0, 0),
+                                    datetimeto, comment))
                                 {
                                     noprobs = false;
                                 }
@@ -445,24 +486,24 @@ namespace TheraS5
             //mehrere Tage
             else
             {
-                DateTime firstday = new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 0, 0, 0) + new TimeSpan(24, 0, 0);
-                DateTime secondday = new DateTime();
+                var firstday = new DateTime(datetimefrom.Year, datetimefrom.Month, datetimefrom.Day, 0, 0, 0) +
+                               new TimeSpan(24, 0, 0);
+                var secondday = new DateTime();
                 noprobs = setwt(uid, art, datetimefrom, firstday, comment);
 
                 while (true)
                 {
                     tmp = datetimeto - firstday;
-                    if ((tmp.TotalDays <= 1) && ((firstday.Year == datetimeto.Year) && (firstday.Month == datetimeto.Month) && (firstday.Day == datetimeto.Day) | (datetimeto.Hour == 0 && datetimeto.Minute == 0)))
+                    if (tmp.TotalDays <= 1 && firstday.Year == datetimeto.Year && firstday.Month == datetimeto.Month &&
+                        (firstday.Day == datetimeto.Day) | (datetimeto.Hour == 0 && datetimeto.Minute == 0))
                     {
                         noprobs = setwt(uid, art, firstday, datetimeto, comment);
                         break;
                     }
-                    else
-                    {
-                        secondday = firstday;
-                        firstday = new DateTime(firstday.Year, firstday.Month, firstday.Day, 0, 0, 0) + new TimeSpan(24, 0, 0);
-                        noprobs = setwt(uid, art, secondday, firstday, comment);
-                    }
+                    secondday = firstday;
+                    firstday = new DateTime(firstday.Year, firstday.Month, firstday.Day, 0, 0, 0) +
+                               new TimeSpan(24, 0, 0);
+                    noprobs = setwt(uid, art, secondday, firstday, comment);
                 }
             }
 
@@ -471,16 +512,17 @@ namespace TheraS5
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Application curApp = Application.Current;
-            Window mainWindow = curApp.MainWindow;
-            this.Left = mainWindow.Left + (mainWindow.Width - this.ActualWidth) / 2;
-            this.Top = mainWindow.Top + (mainWindow.Height - this.ActualHeight) / 2;
-            dpFrom.SelectedDate = new DateTime(this.year, this.month, 1);
-            dpTo.SelectedDate = new DateTime(this.year, this.month, 1);
+            var curApp = Application.Current;
+            var mainWindow = curApp.MainWindow;
+            Left = mainWindow.Left + (mainWindow.Width - ActualWidth) / 2;
+            Top = mainWindow.Top + (mainWindow.Height - ActualHeight) / 2;
+            dpFrom.SelectedDate = new DateTime(year, month, 1);
+            dpTo.SelectedDate = new DateTime(year, month, 1);
 
             cbxType.SelectedIndex = 0;
         }
@@ -491,47 +533,49 @@ namespace TheraS5
             {
                 if (check)
                 {
-                    if (!(this.month.ToString() == dpFrom.SelectedDate.Value.Month.ToString()))
+                    if (!(month.ToString() == dpFrom.SelectedDate.Value.Month.ToString()))
                     {
-                        MessageBox.Show("Nicht im Ausgewählten Monat.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Nicht im Ausgewählten Monat.", "Fehler", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                         dpFrom.SelectedDate = new DateTime(year, month, 1);
                     }
-                    if (!(this.year.ToString() == dpFrom.SelectedDate.Value.Year.ToString()))
+                    if (!(year.ToString() == dpFrom.SelectedDate.Value.Year.ToString()))
                     {
-                        MessageBox.Show("Nicht im Ausgewählten Jahr.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Nicht im Ausgewählten Jahr.", "Fehler", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                         dpFrom.SelectedDate = new DateTime(year, month, 1);
                     }
                 }
 
-                TimeSpan tmp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
+                var tmp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
                 if (tmp.Days < 0)
                 {
                     dpTo.SelectedDate = dpFrom.SelectedDate;
                 }
             }
-            catch 
+            catch
             {
                 /**/
-                    /**/
+                /**/
             }
         }
 
         private void dpTo_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             try
             {
-                TimeSpan temp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
+                var temp = dpTo.SelectedDate.Value - dpFrom.SelectedDate.Value;
                 if (temp.Days < 0)
                 {
-                    MessageBox.Show("Von-Datum muss kleiner als Bis-Datum sein!", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Von-Datum muss kleiner als Bis-Datum sein!", "Fehler", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     dpTo.SelectedDate = dpFrom.SelectedDate;
                 }
             }
-            catch 
+            catch
             {
                 /**/
-                    /**/
+                /**/
             }
         }
     }

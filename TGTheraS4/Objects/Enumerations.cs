@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IntranetTG.Objects
+﻿namespace IntranetTG.Objects
 {
     public class Enumerations
     {
-
         //public enum Status
         //{
         //    Intern = 0,

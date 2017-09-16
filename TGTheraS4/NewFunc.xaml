@@ -5,12 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheraS5"
         mc:Ignorable="d"
-        Title="NewFunc" Height="104.292" Width="292.275" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="NewFunc" Height="104.292" Width="292.275" ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label x:Name="label" Content="Geben Sie den Namen der Funktion ein:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="272"/>
-        <Button x:Name="button" Content="OK" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Button x:Name="button_Copy" Content="Abbrechen" HorizontalAlignment="Left" Margin="207,66,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
+        <Label x:Name="label" Content="Geben Sie den Namen der Funktion ein:" HorizontalAlignment="Left"
+               Margin="10,10,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,38,0,0" TextWrapping="Wrap" Text=""
+                 VerticalAlignment="Top" Width="272" />
+        <Button x:Name="button" Content="OK" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"
+                Width="75" Click="button_Click" />
+        <Button x:Name="button_Copy" Content="Abbrechen" HorizontalAlignment="Left" Margin="207,66,0,0"
+                VerticalAlignment="Top" Width="75" Click="button_Copy_Click" />
 
     </Grid>
 </Window>

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TheraS5.Objects
+﻿namespace TheraS5.Objects
 {
     public class Klienten_Berichte
     {
-        public int id;
         public int art = -1;
+
         /*
          * Telefonat = 0
          * Vorfallsprotokoll = 1
@@ -18,9 +13,12 @@ namespace TheraS5.Objects
          * Zwischenbericht = 5 
          */
         public int Client_id;
-        public string name { get; set; }
+
         public string content;
+        public int id;
         public int table = 0;
+
+        public string name { get; set; }
         /*
          * 1 = clientsfvgs
          * 2 = clientsreports 

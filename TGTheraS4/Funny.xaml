@@ -1,14 +1,22 @@
 ﻿<Window x:Class="TheraS5.Funny"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Lösche das Internet" Height="256" Width="466" Loaded="Window_Loaded" UseLayoutRounding="True" ShowInTaskbar="False" IsEnabled="False" Closing="Window_Closing">
+        Title="Lösche das Internet" Height="256" Width="466" Loaded="Window_Loaded" UseLayoutRounding="True"
+        ShowInTaskbar="False" IsEnabled="False" Closing="Window_Closing">
     <Grid Height="236">
-        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="357,184,0,0" Name="button1" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="button1_Click" />
-        <CheckBox Content="Ich will das Internet löschen" Height="16" HorizontalAlignment="Left" Margin="12,169,0,0" Name="checkBox1" VerticalAlignment="Top" IsEnabled="False" IsChecked="True" />
-        <ProgressBar Height="24" HorizontalAlignment="Left" Margin="12,127,0,0" Name="progressBar1" VerticalAlignment="Top" Width="420" />
-        <MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual"     Source="" LoadedBehavior="Play" Stretch="None" MediaOpened="myGif_MediaOpened" Margin="0,0,0,149" />
-        <Label Content="Aktion:" Height="28" HorizontalAlignment="Left" Margin="12,93,0,0" Name="label1" VerticalAlignment="Top" />
-        <Label Content="Lösche das Internet" Height="28" HorizontalAlignment="Left" Margin="62,93,0,0" Name="label2" VerticalAlignment="Top" />
-        <MediaElement Height="120" HorizontalAlignment="Left" Margin="652,-31,0,0" Name="mediaElement1" VerticalAlignment="Top" Width="160" />
+        <Button Content="Abbrechen" Height="23" HorizontalAlignment="Left" Margin="357,184,0,0" Name="button1"
+                VerticalAlignment="Top" Width="75" IsEnabled="False" Click="button1_Click" />
+        <CheckBox Content="Ich will das Internet löschen" Height="16" HorizontalAlignment="Left" Margin="12,169,0,0"
+                  Name="checkBox1" VerticalAlignment="Top" IsEnabled="False" IsChecked="True" />
+        <ProgressBar Height="24" HorizontalAlignment="Left" Margin="12,127,0,0" Name="progressBar1"
+                     VerticalAlignment="Top" Width="420" />
+        <MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source=""
+                      LoadedBehavior="Play" Stretch="None" MediaOpened="myGif_MediaOpened" Margin="0,0,0,149" />
+        <Label Content="Aktion:" Height="28" HorizontalAlignment="Left" Margin="12,93,0,0" Name="label1"
+               VerticalAlignment="Top" />
+        <Label Content="Lösche das Internet" Height="28" HorizontalAlignment="Left" Margin="62,93,0,0" Name="label2"
+               VerticalAlignment="Top" />
+        <MediaElement Height="120" HorizontalAlignment="Left" Margin="652,-31,0,0" Name="mediaElement1"
+                      VerticalAlignment="Top" Width="160" />
     </Grid>
 </Window>

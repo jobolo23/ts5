@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für MonthSelector.xaml
+    ///     Interaktionslogik für MonthSelector.xaml
     /// </summary>
     public partial class MonthSelector : Window
     {
-        public bool closed = false, canceled = false, ok = false;
+        public bool closed, canceled, ok;
+
         public MonthSelector()
         {
             InitializeComponent();
@@ -28,14 +19,14 @@ namespace TheraS5
         {
             closed = true;
             ok = true;
-            this.Close();
+            Close();
         }
 
         private void bttnMSCan_Click(object sender, RoutedEventArgs e)
         {
             closed = true;
             canceled = true;
-            this.Close();
+            Close();
         }
 
         private void calMS_DisplayModeChanged(object sender, CalendarModeChangedEventArgs e)

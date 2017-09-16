@@ -1,31 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für Window1.xaml
+    ///     Interaktionslogik für Window1.xaml
     /// </summary>
     public partial class EditInstruction : Window
     {
-        private SQLCommands c;
-        private String uid;
-        private String name;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly SQLCommands c;
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly string name;
+        private readonly string uid;
 
-        public EditInstruction(String name, SQLCommands sql)
+        public EditInstruction(string name, SQLCommands sql)
         {
             InitializeComponent();
             c = sql;
@@ -35,7 +26,8 @@ namespace TheraS5
             this.name = name;
         }
 
-        public EditInstruction(bool isAdmin,String uid, String date, String title, String desc , String name, SQLCommands sql)
+        public EditInstruction(bool isAdmin, string uid, string date, string title, string desc, string name,
+            SQLCommands sql)
         {
             InitializeComponent();
             c = sql;
@@ -53,7 +45,6 @@ namespace TheraS5
             this.uid = uid;
             this.name = name;
             lblAuthoren.Content = name;
-            
         }
 
         private void btnSpeichern_Click(object sender, RoutedEventArgs e)
@@ -62,11 +53,12 @@ namespace TheraS5
             txtBeschreibung.Background = color1;
             dateInstructionStart.Background = color1;
 
-            String title = txtTitel.Text;
-            String desc = txtBeschreibung.Text;
+            var title = txtTitel.Text;
+            var desc = txtBeschreibung.Text;
             if (title.Length == 0 || desc.Length == 0)
             {
-                MessageBox.Show("Die Textfelder dürfen nicht leer sein", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Die Textfelder dürfen nicht leer sein", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtTitel.Background = color2;
                 txtBeschreibung.Background = color2;
             }
@@ -78,36 +70,37 @@ namespace TheraS5
 
             else if (dateInstructionStart.SelectedDate < DateTime.Now.Date)
             {
-                MessageBox.Show("Das ausgewählte Datum darf nicht kleiner sein als das Aktuelle", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Das ausgewählte Datum darf nicht kleiner sein als das Aktuelle", "Achtung",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 dateInstructionStart.Background = color2;
             }
             else
             {
-                String date = dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd");
-                String id = c.getIdbyName(name);
-                c.setInstruction(date, title, desc,id);
-                this.Close();
+                var date = dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd");
+                var id = c.getIdbyName(name);
+                c.setInstruction(date, title, desc, id);
+                Close();
             }
-
         }
 
         private void btnAbbrechen_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnGelesen_Click(object sender, RoutedEventArgs e)
         {
-            String date = dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd");
-            c.setInstructionRead(uid, txtTitel.Text , dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"), txtBeschreibung.Text);
-            this.Close();
+            var date = dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd");
+            c.setInstructionRead(uid, txtTitel.Text, dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                txtBeschreibung.Text);
+            Close();
         }
 
         private void btnGelesenvon_Click(object sender, RoutedEventArgs e)
         {
-            ShowReadInstruction sri = new ShowReadInstruction(dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"), txtTitel.Text, txtBeschreibung.Text, c);
+            var sri = new ShowReadInstruction(dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                txtTitel.Text, txtBeschreibung.Text, c);
             sri.Show();
         }
-
     }
 }

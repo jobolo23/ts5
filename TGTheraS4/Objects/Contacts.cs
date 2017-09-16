@@ -1,40 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IntranetTG;
-
-namespace TheraS5.Objects
+﻿namespace TheraS5.Objects
 {
     public class Contacts
     {
-        public String id;
-        public String salutation { get; set; }
-        public String title { get; set; }
-        public String firstname { get; set; }
-        public String lastname { get; set; }
-        public String institution { get; set; }
-        public String company { get; set; }
-        public String department { get; set; }
-        public String country { get; set; }
-        public String zip { get; set; }
-        public String city { get; set; }
-        public String street { get; set; }
-        public String phone1 { get; set; }
-        public String phone2 { get; set; }
-        public String fax { get; set; }
-        public String email { get; set; }
-        public String www { get; set; }
-        public String skype { get; set; }
-        public String comment { get; set; }
-        public String groups { get; set; }
-        public String function { get; set; }
-
-        public String Fullname { get; set; }
+        public string id;
 
 
-
-        public Contacts(String id, String salutation, String title, String firstname, String lastname, String institution, String company, String department, String country, String zip, String city, String street, String phone1, String phone2, String fax, String email, String www, String skype, String comment, String groups, String function)
+        public Contacts(string id, string salutation, string title, string firstname, string lastname,
+            string institution, string company, string department, string country, string zip, string city,
+            string street, string phone1, string phone2, string fax, string email, string www, string skype,
+            string comment, string groups, string function)
         {
             this.id = id;
             this.salutation = salutation;
@@ -58,7 +32,30 @@ namespace TheraS5.Objects
             this.groups = groups;
             this.function = function;
 
-            this.Fullname = firstname + " " + lastname;
+            Fullname = firstname + " " + lastname;
         }
+
+        public string salutation { get; set; }
+        public string title { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
+        public string institution { get; set; }
+        public string company { get; set; }
+        public string department { get; set; }
+        public string country { get; set; }
+        public string zip { get; set; }
+        public string city { get; set; }
+        public string street { get; set; }
+        public string phone1 { get; set; }
+        public string phone2 { get; set; }
+        public string fax { get; set; }
+        public string email { get; set; }
+        public string www { get; set; }
+        public string skype { get; set; }
+        public string comment { get; set; }
+        public string groups { get; set; }
+        public string function { get; set; }
+
+        public string Fullname { get; set; }
     }
 }

@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für ReadBig.xaml
+    ///     Interaktionslogik für ReadBig.xaml
     /// </summary>
     public partial class ReadBig : Window
     {
@@ -27,7 +17,7 @@ namespace TheraS5
         private void wndwReadBig_Loaded(object sender, RoutedEventArgs e)
         {
             txtReadBig.Focus();
-            lbl_count_words.Content = "Zeichen: " + txtReadBig.Text.Length.ToString();
+            lbl_count_words.Content = "Zeichen: " + txtReadBig.Text.Length;
         }
 
         public void setReadBig(string theText, bool readOnly)
@@ -60,12 +50,12 @@ namespace TheraS5
 
         private void btn_big_ok_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void txtReadBig_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lbl_count_words.Content = "Zeichen: " + txtReadBig.Text.Length.ToString();
+            lbl_count_words.Content = "Zeichen: " + txtReadBig.Text.Length;
         }
     }
 }

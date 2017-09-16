@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für MediQuestion.xaml
+    ///     Interaktionslogik für MediQuestion.xaml
     /// </summary>
     public partial class MediQuestion : Window
     {
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+
+        private string reason = "";
 
         public MediQuestion(string medi)
         {
             InitializeComponent();
             lblMedi.Content = medi;
         }
-
-        private string reason = "";
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
@@ -36,7 +27,7 @@ namespace TheraS5
             {
                 reason = textBox1.Text;
                 DialogResult = true;
-                this.Close();
+                Close();
             }
             else
             {
@@ -44,6 +35,7 @@ namespace TheraS5
                 textBox1.Background = color2;
             }
         }
+
         public string getIt()
         {
             //this.ShowDialog();
@@ -59,10 +51,10 @@ namespace TheraS5
         {
             reason = textBox1.Text;
             DialogResult = false;
-            this.Close();
+            Close();
         }
 
-        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing_1(object sender, CancelEventArgs e)
         {
             reason = textBox1.Text;
             DialogResult = false;

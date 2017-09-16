@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
-using IntranetTG.Objects;
 using IntranetTG.Functions;
+using IntranetTG.Objects;
 
 namespace TheraS5
 {
-    
     public partial class EditAppointmentsDialog : Window
     {
-        private SQLCommands commands;
-        private bool isNew = false;
-        object[] editData = null;
-        private DateTime readDateTime;                
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly SQLCommands commands;
+        private readonly object[] editData;
+        private readonly bool isNew;
+        private DateTime readDateTime;
         private Enumerations.Status statTask;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
         public EditAppointmentsDialog(SQLCommands sql)
         {
@@ -35,12 +27,11 @@ namespace TheraS5
 
             switch (Functions.AppointmentTask)
             {
-
                 case Enumerations.InstructionTask.Task: // Dialog fuer Aufgabenfenster
 
-                    this.Title = "Aufgabe erstellen ...";
-                    this.lblTitle.Content = "Aufgabe:";
-                    this.rbRead.Visibility = Visibility.Hidden; // Gelesen Knopf
+                    Title = "Aufgabe erstellen ...";
+                    lblTitle.Content = "Aufgabe:";
+                    rbRead.Visibility = Visibility.Hidden; // Gelesen Knopf
 
                     cbUser.ItemsSource = Functions.EmployeeList; // Zugewiesen an box
                     cbUser.DisplayMemberPath = "FullName";
@@ -53,10 +44,10 @@ namespace TheraS5
                     break;
                 case Enumerations.InstructionTask.Instruction: // Dialog fuer Dienansweisungsfenster
 
-                    this.Title = "Dienstanweisung erstellen ...";
-                    this.lblTitle.Content = "Dienstanweisung:";
-                    this.lblEnd.Visibility = Visibility.Hidden; 
-                    this.dpTo.Visibility = Visibility.Hidden; // Datumsauswahl
+                    Title = "Dienstanweisung erstellen ...";
+                    lblTitle.Content = "Dienstanweisung:";
+                    lblEnd.Visibility = Visibility.Hidden;
+                    dpTo.Visibility = Visibility.Hidden; // Datumsauswahl
 
                     cbUser.Visibility = Visibility.Hidden; // Zugewiesen an box
 
@@ -68,7 +59,7 @@ namespace TheraS5
                 default:
                     break;
             }
-            this.lblEmployee.Content = "Zuweisen an:";
+            lblEmployee.Content = "Zuweisen an:";
             dpFrom.Text = DateTime.Now.ToShortDateString();
             isNew = true;
 
@@ -76,7 +67,7 @@ namespace TheraS5
             cbType.DisplayMemberPath = "Name";
             cbType.SelectedValuePath = "Id";
 
-            
+
             gbStatus.IsEnabled = false;
         }
 
@@ -88,9 +79,9 @@ namespace TheraS5
             {
                 case Enumerations.InstructionTask.Task:
 
-                    this.Title = "Aufgabe bearbeiten ...";
-                    this.lblTitle.Content = "Aufgabe:";
-                    this.rbRead.Visibility = Visibility.Hidden;
+                    Title = "Aufgabe bearbeiten ...";
+                    lblTitle.Content = "Aufgabe:";
+                    rbRead.Visibility = Visibility.Hidden;
 
                     cbUser.ItemsSource = Functions.EmployeeList;
                     cbUser.DisplayMemberPath = "FullName";
@@ -103,23 +94,23 @@ namespace TheraS5
                     break;
                 case Enumerations.InstructionTask.Instruction:
 
-                    this.Title = "Dienstanweisung bearbeiten ...";
-                    this.lblTitle.Content = "Dienstanweisung:";
-                    this.lblEnd.Visibility = Visibility.Hidden;
-                    this.dpTo.Visibility = Visibility.Hidden;
+                    Title = "Dienstanweisung bearbeiten ...";
+                    lblTitle.Content = "Dienstanweisung:";
+                    lblEnd.Visibility = Visibility.Hidden;
+                    dpTo.Visibility = Visibility.Hidden;
 
                     cbUser.ItemsSource = Functions.EmployeeList;
                     cbUser.DisplayMemberPath = "FullName";
                     cbUser.SelectedValuePath = "Id";
                     cbUser.SelectedValue = data[7];
-                    cbUser.IsEnabled = false;                 
-                    
+                    cbUser.IsEnabled = false;
+
                     lbUser.ItemsSource = Functions.EmployeeList;
                     lbUser.DisplayMemberPath = "FullName";
                     lbUser.SelectedValuePath = "Id";
                     lbUser.SelectedValue = data[7];
                     lbUser.Visibility = Visibility.Hidden;
-                    
+
                     dpFrom.IsEnabled = false;
                     cbType.IsEnabled = false;
                     txtDescription.IsEnabled = false;
@@ -141,7 +132,7 @@ namespace TheraS5
                             rbArchiv.IsEnabled = false;
                         }
                     }
-                    if (data[9].ToString() == Functions.ActualUserFromList.Id)
+                    if (data[9] == Functions.ActualUserFromList.Id)
                     {
                         rbArchiv.Visibility = Visibility.Visible;
                     }
@@ -156,11 +147,11 @@ namespace TheraS5
             }
             editData = data;
 
-            dpFrom.Text = data[5].ToString();
-            dpTo.Text = data[6].ToString();
-            txtTitle.Text = data[2].ToString();
+            dpFrom.Text = data[5];
+            dpTo.Text = data[6];
+            txtTitle.Text = data[2];
 
-            txtDescription.Text = data[3].ToString();
+            txtDescription.Text = data[3];
 
             cbType.ItemsSource = Functions.ProjectList;
             cbType.DisplayMemberPath = "Name";
@@ -187,7 +178,6 @@ namespace TheraS5
             {
                 rbArchiv.IsChecked = true;
             }
-           
         }
 
 
@@ -204,20 +194,20 @@ namespace TheraS5
 
                     if (txtTitle.Text != "" && lbUser.SelectedItems != null && cbType.SelectedValue != null)
                     {
-                        if ((bool)rbToUser.IsChecked)
+                        if ((bool) rbToUser.IsChecked)
                         {
                             statTask = Enumerations.Status.Zugewiesen;
                         }
-                        if ((bool)rbRead.IsChecked)
+                        if ((bool) rbRead.IsChecked)
                         {
                             statTask = Enumerations.Status.Gelesen;
                             readDateTime = DateTime.Now;
                         }
-                        if ((bool)rbClose.IsChecked)
+                        if ((bool) rbClose.IsChecked)
                         {
                             statTask = Enumerations.Status.Abgeschlossen;
                         }
-                        DateTime dateFrom = dpFrom.SelectedDate.Value;                                                                        
+                        var dateFrom = dpFrom.SelectedDate.Value;
                         DateTime dateTo;
 
                         if (dpTo.SelectedDate != null)
@@ -231,13 +221,12 @@ namespace TheraS5
 
                         foreach (Employee emp in lbUser.SelectedItems)
                         {
-                            
                         }
-                        this.Close();
+                        Close();
                     }
                     else
                     {
-                        string message = "";
+                        var message = "";
 
                         if (txtTitle.Text == "")
                         {
@@ -255,30 +244,39 @@ namespace TheraS5
                             message += "Bitte eine Art auswählen! \r\n";
                         }
                         MessageBox.Show(message);
-                    }                    
+                    }
                     break;
                 case Enumerations.InstructionTask.Task:
 
-                    if (txtTitle.Text != "" && cbUser.SelectedValue != null && cbType.SelectedValue != null && dpTo.SelectedDate != null)
+                    if (txtTitle.Text != "" && cbUser.SelectedValue != null && cbType.SelectedValue != null &&
+                        dpTo.SelectedDate != null)
                     {
-                        if ((bool)rbToUser.IsChecked)
+                        if ((bool) rbToUser.IsChecked)
                         {
                             statTask = Enumerations.Status.Zugewiesen;
                         }
-                       
-                        if ((bool)rbClose.IsChecked)
+
+                        if ((bool) rbClose.IsChecked)
                         {
                             statTask = Enumerations.Status.Abgeschlossen;
                         }
                         DateTime dateFrom;
-                       
 
-                        
-                           dateFrom = dpFrom.SelectedDate.Value;
-                    
-                        DateTime dateTo = dpTo.SelectedDate.Value;
 
-                        List<string> data = new List<string> { cbUser.SelectedValue.ToString(), dateFrom.ToString("yyyy-MM-dd HH:mm"), dateTo.ToString("yyyy-MM-dd HH:mm"), txtTitle.Text, txtDescription.Text, cbType.SelectedValue.ToString(), (Convert.ToInt32(statTask)).ToString() };
+                        dateFrom = dpFrom.SelectedDate.Value;
+
+                        var dateTo = dpTo.SelectedDate.Value;
+
+                        var data = new List<string>
+                        {
+                            cbUser.SelectedValue.ToString(),
+                            dateFrom.ToString("yyyy-MM-dd HH:mm"),
+                            dateTo.ToString("yyyy-MM-dd HH:mm"),
+                            txtTitle.Text,
+                            txtDescription.Text,
+                            cbType.SelectedValue.ToString(),
+                            Convert.ToInt32(statTask).ToString()
+                        };
 
                         if (isNew)
                         {
@@ -288,11 +286,11 @@ namespace TheraS5
                         {
                             commands.updateTask(data, Convert.ToInt32(editData[0]));
                         }
-                        this.Close();
+                        Close();
                     }
                     else
                     {
-                        string message = "";
+                        var message = "";
 
                         if (cbUser.SelectedValue == null)
                         {
@@ -324,24 +322,23 @@ namespace TheraS5
                 default:
                     break;
             }
-           
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Application curApp = Application.Current;
-            Window mainWindow = curApp.MainWindow;
-            this.Left = mainWindow.Left + (mainWindow.Width - this.ActualWidth) / 2;
-            this.Top = mainWindow.Top + (mainWindow.Height - this.ActualHeight) / 2;
+            var curApp = Application.Current;
+            var mainWindow = curApp.MainWindow;
+            Left = mainWindow.Left + (mainWindow.Width - ActualWidth) / 2;
+            Top = mainWindow.Top + (mainWindow.Height - ActualHeight) / 2;
         }
 
         private void cbUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {           
+        {
             switch (Functions.AppointmentTask)
             {
                 case Enumerations.InstructionTask.Instruction:
@@ -362,7 +359,7 @@ namespace TheraS5
                     rbArchiv.Visibility = Visibility.Hidden;
                     break;
                 case Enumerations.InstructionTask.Task:
-                    
+
                     rbArchiv.Visibility = Visibility.Hidden;
 
                     if (isNew)
@@ -374,7 +371,7 @@ namespace TheraS5
                             rbToUser.Visibility = Visibility.Hidden;
                         }
                     }
-                    
+
                     break;
                 default:
                     break;
@@ -382,21 +379,20 @@ namespace TheraS5
 
             if (cbUser.SelectedValue != null)
             {
-          
-            if (cbUser.SelectedValue.ToString() == Functions.ActualUserFromList.Id)
-            {
-                //kein Status Gelesen wenn man sich selbst eine Aufgabe gibt. Ich habe es immer gelesen. 
-                rbRead.IsChecked = true;
-                readDateTime = DateTime.Now;
+                if (cbUser.SelectedValue.ToString() == Functions.ActualUserFromList.Id)
+                {
+                    //kein Status Gelesen wenn man sich selbst eine Aufgabe gibt. Ich habe es immer gelesen. 
+                    rbRead.IsChecked = true;
+                    readDateTime = DateTime.Now;
 
-                rbClose.IsEnabled = false;
-            }
-            else
-            {
-                rbToUser.IsChecked = true;
-                rbClose.IsEnabled = false;
-                rbRead.IsChecked = false;
-            }
+                    rbClose.IsEnabled = false;
+                }
+                else
+                {
+                    rbToUser.IsChecked = true;
+                    rbClose.IsEnabled = false;
+                    rbRead.IsChecked = false;
+                }
             }
         }
 
@@ -412,5 +408,6 @@ namespace TheraS5
             }
         }
     }
+
     //FUCK
 }

@@ -1,32 +1,23 @@
-﻿using IntranetTG;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using IntranetTG;
 using TheraS5.Objects;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für Funktionszugehoerigkeit.xaml
+    ///     Interaktionslogik für Funktionszugehoerigkeit.xaml
     /// </summary>
     public partial class Funktionszugehoerigkeit : Window
     {
+        private readonly SQLCommands c;
+        private bool close;
         public List<UserFunctions> func = new List<UserFunctions>();
-        public List<UserFunctions> selected = new List<UserFunctions>();
-        private SQLCommands c;
-        bool close = false;
         public int id;
-        public bool set = false;
+        public List<UserFunctions> selected = new List<UserFunctions>();
+        public bool set;
 
         public Funktionszugehoerigkeit(int id, SQLCommands sql)
         {
@@ -35,10 +26,10 @@ namespace TheraS5
             func = c.getUserFunctions();
             this.id = id;
             selected = c.getUserFunctions(id);
-            foreach (UserFunctions f in selected)
+            foreach (var f in selected)
             {
                 UserFunctions found = null;
-                foreach (UserFunctions f2 in func)
+                foreach (var f2 in func)
                 {
                     if (f2.id == f.id)
                     {
@@ -62,8 +53,8 @@ namespace TheraS5
             }
             else
             {
-                UserFunctions tmp = new UserFunctions();
-                tmp = (UserFunctions)dgFuncAll.SelectedItem;
+                var tmp = new UserFunctions();
+                tmp = (UserFunctions) dgFuncAll.SelectedItem;
                 selected.Add(tmp);
                 func.Remove(tmp);
                 dgHouseSelected.ItemsSource = null;
@@ -71,24 +62,22 @@ namespace TheraS5
 
                 dgFuncAll.ItemsSource = null;
                 dgFuncAll.ItemsSource = func;
-
             }
         }
 
         private void btnNewFunc_Click(object sender, RoutedEventArgs e)
         {
-
-            NewFunc newf = new NewFunc(true);
+            var newf = new NewFunc(true);
             newf.ShowDialog();
             if (newf.finished)
             {
                 c.addFunctions(newf.txt);
                 func = new List<UserFunctions>();
                 func = c.getUserFunctions();
-                foreach (UserFunctions f in selected)
+                foreach (var f in selected)
                 {
                     UserFunctions found = null;
-                    foreach (UserFunctions f2 in func)
+                    foreach (var f2 in func)
                     {
                         if (f2.id == f.id)
                         {
@@ -101,9 +90,7 @@ namespace TheraS5
                     }
                 }
                 dgFuncAll.ItemsSource = func;
-
             }
-
         }
 
         private void btnNewEditFunc_Click(object sender, RoutedEventArgs e)
@@ -114,17 +101,17 @@ namespace TheraS5
             }
             else
             {
-                NewFunc newf = new NewFunc(false);
+                var newf = new NewFunc(false);
                 newf.ShowDialog();
                 if (newf.finished)
                 {
-                    c.editFunctions(newf.txt, ((UserFunctions)dgFuncAll.SelectedItem).id);
+                    c.editFunctions(newf.txt, ((UserFunctions) dgFuncAll.SelectedItem).id);
                     func = new List<UserFunctions>();
                     func = c.getUserFunctions();
-                    foreach (UserFunctions f in selected)
+                    foreach (var f in selected)
                     {
                         UserFunctions found = null;
-                        foreach (UserFunctions f2 in func)
+                        foreach (var f2 in func)
                         {
                             if (f2.id == f.id)
                             {
@@ -149,8 +136,8 @@ namespace TheraS5
             }
             else
             {
-                UserFunctions tmp = new UserFunctions();
-                tmp = (UserFunctions)dgHouseSelected.SelectedItem;
+                var tmp = new UserFunctions();
+                tmp = (UserFunctions) dgHouseSelected.SelectedItem;
                 func.Add(tmp);
                 selected.Remove(tmp);
                 dgFuncAll.ItemsSource = null;
@@ -166,19 +153,20 @@ namespace TheraS5
             try
             {
                 c.saveUserfunc(id, selected);
-                this.set = true;
+                set = true;
 
-                this.close = true;
-                this.Close();
-            }catch (Exception ex)
+                close = true;
+                Close();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Speichern der Daten! \nBitte versuchen Sie es in einigen Augenblicken erneut!");
+                MessageBox.Show(
+                    "Fehler beim Speichern der Daten! \nBitte versuchen Sie es in einigen Augenblicken erneut!");
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-           
         }
     }
 }

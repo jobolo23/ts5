@@ -4,13 +4,16 @@
         Title="Metadate Wikidokumente" Height="331.579" Width="669.925">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBox HorizontalAlignment="Left" Height="201" TextWrapping="Wrap" VerticalAlignment="Top" Width="662" Grid.Row="1"/>
-        <Button x:Name="btnOk" Content="Speichern" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" Grid.Row="2" Click="btnOk_Click"/>
-        <Label Content="Bitte die Tags(Schlagwörter) mit Beistrich getrennt eintragen" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <TextBox HorizontalAlignment="Left" Height="201" TextWrapping="Wrap" VerticalAlignment="Top" Width="662"
+                 Grid.Row="1" />
+        <Button x:Name="btnOk" Content="Speichern" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"
+                Width="75" Grid.Row="2" Click="btnOk_Click" />
+        <Label Content="Bitte die Tags(Schlagwörter) mit Beistrich getrennt eintragen" HorizontalAlignment="Left"
+               VerticalAlignment="Bottom" />
 
     </Grid>
 </Window>

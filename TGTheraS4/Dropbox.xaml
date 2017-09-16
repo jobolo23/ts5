@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Dropbox" Height="700" Width="1000">
     <Grid>
-        <WebBrowser x:Name="WebBrowserCreateDropbox" LoadCompleted="WebBrowserCreateDropbox_LoadCompleted" ></WebBrowser>
+        <WebBrowser x:Name="WebBrowserCreateDropbox" LoadCompleted="WebBrowserCreateDropbox_LoadCompleted" />
     </Grid>
 </Window>

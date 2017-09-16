@@ -1,40 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 using TheraS5.Objects;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für Bericht_Vorlage.xaml
+    ///     Interaktionslogik für Bericht_Vorlage.xaml
     /// </summary>
     public partial class Bericht_Vorlage : Window
     {
-        public bool set = false;
-        public int vorlage = -1;
-        public string name = "";
+        private readonly SQLCommands c;
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
         public string content = "";
-        SQLCommands c;
-        List<Klienten_Berichte> Liste = new List<Klienten_Berichte>();
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly List<Klienten_Berichte> Liste = new List<Klienten_Berichte>();
+        public string name = "";
+        public bool set;
+        public int vorlage = -1;
 
         public Bericht_Vorlage(SQLCommands sql)
         {
             InitializeComponent();
             c = sql;
             Liste = c.getBericht_Vorlage();
-            foreach (Klienten_Berichte tmp in Liste)
+            foreach (var tmp in Liste)
             {
                 cmbvorlage.Items.Add(tmp.name);
             }
@@ -44,7 +36,7 @@ namespace TheraS5
         {
             cmbvorlage.Background = color1;
             txtspeichern.Background = color1;
-            
+
             if (cmbvorlage.Text != "" || txtspeichern.Text != "")
             {
                 if (cmbvorlage.Text != "" && txtspeichern.Text != "")
@@ -67,16 +59,15 @@ namespace TheraS5
                         vorlage = -1;
                         name = txtspeichern.Text;
                     }
-                    this.Close();
+                    Close();
                 }
             }
-            
         }
 
         private void btnAb_Click(object sender, RoutedEventArgs e)
         {
             set = false;
-            this.Close();
+            Close();
         }
     }
 }

@@ -4,19 +4,25 @@
         Title="MediQuestion" Height="300" Width="611" Closing="Window_Closing_1">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="245*"/>
-            <ColumnDefinition Width="91*"/>
-            <ColumnDefinition Width="267*"/>
+            <ColumnDefinition Width="245*" />
+            <ColumnDefinition Width="91*" />
+            <ColumnDefinition Width="267*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="38*"/>
-            <RowDefinition Height="182*"/>
-            <RowDefinition Height="49*"/>
+            <RowDefinition Height="38*" />
+            <RowDefinition Height="182*" />
+            <RowDefinition Height="49*" />
         </Grid.RowDefinitions>
-        <Label Content="Warum gibt es keine vollständige Bestätigung für das Medikament" Height="28" HorizontalAlignment="Left" Margin="0" Name="label1" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="3" />
-        <Label Content="Label" Height="28" HorizontalAlignment="Right" Margin="0" Name="lblMedi" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Column="2" />
-        <TextBox Height="182" HorizontalAlignment="Left" Name="textBox1" VerticalAlignment="Top" Width="603" Grid.Row="1" Grid.ColumnSpan="3" />
-        <Button Content="Grund Senden" Height="23" HorizontalAlignment="Left" Margin="0" Name="button1" VerticalAlignment="Top" Width="86" Click="button1_Click" Grid.Row="2" Grid.Column="1" />
-        <Button x:Name="btn_cancel_medi" Content="Abbrechen" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="75" Click="btn_cancel_medi_Click" Grid.Row="2" Grid.Column="2"/>
+        <Label Content="Warum gibt es keine vollständige Bestätigung für das Medikament" Height="28"
+               HorizontalAlignment="Left" Margin="0" Name="label1" VerticalAlignment="Top" Grid.RowSpan="2"
+               Grid.ColumnSpan="3" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Right" Margin="0" Name="lblMedi"
+               VerticalAlignment="Top" Grid.RowSpan="2" Grid.Column="2" />
+        <TextBox Height="182" HorizontalAlignment="Left" Name="textBox1" VerticalAlignment="Top" Width="603"
+                 Grid.Row="1" Grid.ColumnSpan="3" />
+        <Button Content="Grund Senden" Height="23" HorizontalAlignment="Left" Margin="0" Name="button1"
+                VerticalAlignment="Top" Width="86" Click="button1_Click" Grid.Row="2" Grid.Column="1" />
+        <Button x:Name="btn_cancel_medi" Content="Abbrechen" HorizontalAlignment="Right" Margin="0"
+                VerticalAlignment="Top" Width="75" Click="btn_cancel_medi_Click" Grid.Row="2" Grid.Column="2" />
     </Grid>
 </Window>

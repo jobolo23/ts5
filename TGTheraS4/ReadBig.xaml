@@ -3,10 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Textansicht" Height="403.861" Width="664.664" Loaded="wndwReadBig_Loaded" ResizeMode="NoResize">
     <Grid HorizontalAlignment="Left" Height="375" VerticalAlignment="Top" Width="659">
-        <TextBox x:Name="txtReadBig" HorizontalAlignment="Left" Height="329" TextWrapping="Wrap" VerticalAlignment="Top" Width="649" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SpellCheck.IsEnabled="True" UndoLimit="1000" FontSize="15" TextChanged="txtReadBig_TextChanged"/>
-        <Button x:Name="btn_big_spellcheck" Content="Wörterbuch deaktivieren" HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" Width="157" Click="btn_big_spellcheck_Click"/>
-        <Button x:Name="btn_big_ok" Content="OK" HorizontalAlignment="Left" Margin="564,334,0,0" VerticalAlignment="Top" Width="75" Click="btn_big_ok_Click"/>
-        <Label x:Name="lbl_count_words" Content="" HorizontalAlignment="Left" Margin="172,331,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtReadBig" HorizontalAlignment="Left" Height="329" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="649" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"
+                 SpellCheck.IsEnabled="True" UndoLimit="1000" FontSize="15" TextChanged="txtReadBig_TextChanged" />
+        <Button x:Name="btn_big_spellcheck" Content="Wörterbuch deaktivieren" HorizontalAlignment="Left"
+                Margin="10,334,0,0" VerticalAlignment="Top" Width="157" Click="btn_big_spellcheck_Click" />
+        <Button x:Name="btn_big_ok" Content="OK" HorizontalAlignment="Left" Margin="564,334,0,0"
+                VerticalAlignment="Top" Width="75" Click="btn_big_ok_Click" />
+        <Label x:Name="lbl_count_words" Content="" HorizontalAlignment="Left" Margin="172,331,0,0"
+               VerticalAlignment="Top" />
     </Grid>
 
 </Window>

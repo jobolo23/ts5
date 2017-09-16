@@ -16,7 +16,7 @@ namespace IntranetTG
         {
             var sr = new StreamReader("ftp.ftp");
             var data = sr.ReadLine();
-            _ftpCred  = new NetworkCredential("u79279720", data);
+            _ftpCred = new NetworkCredential("u79279720", data);
         }
 
         public bool DownloadFile(string datei, string speicherort)
@@ -46,7 +46,6 @@ namespace IntranetTG
                 return false;
             }
         }
-
 
 
         // part of the old update routine...
@@ -82,7 +81,9 @@ namespace IntranetTG
             {
                 var read = input.Read(buffer, 0, buffer.Length);
                 if (read <= 0)
+                {
                     return;
+                }
                 output.Write(buffer, 0, read);
             }
         }
@@ -116,7 +117,6 @@ namespace IntranetTG
                     "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-
         }
 
 

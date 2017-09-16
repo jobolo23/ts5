@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IntranetTG;
-
-namespace TheraS5.Objects
+﻿namespace TheraS5.Objects
 {
-    class PadMas
+    internal class PadMas
     {
-        public string created { get; set; }
-        public string from { get; set; }
-        public string mas { get; set; }
-        public string stat { get; set; }
-        public string datVon { get; set; }
-        public string datBis { get; set; }
-
-        public PadMas(String created, String from, String mas, String stat, String datVon, String datBis)
+        public PadMas(string created, string from, string mas, string stat, string datVon, string datBis)
         {
             this.created = created;
             this.from = from;
@@ -24,5 +11,12 @@ namespace TheraS5.Objects
             this.datVon = datVon;
             this.datBis = datBis;
         }
+
+        public string created { get; set; }
+        public string from { get; set; }
+        public string mas { get; set; }
+        public string stat { get; set; }
+        public string datVon { get; set; }
+        public string datBis { get; set; }
     }
 }

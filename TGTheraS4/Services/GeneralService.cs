@@ -2,21 +2,22 @@
 using Newtonsoft.Json;
 using TheraS5.Database.Objects;
 
-namespace TheraS5.Services {
+namespace TheraS5.Services
+{
     public class GeneralService
     {
-        public string ApplicationId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
         private const string GeneralServiceUri = "https://thera-s5.appspot.com/GeneralService";
 
         public GeneralService(string applicationId, string userName, string password)
         {
-            this.ApplicationId = applicationId;
-            this.UserName = userName;
-            this.Password = password;
+            ApplicationId = applicationId;
+            UserName = userName;
+            Password = password;
         }
+
+        public string ApplicationId { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
         public bool NetworkCheck()
         {
@@ -29,14 +30,16 @@ namespace TheraS5.Services {
         public MySqlConnectionInformation GetMySqlConnectionInformation()
         {
             var wc = new WebClient();
-            var json = wc.DownloadString($"{GeneralServiceUri}/GetMySqlConnectionInformation?a={this.ApplicationId}&u={this.UserName}&t={this.Password}");
+            var json = wc.DownloadString(
+                $"{GeneralServiceUri}/GetMySqlConnectionInformation?a={ApplicationId}&u={UserName}&t={Password}");
             return JsonConvert.DeserializeObject<MySqlConnectionInformation>(json);
         }
 
-        public UserInformation GetUserInformation ()
+        public UserInformation GetUserInformation()
         {
             var wc = new WebClient();
-            var json = wc.DownloadString($"{GeneralServiceUri}/GetUserInformation?a={this.ApplicationId}&u={this.UserName}&t={this.Password}");
+            var json = wc.DownloadString(
+                $"{GeneralServiceUri}/GetUserInformation?a={ApplicationId}&u={UserName}&t={Password}");
             return JsonConvert.DeserializeObject<UserInformation>(json);
         }
     }

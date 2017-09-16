@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Kassastand zum Zeitpunkt..." Height="369" Width="292">
     <Grid>
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="12,261,0,0" Name="lblKassst" VerticalAlignment="Top" Width="246" />
-        <Calendar Height="167" HorizontalAlignment="Left" Name="calMS" VerticalAlignment="Top" Width="246" Margin="12,42,0,0" SelectionMode="SingleDate" DisplayMode="Year" DisplayModeChanged="calMS_DisplayModeChanged" DisplayDateChanged="calMS_DisplayDateChanged" />
-        <Button Content="Schließen" Height="23" HorizontalAlignment="Right" Margin="0,295,12,0" Name="bttnClose" VerticalAlignment="Top" Width="120" Click="bttnClose_Click" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="12,261,0,0" Name="lblKassst"
+               VerticalAlignment="Top" Width="246" />
+        <Calendar Height="167" HorizontalAlignment="Left" Name="calMS" VerticalAlignment="Top" Width="246"
+                  Margin="12,42,0,0" SelectionMode="SingleDate" DisplayMode="Year"
+                  DisplayModeChanged="calMS_DisplayModeChanged" DisplayDateChanged="calMS_DisplayDateChanged" />
+        <Button Content="Schließen" Height="23" HorizontalAlignment="Right" Margin="0,295,12,0" Name="bttnClose"
+                VerticalAlignment="Top" Width="120" Click="bttnClose_Click" />
     </Grid>
 </Window>

@@ -1,30 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using IntranetTG;
 
 namespace TheraS5
 {
     /// <summary>
-    /// Interaktionslogik für EditHaus.xaml
+    ///     Interaktionslogik für EditHaus.xaml
     /// </summary>
     public partial class EditHaus : Window
     {
-        String id;
-        SolidColorBrush color1 = Brushes.White;
-        SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
-        private SQLCommands c;
+        private readonly SQLCommands c;
+        private readonly SolidColorBrush color1 = Brushes.White;
+        private readonly SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private readonly string id;
 
-        public EditHaus(String id, SQLCommands sql)
+        public EditHaus(string id, SQLCommands sql)
         {
             this.id = id;
             c = sql;
@@ -49,37 +39,44 @@ namespace TheraS5
                         {
                             if (dpHouseStart.Text != "")
                             {
-                                c.setHouse(id, txtHouseName.Text, txtHouseStreet.Text, txtHouseZIP.Text, txtHouseCity.Text, txtHouseTel.Text, txtHouseEMail.Text, txtHouseHomepage.Text, dpHouseStart.Text);
-                                this.Close();
+                                c.setHouse(id, txtHouseName.Text, txtHouseStreet.Text, txtHouseZIP.Text,
+                                    txtHouseCity.Text, txtHouseTel.Text, txtHouseEMail.Text, txtHouseHomepage.Text,
+                                    dpHouseStart.Text);
+                                Close();
                             }
                             else
                             {
                                 dpHouseStart.Background = color2;
-                                MessageBox.Show("Bitte tragen Sie ein Start-Datum ein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                MessageBox.Show("Bitte tragen Sie ein Start-Datum ein!", "Fehler!", MessageBoxButton.OK,
+                                    MessageBoxImage.Warning);
                             }
                         }
                         else
                         {
                             txtHouseCity.Background = color2;
-                            MessageBox.Show("Bitte tragen Sie eine Stadt ein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show("Bitte tragen Sie eine Stadt ein!", "Fehler!", MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
                         }
                     }
                     else
                     {
                         txtHouseZIP.Background = color2;
-                        MessageBox.Show("Bitte tragen Sie eine PLZ ein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Bitte tragen Sie eine PLZ ein!", "Fehler!", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 else
                 {
                     txtHouseStreet.Background = color2;
-                    MessageBox.Show("Bitte tragen Sie eine Straße ein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Bitte tragen Sie eine Straße ein!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
             {
                 txtHouseName.Background = color2;
-                MessageBox.Show("Bitte tragen Sie einen Namen ein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Bitte tragen Sie einen Namen ein!", "Fehler!", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
     }
