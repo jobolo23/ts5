@@ -25,7 +25,7 @@ namespace TGTheraS4
         // status 0 user 2 hat die aufgabe bekommen
         // status 1 user 1 hat die aufgabe zu überprüfen
         // status 2 aufgabe ist fertig
-        private SQLCommands c = new SQLCommands();
+        private SQLCommands c;
         private String uid2;
         private String uid1;
         SolidColorBrush color1 = Brushes.White;
@@ -33,9 +33,10 @@ namespace TGTheraS4
 
         private bool changedate = false;
 
-        public EditTask(String uid1)
+        public EditTask(String uid1, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             cmbTaskforUser.ItemsSource = Functions.EmployeeList;
             cmbTaskforUser.DisplayMemberPath = "FullName";
             cmbTaskforUser.SelectedValuePath = "Id";

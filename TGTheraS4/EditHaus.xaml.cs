@@ -22,10 +22,12 @@ namespace TGTheraS4
         String id;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
+        private SQLCommands c;
 
-        public EditHaus(String id)
+        public EditHaus(String id, SQLCommands sql)
         {
             this.id = id;
+            c = sql;
             InitializeComponent();
         }
 
@@ -47,7 +49,6 @@ namespace TGTheraS4
                         {
                             if (dpHouseStart.Text != "")
                             {
-                                SQLCommands c = new SQLCommands();
                                 c.setHouse(id, txtHouseName.Text, txtHouseStreet.Text, txtHouseZIP.Text, txtHouseCity.Text, txtHouseTel.Text, txtHouseEMail.Text, txtHouseHomepage.Text, dpHouseStart.Text);
                                 this.Close();
                             }

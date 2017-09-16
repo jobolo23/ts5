@@ -19,15 +19,16 @@ namespace TGTheraS4
     /// </summary>
     public partial class EditInstruction : Window
     {
-        private SQLCommands c = new SQLCommands();
+        private SQLCommands c;
         private String uid;
         private String name;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditInstruction(String name)
+        public EditInstruction(String name, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             btnGelesen.Visibility = Visibility.Hidden;
             btnGelesenvon.Visibility = Visibility.Hidden;
             lblAuthoren.Visibility = Visibility.Hidden;
@@ -103,7 +104,7 @@ namespace TGTheraS4
 
         private void btnGelesenvon_Click(object sender, RoutedEventArgs e)
         {
-            ShowReadInstruction sri = new ShowReadInstruction(dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"), txtTitel.Text, txtBeschreibung.Text);
+            ShowReadInstruction sri = new ShowReadInstruction(dateInstructionStart.SelectedDate.Value.ToString("yyyy-MM-dd"), txtTitel.Text, txtBeschreibung.Text, c);
             sri.Show();
         }
 

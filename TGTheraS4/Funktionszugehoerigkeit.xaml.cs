@@ -23,14 +23,15 @@ namespace TGTheraS4
     {
         public List<UserFunctions> func = new List<UserFunctions>();
         public List<UserFunctions> selected = new List<UserFunctions>();
-        SQLCommands c = new SQLCommands();
+        private SQLCommands c;
         bool close = false;
         public int id;
         public bool set = false;
 
-        public Funktionszugehoerigkeit(int id)
+        public Funktionszugehoerigkeit(int id, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             func = c.getUserFunctions();
             this.id = id;
             selected = c.getUserFunctions(id);

@@ -19,7 +19,7 @@ namespace TGTheraS4
     
     public partial class EditAppointmentsDialog : Window
     {
-        private SQLCommands commands = new SQLCommands();
+        private SQLCommands commands;
         private bool isNew = false;
         object[] editData = null;
         private DateTime readDateTime;                
@@ -27,9 +27,11 @@ namespace TGTheraS4
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditAppointmentsDialog()
+        public EditAppointmentsDialog(SQLCommands sql)
         {
             InitializeComponent();
+
+            commands = sql;
 
             switch (Functions.AppointmentTask)
             {

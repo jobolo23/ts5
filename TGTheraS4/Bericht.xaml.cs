@@ -21,16 +21,17 @@ namespace TGTheraS4
     public partial class Bericht : Window
     {
         User u;
-        SQLCommands c = new SQLCommands();
+        SQLCommands c;
         string[] drucken = new string[6]; 
         public Bericht()
         {
             InitializeComponent();
 
         }
-        public Bericht(User u)
+        public Bericht(User u, SQLCommands sql)
         {
             InitializeComponent();
+            this.c = sql;
             this.u = u;
             FillKidsIntoBerichtKombo();
             

@@ -14,7 +14,6 @@ namespace TGTheraS4.Objects
 
         public BodyInfo(String datum, String groeße, String gewicht)
         {
-            SQLCommands c = new SQLCommands();
             this.datum = DateTime.Parse(datum).Date.ToString("yyyy-MM-dd");
             this.gewicht = gewicht;
             this.groeße = groeße;

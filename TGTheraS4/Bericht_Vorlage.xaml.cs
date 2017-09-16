@@ -24,15 +24,15 @@ namespace TGTheraS4
         public int vorlage = -1;
         public string name = "";
         public string content = "";
-        SQLCommands c = new SQLCommands();
+        SQLCommands c;
         List<Klienten_Berichte> Liste = new List<Klienten_Berichte>();
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public Bericht_Vorlage()
+        public Bericht_Vorlage(SQLCommands sql)
         {
             InitializeComponent();
-
+            c = sql;
             Liste = c.getBericht_Vorlage();
             foreach (Klienten_Berichte tmp in Liste)
             {

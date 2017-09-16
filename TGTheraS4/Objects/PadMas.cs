@@ -17,7 +17,6 @@ namespace TGTheraS4.Objects
 
         public PadMas(String created, String from, String mas, String stat, String datVon, String datBis)
         {
-            SQLCommands c = new SQLCommands();
             this.created = created;
             this.from = from;
             this.mas = mas;

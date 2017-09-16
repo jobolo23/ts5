@@ -26,19 +26,20 @@ namespace TGTheraS4
     {
         public int editNumber;
         public DataGridRow row;
-        public SQLCommands commands = new SQLCommands();
+        public SQLCommands commands;
 
 
-        public EditUserControl()
+        public EditUserControl(SQLCommands sql)
         {
             InitializeComponent();
+            commands = sql;
         }
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
             if (Functions.EditNumberEditDialog == Enumerations.EditDialog.WorkingTime)
             {
-                EditWorkingTimeDialog editdialog = new EditWorkingTimeDialog();
+                EditWorkingTimeDialog editdialog = new EditWorkingTimeDialog(commands);
                 editdialog.Show();
             }    
         }

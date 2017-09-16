@@ -36,6 +36,7 @@ using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
+using TGTheraS4.Services;
 
 
 namespace TGTheraS4
@@ -46,7 +47,7 @@ namespace TGTheraS4
     public partial class MainWindow : Window
     {
         public MySqlConnection myConnection;
-        SQLCommands c = new SQLCommands();
+        SQLCommands c;
         string[] databaseString;
         User u; 
         private DataTable table;
@@ -67,7 +68,8 @@ namespace TGTheraS4
         bool contactMode;
         bool contactSearch;
         string contID = "";
-        public bool isOnline = checkNetwork();
+        private GeneralService _generalService;
+        public bool isOnline = false; 
         List<Contacts> allContacts = new List<Contacts>();
         bool contSearch1 = false;
         bool contSearch2 = false;
@@ -95,9 +97,10 @@ namespace TGTheraS4
         {
 
             InitializeComponent();
-            //@Belada hier überprüfen, ob offline
 
+            _generalService = new GeneralService("0", "0", "0"); // SystemID is currently Hardcoded...
 
+            isOnline = _generalService.NetworkCheck();
 
             if ((this.Width > SystemParameters.PrimaryScreenWidth) || (this.Height > SystemParameters.PrimaryScreenHeight))
             {
@@ -123,11 +126,17 @@ namespace TGTheraS4
             //updatecmbUserKmG(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
 
 
-            SQLiteConnection con = new SQLiteConnection(cs);
+            /* SQLiteConnection con = new SQLiteConnection(cs);
             con.Open();
 
-            db = new DataContext(con);
+            db = new DataContext(con); */
 
+            
+        }
+
+
+        public void afterLogin()
+        {
             if (isOnline)
             {
                 //FTPHandler f = new FTPHandler();
@@ -152,11 +161,11 @@ namespace TGTheraS4
                 tabHome.IsSelected = true;
 
                 Uri uri = new Uri("https://www.dropbox.com/logout");
-                
+
                 WebBrowserDropbox.Navigate(uri, null, null, "User-Agent: Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; eSobiSubscriber 1.0.0.40; .NET4.0E; .NET4.0C)");
 
 
-                
+
 
 
 
@@ -418,6 +427,27 @@ namespace TGTheraS4
                     chk_allow.Visibility = Visibility.Hidden;
                     btnAllUsersPDF.Visibility = Visibility.Hidden;
                 }
+
+
+                hideContact();
+                deleteContactText();
+                allContacts = c.fillContacts();
+                dgvContact.ItemsSource = allContacts;
+                fillContactCmb();
+
+                lblContSearch.Visibility = Visibility.Hidden;
+                btnContSearch1Minus.Visibility = Visibility.Hidden;
+                btnContSearch2Plus.Visibility = Visibility.Hidden;
+                btnContSearch2Minus.Visibility = Visibility.Hidden;
+                btnContSearch3Plus.Visibility = Visibility.Hidden;
+                btnContSearch3Minus.Visibility = Visibility.Hidden;
+                cmbContSearch1.Visibility = Visibility.Hidden;
+                cmbContSearch2.Visibility = Visibility.Hidden;
+                cmbContSearch3.Visibility = Visibility.Hidden;
+                txtContSearch1.Visibility = Visibility.Hidden;
+                txtContSearch2.Visibility = Visibility.Hidden;
+                txtContSearch3.Visibility = Visibility.Hidden;
+
                 hide_waiting();
             }
             catch { }
@@ -505,6 +535,12 @@ namespace TGTheraS4
         private void Login()
         {
             view_waiting();
+
+            _generalService.Password = txtPW.Password;
+            _generalService.UserName = txtUser.Text;
+
+            c = new SQLCommands(_generalService.GetMySqlConnectionInformation());
+
             u = new User(txtUser.Text, txtPW.Password, c.getPW(c.getUserID(txtUser.Text)));
 
             if (Functions.checkUser(u))
@@ -515,6 +551,7 @@ namespace TGTheraS4
 
                 u.Id = c.getUserID(u.Username);
                 u.Services = c.userToService(u.Id);
+
                 FillKidsIntoCombo();
                 btnLogin.Visibility = System.Windows.Visibility.Hidden;
                 tabMain.Visibility = System.Windows.Visibility.Visible;
@@ -1680,7 +1717,7 @@ namespace TGTheraS4
 
         private void btnEditShout_Click(object sender, RoutedEventArgs e)
         {
-            EditShoutDialog shout = new EditShoutDialog();
+            EditShoutDialog shout = new EditShoutDialog(c);
             shout.ShowDialog();
 
             string[] shouts = new string[] { "Shoutbox", "Erstellt", "Name" };
@@ -1689,7 +1726,7 @@ namespace TGTheraS4
 
         private void btnNewBericht_Click(object sender, RoutedEventArgs e)
         {
-            Bericht b = new Bericht(u);
+            Bericht b = new Bericht(u, c);
             b.ShowDialog();
         }
         /**
@@ -1697,7 +1734,7 @@ namespace TGTheraS4
          * */
         private void btnNewTask_Click(object sender, RoutedEventArgs e)
         {
-            EditTask et = new EditTask(u.Id);
+            EditTask et = new EditTask(u.Id, c);
             et.Show();
             refreshAllTasks();
         }
@@ -2032,7 +2069,7 @@ namespace TGTheraS4
         private void btnNewInstruction_Click(object sender, RoutedEventArgs e)
         {
             String name = c.getNameByID(u.Id);
-            EditInstruction newinstruction = new EditInstruction(name);
+            EditInstruction newinstruction = new EditInstruction(name, c);
             newinstruction.ShowDialog();
             refreshAllInstructions();
 
@@ -5018,7 +5055,7 @@ namespace TGTheraS4
         {
             try
             {
-                EditMedicalActions ema = new EditMedicalActions(u.Id, u.Services, cmbMA.SelectedValue.ToString());
+                EditMedicalActions ema = new EditMedicalActions(u.Id, u.Services, cmbMA.SelectedValue.ToString(), c);
                 ema.ShowDialog();
                 btngetMA.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
@@ -5997,7 +6034,7 @@ namespace TGTheraS4
 
         private void btnNH_Click(object sender, RoutedEventArgs e)
         {
-            EditHaus eh = new EditHaus(u.Id);
+            EditHaus eh = new EditHaus(u.Id, c);
             eh.ShowDialog();
             refreshService();
         }
@@ -6047,7 +6084,7 @@ namespace TGTheraS4
             view_waiting();
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.ShowDialog();
-            Title tit = new Title();
+            Title tit = new Title(c);
             tit.ShowDialog();
             if (tit.titel != "-1")
             {
@@ -6076,7 +6113,7 @@ namespace TGTheraS4
             Nullable<bool> result = ofd.ShowDialog();
             if (result == true)
             {
-                Title tit = new Title();
+                Title tit = new Title(c);
                 tit.ShowDialog();
                 if (tit.titel != "-1")
                 {
@@ -6109,7 +6146,7 @@ namespace TGTheraS4
 
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.ShowDialog();
-                Title tit = new Title();
+                Title tit = new Title(c);
                 tit.ShowDialog();
                 if (tit.titel != "-1")
                 {
@@ -7823,7 +7860,7 @@ namespace TGTheraS4
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png";//"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
             ofd.ShowDialog();
-            Title tit = new Title();
+            Title tit = new Title(c);
             tit.ShowDialog();
             if (tit.titel != "-1")
             {
@@ -7852,7 +7889,7 @@ namespace TGTheraS4
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png";//"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
                 ofd.ShowDialog();
-                Title tit = new Title();
+                Title tit = new Title(c);
                 tit.ShowDialog();
                 if (tit.titel != "-1")
                 {
@@ -8769,7 +8806,7 @@ namespace TGTheraS4
 
         private void btnFvgC_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Bericht_Vorlage vorlage = new Bericht_Vorlage();
+            Bericht_Vorlage vorlage = new Bericht_Vorlage(c);
             vorlage.ShowDialog();
             if (vorlage.set)
             {
@@ -8804,24 +8841,7 @@ namespace TGTheraS4
         {
             if (isOnline)
             {
-                hideContact();
-                deleteContactText();
-                allContacts = c.fillContacts();
-                dgvContact.ItemsSource = allContacts;
-                fillContactCmb();
-
-                lblContSearch.Visibility = Visibility.Hidden;
-                btnContSearch1Minus.Visibility = Visibility.Hidden;
-                btnContSearch2Plus.Visibility = Visibility.Hidden;
-                btnContSearch2Minus.Visibility = Visibility.Hidden;
-                btnContSearch3Plus.Visibility = Visibility.Hidden;
-                btnContSearch3Minus.Visibility = Visibility.Hidden;
-                cmbContSearch1.Visibility = Visibility.Hidden;
-                cmbContSearch2.Visibility = Visibility.Hidden;
-                cmbContSearch3.Visibility = Visibility.Hidden;
-                txtContSearch1.Visibility = Visibility.Hidden;
-                txtContSearch2.Visibility = Visibility.Hidden;
-                txtContSearch3.Visibility = Visibility.Hidden;
+                
             }
             else
             {
@@ -9455,7 +9475,7 @@ namespace TGTheraS4
             {
                 //showContact();
                 Contacts tmp = allContacts.ElementAt(dgvContact.SelectedIndex);
-                EditContacts ec = new EditContacts(u.Id, (Contacts)dgvContact.SelectedItem);
+                EditContacts ec = new EditContacts(u.Id, (Contacts)dgvContact.SelectedItem, c);
                 ec.ShowDialog();
                 contactMode = false;
                 if (ec.saved)
@@ -9489,7 +9509,7 @@ namespace TGTheraS4
 
         private void btnContSave_Click(object sender, RoutedEventArgs e)
         {
-            EditContacts ec = new EditContacts(u.Id);
+            EditContacts ec = new EditContacts(u.Id, c);
             ec.ShowDialog();
             /*
             bool? ok = checkContact();
@@ -9846,7 +9866,7 @@ namespace TGTheraS4
             if (dgvWikiDocs.SelectedIndex != -1)
             {
                 WikiDoc tmp = (WikiDoc)dgvWikiDocs.SelectedItem;
-                Title tit = new Title();
+                Title tit = new Title(c);
                 tit.ShowDialog();
                 if (tit.titel != "-1")
                 {
@@ -10238,19 +10258,6 @@ namespace TGTheraS4
         private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-        public static bool checkNetwork()
-        {
-            try
-            {
-                WebClient client = new WebClient();
-                Stream stream = client.OpenRead("http://www.google.com");
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         private void btnKMGActiveEx_Click(object sender, RoutedEventArgs e)
@@ -10843,7 +10850,7 @@ namespace TGTheraS4
             }
 
             //aw.ShowDialog();
-            Funktionszugehoerigkeit tmp = new Funktionszugehoerigkeit(a.Kostalid);
+            Funktionszugehoerigkeit tmp = new Funktionszugehoerigkeit(a.Kostalid, c);
             tmp.ShowDialog();
             funcz = tmp;
             //aw.Sh(true); 

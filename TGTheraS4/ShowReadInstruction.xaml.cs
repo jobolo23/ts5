@@ -20,12 +20,13 @@ namespace TGTheraS4
     /// </summary>
     public partial class ShowReadInstruction : Window
     {
-        private SQLCommands c = new SQLCommands();
+        private SQLCommands c;
         private List<ReadInstruction> l = new List<ReadInstruction>();
 
-        public ShowReadInstruction(String date, String title, String desc)
+        public ShowReadInstruction(String date, String title, String desc, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             l = c.getInstructionRead(title, date, desc);
             dgReadInstruction.ItemsSource = l;
         }

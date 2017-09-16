@@ -21,7 +21,7 @@ namespace TGTheraS4
     /// </summary>
     public partial class EditWorkingTimeDialog : Window
     {
-        private SQLCommands commands = new SQLCommands();
+        private SQLCommands commands;
         public List<Project> projects = new List<Project>();
         public string projectString = "";
         private bool isNew = false;
@@ -33,9 +33,10 @@ namespace TGTheraS4
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditWorkingTimeDialog()
+        public EditWorkingTimeDialog(SQLCommands sql)
         {
             InitializeComponent();
+            commands = sql;
             dpFrom.Text = DateTime.Now.ToShortDateString();
             //tpFrom.Value = DateTime.Now;
             isNew = true;

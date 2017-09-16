@@ -115,6 +115,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp-WPF">
       <HintPath>..\PdfSharp-WPF.dll</HintPath>
     </Reference>
@@ -180,6 +183,8 @@
     <Compile Include="Database-SQLite\services.cs" />
     <Compile Include="Database-SQLite\users.cs" />
     <Compile Include="Database-SQLite\userstoservices.cs" />
+    <Compile Include="Database\Objects\MySqlConnectionInformation.cs" />
+    <Compile Include="Database\Objects\UserInformation.cs" />
     <Compile Include="Dropbox.xaml.cs">
       <DependentUpon>Dropbox.xaml</DependentUpon>
     </Compile>
@@ -270,6 +275,7 @@
     <Compile Include="SelectKBColumns.xaml.cs">
       <DependentUpon>SelectKBColumns.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\GeneralService.cs" />
     <Compile Include="ShowReadInstruction.xaml.cs">
       <DependentUpon>ShowReadInstruction.xaml</DependentUpon>
     </Compile>

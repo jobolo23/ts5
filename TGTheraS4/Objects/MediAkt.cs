@@ -14,7 +14,6 @@ namespace TGTheraS4.Objects
 
         public MediAkt(String date,String art, String desc)
         {
-            SQLCommands c = new SQLCommands();
             this.date = DateTime.Parse(date).Date.ToString("yyyy-MM-dd"); ;
             this.art = art;
             this.desc = desc;

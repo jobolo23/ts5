@@ -19,15 +19,16 @@ namespace TGTheraS4
     /// </summary>
     public partial class EditMedicalActions : Window
     {
-        SQLCommands c = new SQLCommands();
+        SQLCommands c;
         String id;
         public bool del = false;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditMedicalActions(String id,String[] services, String client)
+        public EditMedicalActions(String id,String[] services, String client, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             this.id = id;
             cmbArt.ItemsSource = c.geileMethode();
             cmbArt.SelectedValuePath = "aid";
@@ -94,7 +95,7 @@ namespace TGTheraS4
         {
             try
             {
-                EditArt ea = new EditArt();
+                EditArt ea = new EditArt(c);
                 ea.ShowDialog();
                 cmbArt.ItemsSource = c.geileMethode();
             }

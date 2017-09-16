@@ -24,11 +24,12 @@ namespace TGTheraS4
     {
         public int editNumber;
         public DataGridRow row;
-        public SQLCommands commands = new SQLCommands();
+        public SQLCommands commands;
 
-        public GridUserControl()
+        public GridUserControl(SQLCommands sql)
         {
             InitializeComponent();
+            commands = sql;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

@@ -17,9 +17,9 @@ namespace TGTheraS4.Objects
         public string desc { get; set; }
 
 
-        public Task(String von, String zu, String startdate, String enddate, String desc)
+        public Task(String von, String zu, String startdate, String enddate, String desc, SQLCommands sql)
         {
-            SQLCommands c = new SQLCommands();
+            SQLCommands c = sql;
             this.von = c.getNameByID(von);
             this.zu = c.getNameByID(zu);
             this.startdate = DateTime.Parse(startdate).Date.ToString("yyyy-MM-dd");

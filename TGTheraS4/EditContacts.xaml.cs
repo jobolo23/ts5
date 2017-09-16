@@ -22,7 +22,7 @@ namespace TGTheraS4
     {
         public bool newone = false;
         public string userid = "";
-        public SQLCommands c = new SQLCommands();
+        public SQLCommands c;
         List<Salutations> sal = new List<Salutations>();
         List<IntranetTG.Objects.Title> tit = new List<IntranetTG.Objects.Title>();
         public Contacts selectedItem;
@@ -31,9 +31,10 @@ namespace TGTheraS4
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditContacts(string userid)
+        public EditContacts(string userid, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             this.userid = userid;
             sal = c.getsalutations();
             cmbsalu.ItemsSource = sal;
@@ -66,7 +67,7 @@ namespace TGTheraS4
             }
         }
 
-        public EditContacts(string userid, Contacts selectedItem) : this(userid)
+        public EditContacts(string userid, Contacts selectedItem, SQLCommands sql) : this(userid, sql)
         {
             sal = c.getsalutations();
             cmbsalu.ItemsSource = sal;
@@ -209,13 +210,11 @@ namespace TGTheraS4
             {
                 if (neu)
                 {
-                    SQLCommands c = new SQLCommands();
                     c.setContacts(userid, txtinstitution.Text, ((Salutations)cmbsalu.SelectedItem).id, ((IntranetTG.Objects.Title)cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text, txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text, txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text);
                     newone = true;
                     this.Close();
                 }else
                 {
-                    SQLCommands c = new SQLCommands();
                     c.changeContacts2(userid, txtinstitution.Text, ((Salutations)cmbsalu.SelectedItem).id, ((IntranetTG.Objects.Title)cmbtitel.SelectedItem).id, txtfirstname.Text, txtlastname.Text, txtcompany.Text, txtdepartment.Text, txtstreet.Text, txtzip.Text, txtcountry.Text, txtcity.Text, txtphone.Text, txtemail.Text, txtcomment.Text, txtfunc.Text, selectedItem.id);
                     saved = true;
                     selectedItem.firstname = txtfirstname.Text;

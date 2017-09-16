@@ -20,12 +20,13 @@ namespace TGTheraS4
     public partial class EditArt : Window
     {
 
-        SQLCommands c = new SQLCommands();
+        SQLCommands c;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditArt()
+        public EditArt(SQLCommands sql)
         {
+            c = sql;
             InitializeComponent();
         }
 

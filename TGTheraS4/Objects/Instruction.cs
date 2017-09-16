@@ -15,9 +15,9 @@ namespace TGTheraS4.Objects
 
 
 
-        public Instruction(String title, String desc , String date, String uid)
+        public Instruction(String title, String desc , String date, String uid, SQLCommands sql)
         {
-            SQLCommands c = new SQLCommands();
+            SQLCommands c = sql;
             this.date = DateTime.Parse(date).Date.ToString("yyyy-MM-dd");
             this.title = title;
             this.desc = desc;

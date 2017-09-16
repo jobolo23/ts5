@@ -21,13 +21,14 @@ namespace TGTheraS4
     /// </summary>
     public partial class EditShoutDialog : Window
     {
-        private SQLCommands c = new SQLCommands();
+        private SQLCommands c;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
 
-        public EditShoutDialog()
+        public EditShoutDialog(SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             txtShout.Focus();     
         }
 

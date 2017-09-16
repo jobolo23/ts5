@@ -20,11 +20,12 @@ namespace TGTheraS4
     public partial class Title : Window
     {
         public string titel = "-1";
-        public SQLCommands c = new SQLCommands();
+        public SQLCommands c;
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
-        public Title()
+        public Title(SQLCommands sql)
         {
+            c = sql;
             InitializeComponent();
         }
 

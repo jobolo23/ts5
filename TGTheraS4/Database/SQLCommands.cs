@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using TGTheraS4.Database.Objects;
 using TGTheraS4.Objects;
 using TGTheraS4.Database_SQLite;
 
@@ -18,13 +19,11 @@ namespace IntranetTG
     public class SQLCommands 
     {
         //public MySqlConnection myConnection = new MySqlConnection("uid=ultra;" + "pwd=radeonhd7870;server=81.19.152.119;" + "database=intranetTest; Convert Zero Datetime=True"); //Test-Server
-        public MySqlConnection myConnection = new MySqlConnection("uid=test;" + "pwd=test;server=82.149.102.22;" + "database=theras5; Convert Zero Datetime=True"); //Main-Server
+        private readonly MySqlConnection _myConnection; //Main-Server
 
-        public SQLCommands()
+        public SQLCommands(MySqlConnectionInformation connectionData)
         {
-
-
-
+            _myConnection = new MySqlConnection($"uid={connectionData.Username};pwd={connectionData.Password};server={connectionData.Host};database={connectionData.Database}; Convert Zero Datetime=True");
         }
 
         /// <summary>
@@ -50,9 +49,9 @@ namespace IntranetTG
             }
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, d.created dcreated, d.for_day, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsdailydocs d JOIN clients c ON c.id = d.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = d.createuser_id WHERE (" + sql_wgs + ") AND d.created > '" + dateFrom + "' ORDER BY d.created DESC", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, d.created dcreated, d.for_day, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsdailydocs d JOIN clients c ON c.id = d.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = d.createuser_id WHERE (" + sql_wgs + ") AND d.created > '" + dateFrom + "' ORDER BY d.created DESC", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -89,7 +88,7 @@ namespace IntranetTG
 
 
 
-                myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, r.created rcreated, r.name rname, r.art rart, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsreports r JOIN clients c ON c.id = r.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = r.createuser_id WHERE (" + sql_wgs + ") AND r.created > '" + dateFrom + "' ORDER BY r.created DESC", myConnection);
+                myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, r.created rcreated, r.name rname, r.art rart, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsreports r JOIN clients c ON c.id = r.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = r.createuser_id WHERE (" + sql_wgs + ") AND r.created > '" + dateFrom + "' ORDER BY r.created DESC", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -153,7 +152,7 @@ namespace IntranetTG
 
 
 
-                myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, r.created rcreated, r.name rname, r.art rart, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsfvgs r JOIN clients c ON c.id = r.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = r.createuser_id WHERE (" + sql_wgs + ") AND r.created > '" + dateFrom + "' ORDER BY r.created DESC", myConnection);
+                myCommand = new MySqlCommand("SELECT c.firstname cfirstname, c.lastname clastname, r.created rcreated, r.name rname, r.art rart, u.firstname ufirstname, u.lastname ulastname, s.name sname FROM clientsfvgs r JOIN clients c ON c.id = r.client_id JOIN clientstoservices cs ON c.id = cs.client_id JOIN services s ON cs.service_id = s.id JOIN users u ON u.id = r.createuser_id WHERE (" + sql_wgs + ") AND r.created > '" + dateFrom + "' ORDER BY r.created DESC", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -227,7 +226,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -242,7 +241,7 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 //----------Begin DC----------
                 /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
@@ -254,7 +253,7 @@ namespace IntranetTG
                     " join clientstoservices cs on c.id = cs.client_id" +
                     " join services s on cs.service_id = s.id" +
                     " where s.name = '" + wg + "' " +
-                    "and c.leaving is null order by lastname, s.name ASC", myConnection);
+                    "and c.leaving is null order by lastname, s.name ASC", _myConnection);
                 //----------End DC----------
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -274,7 +273,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -284,7 +283,7 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 //----------Begin DC----------
                 /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
@@ -294,7 +293,7 @@ namespace IntranetTG
                 MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
                     " join clientstoservices cs on c.id = cs.client_id" +
                     " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' order by lastname, s.name ASC", myConnection);
+                    " where s.name = '" + wg + "' order by lastname, s.name ASC", _myConnection);
                 //----------End DC----------
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -314,7 +313,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -324,7 +323,7 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 //----------Begin DC----------
                 /*MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
@@ -334,7 +333,7 @@ namespace IntranetTG
                 MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,s.name from clients c" +
                     " join clientstoservices cs on c.id = cs.client_id" +
                     " join services s on cs.service_id = s.id" +
-                    " where s.name = '" + wg + "' and leaving is not null order by lastname, s.name ASC", myConnection);
+                    " where s.name = '" + wg + "' and leaving is not null order by lastname, s.name ASC", _myConnection);
                 //----------End DC----------
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -354,7 +353,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -364,9 +363,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select client_id, created, modified, createuser_id, lastuser_id, title, path, filesize from clientsdocuments where client_id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select client_id, created, modified, createuser_id, lastuser_id, title, path, filesize from clientsdocuments where client_id = " + id, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -391,7 +390,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -400,9 +399,9 @@ namespace IntranetTG
             try
             {
                 //if exists
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("update feedback set rate = " + feedback.rating + " where userId = " + feedback.userid.ToString() + " ;", myConnection);
+                myCommand = new MySqlCommand("update feedback set rate = " + feedback.rating + " where userId = " + feedback.userid.ToString() + " ;", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch 
@@ -411,7 +410,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -420,9 +419,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id, created, modified, createuser_id, lastuser_id, title, path, rate from wiki",myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select id, created, modified, createuser_id, lastuser_id, title, path, rate from wiki",_myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -447,7 +446,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -483,13 +482,13 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname,m.name from clients c" +
                     " join clientsmedications cm on c.id = cm.client_id" +
                     " join medicaments m on cm.medicament_id = m.id" +
                     " where c.firstname = '" + vorname + "' and c.lastname = '" + nachname + "' " +
-                    "and cm.to >= curdate()", myConnection);
+                    "and cm.to >= curdate()", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -506,7 +505,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -523,10 +522,10 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand("select s.message, s.created, u.firstname, u.lastname from shouts s join users u on s.createuser_id = u.id" +
-                " order by created DESC LIMIT 0, 30", myConnection);
+                " order by created DESC LIMIT 0, 30", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -545,7 +544,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -554,8 +553,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("insert into shouts (created,createuser_id,message) values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "','" + id + "','" + shout + "')", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("insert into shouts (created,createuser_id,message) values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "','" + id + "','" + shout + "')", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception)
@@ -564,7 +563,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -585,13 +584,13 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 string[] temp = p.Split(' ');
                 MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname, d.content_bodily, " +
                     "d.content_school, d.content_psychic, d.content_external_contact, d.content_responsibilities, d.createuser_id " +
                     "from clients c join clientsdailydocs d on c.id = d.client_id where c.firstname ='"
-                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + dateTime.ToString("yyyy-MM-dd") + " 00:00' and '" + dateTime.ToString("yyyy-MM-dd") + " 23:59'", myConnection);
+                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + dateTime.ToString("yyyy-MM-dd") + " 00:00' and '" + dateTime.ToString("yyyy-MM-dd") + " 23:59'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -612,7 +611,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -622,14 +621,14 @@ namespace IntranetTG
             string[] temp = kid.Split(' ');
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand("select cm.id cmid, m.id mid, c.firstname,c.lastname,m.name,cm.morning,cm.midday,cm.evening,cm.night, cmc.morning mo,cmc.midday mi,cmc.evening ev,cmc.night ni, cmc.created crea from clients c" +
                     " join clientsmedications cm on c.id = cm.client_id" +
                     " join medicaments m on cm.medicament_id = m.id" +
                     " join clientsmedicationsconfirmations cmc on cmc.clientsmedication_id = cm.id" +
                     " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "' " +
-                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", myConnection);
+                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -657,7 +656,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -669,14 +668,14 @@ namespace IntranetTG
             string[] temp = kid.Split(' ');
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand("select cm.id cmid, m.id mid, c.firstname,c.lastname,m.name,cm.morning,cm.midday,cm.evening,cm.night, cmc.morning mo,cmc.midday mi,cmc.evening ev,cmc.night ni, cmc.created crea, cm.cancelled cmca from clients c" +
                     " join clientsmedications cm on c.id = cm.client_id" +
                     " join medicaments m on cm.medicament_id = m.id" +
                     " join clientsmedicationsconfirmations cmc on cmc.clientsmedication_id = cm.id" +
                     " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "' " +
-                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", myConnection);
+                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -700,7 +699,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -710,14 +709,14 @@ namespace IntranetTG
             string[] temp = kid.Split(' ');
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand("select cmc.confirmed confi from clients c" +
                     " join clientsmedications cm on c.id = cm.client_id" +
                     " join medicaments m on cm.medicament_id = m.id" +
                     " join clientsmedicationsconfirmations cmc on cmc.clientsmedication_id = cm.id" +
                     " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "' " +
-                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", myConnection);
+                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -735,7 +734,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -743,10 +742,10 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("UPDATE clientsmedications SET cancelled = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' where id = " + cmid, myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("UPDATE clientsmedications SET cancelled = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' where id = " + cmid, _myConnection);
                 myCommand.ExecuteNonQuery();
-                myConnection.Close();
+                _myConnection.Close();
             }
             catch
             {
@@ -756,29 +755,29 @@ namespace IntranetTG
 
         internal void deleteMediForClient(string cmid)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("DELETE FROM clientsmedications WHERE id = " + cmid, myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("DELETE FROM clientsmedications WHERE id = " + cmid, _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         //Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " order by realized desc;", myConnection);
         internal void deleteMediActionForClient(string client, string date, string art, string desc)
         {
             string id = getMediActionIDbyName(art);
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("DELETE FROM clientsmedicalactions WHERE client_id = " + client + " and realized = '" + date + "' and statement = '" + desc + "' and medicalaction_id = " + id + ";" , myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("DELETE FROM clientsmedicalactions WHERE client_id = " + client + " and realized = '" + date + "' and statement = '" + desc + "' and medicalaction_id = " + id + ";" , _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal void addNewMedi(string name, string dis, string uid)
         {
-            myConnection.Open();
+            _myConnection.Open();
             MySqlCommand myCommand = new MySqlCommand("INSERT INTO medicaments (created, modified, createuser_id, lastuser_id, name, description) " +
-                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + uid + "', '" + uid + "', '" + name + "','" + dis + "')", myConnection);
+                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + uid + "', '" + uid + "', '" + name + "','" + dis + "')", _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal bool checkMediIfObsolete(string mid)
@@ -786,12 +785,12 @@ namespace IntranetTG
             bool ret = false;
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = null;
 
                 myCommand = new MySqlCommand("select `cancelled`, `to` from clientsmedications" +
-                        " where `id` = '" + mid + "' AND ((`cancelled` > '0000-00-00' AND `cancelled` <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "') OR `to` < '" + DateTime.Now.ToString("yyyy-MM-dd") + "')", myConnection);
+                        " where `id` = '" + mid + "' AND ((`cancelled` > '0000-00-00' AND `cancelled` <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "') OR `to` < '" + DateTime.Now.ToString("yyyy-MM-dd") + "')", _myConnection);
 
                 myReader = myCommand.ExecuteReader();
 
@@ -814,39 +813,39 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
         internal void updateMedi(string medi_id, string mid, string luid, string from, string to, string mo, string mi, string ev, string ni)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("UPDATE clientsmedications SET modified = '" + DateTime.Now.ToString("yyyy-MM-dd") + "', lastuser_id = '" + luid + "', `from` = '" + from + "', `to` = '" + to + "', morning = '" + mo + "', midday = '" + mi + "', evening = '" + ev + "', night = '" + ni + "', medicament_id = '" + medi_id + "' where id = " + mid, myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("UPDATE clientsmedications SET modified = '" + DateTime.Now.ToString("yyyy-MM-dd") + "', lastuser_id = '" + luid + "', `from` = '" + from + "', `to` = '" + to + "', morning = '" + mo + "', midday = '" + mi + "', evening = '" + ev + "', night = '" + ni + "', medicament_id = '" + medi_id + "' where id = " + mid, _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal void addFunctions(string name)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("insert into functions (Name) values ('" + name + "')", myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("insert into functions (Name) values ('" + name + "')", _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal void editFunctions(string name, string id)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("update functions set name = '" + name + "' where id = " + id, myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("update functions set name = '" + name + "' where id = " + id, _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal DateTime getMediDateFrom(string mid)
         {
-            myConnection.Open();
+            _myConnection.Open();
             DateTime dt = DateTime.Today;
-            MySqlCommand myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'", myConnection);
+            MySqlCommand myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'", _myConnection);
             MySqlDataReader myReader = myCommand.ExecuteReader();
             
 
@@ -855,15 +854,15 @@ namespace IntranetTG
                 dt = Convert.ToDateTime(myReader["from"].ToString());
             }
             myReader.Close();
-            myConnection.Close();
+            _myConnection.Close();
             return dt;
         }
 
         internal DateTime getMediDateTo(string mid)
         {
-            myConnection.Open();
+            _myConnection.Open();
             DateTime dt = DateTime.Today;
-            MySqlCommand myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'", myConnection);
+            MySqlCommand myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'", _myConnection);
             MySqlDataReader myReader = myCommand.ExecuteReader();
 
             while (myReader.Read())
@@ -871,25 +870,25 @@ namespace IntranetTG
                 dt = Convert.ToDateTime(myReader["to"].ToString());
             }
             myReader.Close();
-            myConnection.Close();
+            _myConnection.Close();
             return dt;
         }
 
 
         internal void deluserfunc(int id)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("delete from userstofunctions where User = " + id, myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("delete from userstofunctions where User = " + id, _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal void insertuserfunc(int id, UserFunctions fu)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("insert into userstofunctions values (" + id.ToString() + ", " + fu.id + ");", myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("insert into userstofunctions values (" + id.ToString() + ", " + fu.id + ");", _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         internal void saveUserfunc(int id, List<UserFunctions> fu)
@@ -904,8 +903,8 @@ namespace IntranetTG
         internal List<UserFunctions> getUserFunctions()
         {
             List<UserFunctions> ret = new List<UserFunctions>();
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("select ID, Name from functions", myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("select ID, Name from functions", _myConnection);
             MySqlDataReader myReader = myCommand.ExecuteReader();
 
             while (myReader.Read())
@@ -916,15 +915,15 @@ namespace IntranetTG
                 ret.Add(tmp);
             }
             myReader.Close();
-            myConnection.Close();
+            _myConnection.Close();
             return ret;
         }
 
         internal List<UserFunctions> getUserFunctions(int id)
         {
             List<UserFunctions> ret = new List<UserFunctions>();
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("select functions.ID, functions.Name from functions join userstofunctions on functions.ID = userstofunctions.Function where userstofunctions.User = " + id.ToString(), myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("select functions.ID, functions.Name from functions join userstofunctions on functions.ID = userstofunctions.Function where userstofunctions.User = " + id.ToString(), _myConnection);
             MySqlDataReader myReader = myCommand.ExecuteReader();
 
             while (myReader.Read())
@@ -935,7 +934,7 @@ namespace IntranetTG
                 ret.Add(tmp);
             }
             myReader.Close();
-            myConnection.Close();
+            _myConnection.Close();
             return ret;
         }
 
@@ -945,7 +944,7 @@ namespace IntranetTG
             string[] temp = kid.Split(' ');
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = null;
                 if (!confirmed)
@@ -956,14 +955,14 @@ namespace IntranetTG
                             " join clientsmedications cm on c.id = cm.client_id" +
                             " join medicaments m on cm.medicament_id = m.id" +
                             " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "' " +
-                            "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and (cm.cancelled = '0000-00-00' or cm.cancelled >= '" + dt.ToString("yyyy-MM-dd") + "')", myConnection);
+                            "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and (cm.cancelled = '0000-00-00' or cm.cancelled >= '" + dt.ToString("yyyy-MM-dd") + "')", _myConnection);
                     }
                     else
                     {
                         myCommand = new MySqlCommand("select cm.id cmid, m.id mid, c.firstname,c.lastname,m.name,cm.morning,cm.midday,cm.evening,cm.night from clients c" +
                                                 " join clientsmedications cm on c.id = cm.client_id" +
                                                 " join medicaments m on cm.medicament_id = m.id" +
-                                                " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "'", myConnection);
+                                                " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "'", _myConnection);
                     }
                 }
                 else
@@ -973,7 +972,7 @@ namespace IntranetTG
                     " join medicaments m on cm.medicament_id = m.id" +
                     " join clientsmedicationsconfirmations cmc on cmc.clientsmedication_id = cm.id" +
                     " where c.firstname = '" + temp[0].Replace(',', ' ') + "' and c.lastname = '" + temp[1].Replace(',', ' ') + "' " +
-                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and (cm.cancelled = '0000-00-00' or cm.cancelled >= '" + dt.ToString("yyyy-MM-dd") + "') and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "' and cmc.modified IS NULL", myConnection); 
+                    "and cm.to >= '" + dt.ToString("yyyy-MM-dd") + "' and (cm.cancelled = '0000-00-00' or cm.cancelled >= '" + dt.ToString("yyyy-MM-dd") + "') and cmc.for_day ='" + dt.ToString("yyyy-MM-dd") + "' and cmc.modified IS NULL", _myConnection); 
                 }
                 myReader = myCommand.ExecuteReader();
 
@@ -997,7 +996,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1009,13 +1008,13 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 string[] temp = p.Split(' ');
                 MySqlCommand myCommand = new MySqlCommand("select u.firstname first,u.lastname last, c.firstname,c.lastname,d.content_bodily, DATE_FORMAT(d.for_day,'%d.%m.%Y') AS forday, d.created, " +
                     "d.content_school, d.content_psychic, d.content_external_contact, d.content_responsibilities, d.createuser_id " +
                     "from clients c join clientsdailydocs d on c.id = d.client_id join users u on d.createuser_id=u.id where c.firstname ='"
-                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + von.ToString("yyyy-MM-dd") + " 00:00' and '" + bis.ToString("yyyy-MM-dd") + " 23:59'", myConnection);
+                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + von.ToString("yyyy-MM-dd") + " 00:00' and '" + bis.ToString("yyyy-MM-dd") + " 23:59'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1036,7 +1035,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1047,13 +1046,13 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 string[] temp = p.Split(' ');
                 MySqlCommand myCommand = new MySqlCommand("select u.firstname first,u.lastname last, c.firstname,c.lastname,d.content_bodily, DATE_FORMAT(d.for_day,'%d.%m.%Y') AS forday, d.created, " +
                     "d.content_school, d.content_psychic, d.content_external_contact, d.content_responsibilities, d.createuser_id " +
                     "from clients c join clientsdailydocs d on c.id = d.client_id join users u on d.createuser_id=u.id where c.firstname ='"
-                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + von.ToString("yyyy-MM-dd") + " 00:00' and '" + bis.ToString("yyyy-MM-dd") + " 23:59'", myConnection);
+                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + von.ToString("yyyy-MM-dd") + " 00:00' and '" + bis.ToString("yyyy-MM-dd") + " 23:59'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1096,7 +1095,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
         
@@ -1105,11 +1104,11 @@ namespace IntranetTG
             try
             {
                 string[] name = kid.Split(' ');
-                myConnection.Open();
+                _myConnection.Open();
                 string clientId = "";
 
                 MySqlCommand myCommand = new MySqlCommand("select id from clients where firstname ='"
-                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", myConnection);
+                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -1119,12 +1118,12 @@ namespace IntranetTG
 
 
 
-                myConnection.Close();
-                myConnection.Open();
+                _myConnection.Close();
+                _myConnection.Open();
 
 
                 myCommand = new MySqlCommand("insert into clientsdailydocs (created, createuser_id, client_id, for_day,content_bodily, content_psychic, content_external_contact ,content_responsibilities ,content_school) " +
-                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "'," + id + ",'" + clientId + "','" + when.ToString("yyyy-MM-dd") + "','" + koerperlich.Replace("'", "`") + "','" + psychisch.Replace("'", "`") + "','" + außen.Replace("'", "`") + "','" + pflichten.Replace("'", "`") + "','" + schulisch.Replace("'", "`") + "')", myConnection);
+                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "'," + id + ",'" + clientId + "','" + when.ToString("yyyy-MM-dd") + "','" + koerperlich.Replace("'", "`") + "','" + psychisch.Replace("'", "`") + "','" + außen.Replace("'", "`") + "','" + pflichten.Replace("'", "`") + "','" + schulisch.Replace("'", "`") + "')", _myConnection);
                 int test = myCommand.ExecuteNonQuery();
                 myReader.Close();
 
@@ -1135,7 +1134,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1143,10 +1142,10 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 string ret = "";
 
-                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", myConnection);
+                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", _myConnection);
 
 
                 MySqlDataReader reader = command.ExecuteReader();
@@ -1172,17 +1171,17 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
         public string getNameByIDLastFirst(string id)
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 string ret = "";
 
-                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", myConnection);
+                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", _myConnection);
 
 
                 MySqlDataReader reader = command.ExecuteReader();
@@ -1208,7 +1207,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1237,13 +1236,13 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 string[] temp = p.Split(' ');
                 MySqlCommand myCommand = new MySqlCommand("select c.firstname,c.lastname, d.content_bodily, " +
                     "d.content_school, d.content_psychic, d.content_external_contact, d.content_responsibilities, d.createuser_id " +
                     "from clients c join clientsdailydocs d on c.id = d.client_id where c.firstname ='"
-                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + dateTime.ToString("yyyy-MM-dd") + " 00:00' and '" + dateTime.ToString("yyyy-MM-dd") + " 23:59'", myConnection);
+                    + temp[0].Replace(',', ' ') + "' and c.lastname ='" + temp[1].Replace(',', ' ') + "' and d.for_day between'" + dateTime.ToString("yyyy-MM-dd") + " 00:00' and '" + dateTime.ToString("yyyy-MM-dd") + " 23:59'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1264,7 +1263,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1291,7 +1290,7 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 string selectCommand = "";
                 string fullname = "";
@@ -1306,7 +1305,7 @@ namespace IntranetTG
                     selectCommand = "select " + allColumnsString + " from " + database + " s ";
                 }
 
-                MySqlCommand myCommand = new MySqlCommand(selectCommand, myConnection);
+                MySqlCommand myCommand = new MySqlCommand(selectCommand, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1353,7 +1352,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -1406,8 +1405,8 @@ namespace IntranetTG
             }
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("insert into " + database + " ( " + allColumnsString + " ) values( " + allData + " )", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("insert into " + database + " ( " + allColumnsString + " ) values( " + allData + " )", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -1416,7 +1415,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1462,9 +1461,9 @@ namespace IntranetTG
             }
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 //MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("insert into " + database + " (" + allColumnsString + ") values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' ," + allData + ")", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("insert into " + database + " (" + allColumnsString + ") values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' ," + allData + ")", _myConnection);
                 myCommand.ExecuteNonQuery();
                 //myReader.Close();
 
@@ -1475,7 +1474,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1513,8 +1512,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("UPDATE " + database + " SET " + updateString + " where id = " + id, myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("UPDATE " + database + " SET " + updateString + " where id = " + id, _myConnection);
                 myCommand.ExecuteNonQuery();
 
             }
@@ -1524,7 +1523,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1622,10 +1621,10 @@ namespace IntranetTG
 
         public void addMedicamentForClient(string[] data)
         {
-            myConnection.Open();
-            MySqlCommand myCommand = new MySqlCommand("INSERT INTO clientsmedications (`client_id`, `created`, `modified`, `createuser_id`, `lastuser_id`, `medicament_id`, `from`, `to`, `morning`, `midday`, `evening`, `night`) VALUES ('" + data[0] + "', '" + data[1] + "', '" + data[2] + "', '" + data[3] + "', '" + data[4] + "', '" + data[5] + "', '" + data[6] + "', '" + data[7] + "', '" + data[8] + "', '" + data[9] + "', '" + data[10] + "', '" + data[11] + "');", myConnection);
+            _myConnection.Open();
+            MySqlCommand myCommand = new MySqlCommand("INSERT INTO clientsmedications (`client_id`, `created`, `modified`, `createuser_id`, `lastuser_id`, `medicament_id`, `from`, `to`, `morning`, `midday`, `evening`, `night`) VALUES ('" + data[0] + "', '" + data[1] + "', '" + data[2] + "', '" + data[3] + "', '" + data[4] + "', '" + data[5] + "', '" + data[6] + "', '" + data[7] + "', '" + data[8] + "', '" + data[9] + "', '" + data[10] + "', '" + data[11] + "');", _myConnection);
             myCommand.ExecuteNonQuery();
-            myConnection.Close();
+            _myConnection.Close();
         }
 
         public void updateMedicamentByClient(List<string> data, int id)
@@ -1681,9 +1680,9 @@ namespace IntranetTG
             try
             {
                 names = name.Split(' ');
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select u.id from users u where u.username='" + name + "'", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select u.id from users u where u.username='" + name + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1700,7 +1699,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1710,9 +1709,9 @@ namespace IntranetTG
             string[] fullname = name.Split(' ');
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select u.id from users u where u.firstname='" + fullname[0] + "' AND u.lastname='" + fullname[1] + "'", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select u.id from users u where u.firstname='" + fullname[0] + "' AND u.lastname='" + fullname[1] + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1729,7 +1728,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1740,9 +1739,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader reader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id from users", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select id from users", _myConnection);
                 reader = myCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -1761,7 +1760,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1772,9 +1771,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader reader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id from users where leaving is NULL order by lastname", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select id from users where leaving is NULL order by lastname", _myConnection);
                 reader = myCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -1793,7 +1792,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -1816,10 +1815,10 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("select users.holidays_open FROM users WHERE users.id = " + user, myConnection);
+                myCommand = new MySqlCommand("select users.holidays_open FROM users WHERE users.id = " + user, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1836,7 +1835,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -1846,9 +1845,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("DELETE FROM workingtime WHERE usersid='" + user + "' AND DAY(datetimefrom)=" + from.Day + " AND MONTH(datetimefrom)=" + from.Month + " AND YEAR(datetimefrom)=" + from.Year + " AND DAY(datetimeto)=" + to.Day + " AND MONTH(datetimeto)=" + to.Month + " AND YEAR(datetimeto)=" + to.Year + " AND comment ='" + comment + "' AND MINUTE(datetimefrom)=" + from.Minute + " AND HOUR(datetimefrom)=" + from.Hour + " AND MINUTE(datetimeto)=" + to.Minute + " AND HOUR(datetimeto)=" + to.Hour, myConnection);
+                myCommand = new MySqlCommand("DELETE FROM workingtime WHERE usersid='" + user + "' AND DAY(datetimefrom)=" + from.Day + " AND MONTH(datetimefrom)=" + from.Month + " AND YEAR(datetimefrom)=" + from.Year + " AND DAY(datetimeto)=" + to.Day + " AND MONTH(datetimeto)=" + to.Month + " AND YEAR(datetimeto)=" + to.Year + " AND comment ='" + comment + "' AND MINUTE(datetimefrom)=" + from.Minute + " AND HOUR(datetimefrom)=" + from.Hour + " AND MINUTE(datetimeto)=" + to.Minute + " AND HOUR(datetimeto)=" + to.Hour, _myConnection);
                 myCommand.ExecuteNonQuery();
                 return ret;
             }
@@ -1858,7 +1857,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -1868,9 +1867,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select overtime from users where id=" + uid + ";", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select overtime from users where id=" + uid + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1888,7 +1887,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -1909,9 +1908,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select art, datetimefrom, datetimeto from workingtime where usersid=" + id.ToString() + " AND (DAYOFWEEK(datetimefrom) = 7 OR DATE(datetimefrom) in (select date_holiday from officialholidays)) AND YEAR(datetimefrom) = " + dat.Year + " AND MONTH(datetimefrom) = " + dat.Month + " AND comment not like 'Krank%';", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select art, datetimefrom, datetimeto from workingtime where usersid=" + id.ToString() + " AND (DAYOFWEEK(datetimefrom) = 7 OR DATE(datetimefrom) in (select date_holiday from officialholidays)) AND YEAR(datetimefrom) = " + dat.Year + " AND MONTH(datetimefrom) = " + dat.Month + " AND comment not like 'Krank%';", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -1932,7 +1931,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -1951,29 +1950,29 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand;
                 if (user == 0)
                 {
                     if (isadmin)
                     {
-                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = usersid OR (workingtime.holidayverfied = false)) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", myConnection);
+                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = usersid OR (workingtime.holidayverfied = false)) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", _myConnection);
                     }
                     else
                     {
-                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = usersid) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", myConnection);
+                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = usersid) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", _myConnection);
                     }
                 }
                 else
                 {
                     if (isadmin)
                     {
-                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = " + user + " OR (holidayverfied = false AND art = 'Urlaub')) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", myConnection);
+                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = " + user + " OR (holidayverfied = false AND art = 'Urlaub')) AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", _myConnection);
                     }
                     else
                     {
-                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = " + user + ") AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", myConnection);
+                        myCommand = new MySqlCommand("select users.firstname, users.lastname, workingtime.art, workingtime.datetimefrom, workingtime.datetimeto, workingtime.comment, workingtime.holidayverfied FROM workingtime JOIN users ON workingtime.usersid = users.id WHERE (usersid = " + user + ") AND (MONTH(datetimefrom) = " + date.Month + " OR (holidayverfied = false AND art = 'Urlaub')) AND (YEAR(datetimefrom) = " + date.Year + " OR (holidayverfied = false AND art = 'Urlaub'));", _myConnection);
                     }
                 }
                 myReader = myCommand.ExecuteReader();
@@ -2000,7 +1999,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -2010,9 +2009,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select users.weeklyhours FROM users WHERE users.id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select users.weeklyhours FROM users WHERE users.id = " + id, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2029,7 +2028,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             return 0;
         }
@@ -2039,9 +2038,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select date_holiday FROM officialholidays", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select date_holiday FROM officialholidays", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2058,7 +2057,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2067,9 +2066,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select username, firstname, lastname, id FROM users WHERE leaving is NULL order by lastname, firstname", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select username, firstname, lastname, id FROM users WHERE leaving is NULL order by lastname, firstname", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2089,7 +2088,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2100,8 +2099,8 @@ namespace IntranetTG
             {
                 try
                 {
-                    myConnection.Open();
-                    MySqlCommand myCommand = new MySqlCommand("insert into workingtime (usersid, art, datetimefrom, datetimeto, comment, holidayverfied) values (" + uid.ToString() + ", '" + art + "', '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "', '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "', '" + comment + "', 0);", myConnection);
+                    _myConnection.Open();
+                    MySqlCommand myCommand = new MySqlCommand("insert into workingtime (usersid, art, datetimefrom, datetimeto, comment, holidayverfied) values (" + uid.ToString() + ", '" + art + "', '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "', '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "', '" + comment + "', 0);", _myConnection);
                     test = myCommand.ExecuteNonQuery();
                 }
                 catch (Exception e)
@@ -2110,7 +2109,7 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
             if (test == 0)
@@ -2124,15 +2123,15 @@ namespace IntranetTG
             int test = 0;
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
                 if (isverifed == -1)
                 {
-                    myCommand = new MySqlCommand("UPDATE workingtime SET holidayverfied= NULL, von= " + adminid + " WHERE usersid=" + uid + " AND datetimefrom= '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00' AND datetimeto= '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "'", myConnection);
+                    myCommand = new MySqlCommand("UPDATE workingtime SET holidayverfied= NULL, von= " + adminid + " WHERE usersid=" + uid + " AND datetimefrom= '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00' AND datetimeto= '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "'", _myConnection);
                 }
                 else
                 {
-                    myCommand = new MySqlCommand("UPDATE workingtime SET holidayverfied=" + isverifed.ToString() + " , von= " + adminid + " WHERE usersid=" + uid + " AND datetimefrom= '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00' AND datetimeto= '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "'", myConnection);
+                    myCommand = new MySqlCommand("UPDATE workingtime SET holidayverfied=" + isverifed.ToString() + " , von= " + adminid + " WHERE usersid=" + uid + " AND datetimefrom= '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00' AND datetimeto= '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "'", _myConnection);
                 }
 
                 test = myCommand.ExecuteNonQuery();
@@ -2143,7 +2142,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             if (test == 0)
                 return false;
@@ -2156,15 +2155,15 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select COUNT(*) as 'anz' from workingtime where usersid = " + uid.ToString() + " AND art = '" + art + "' AND  datetimefrom = '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "' AND datetimeto = '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "' AND comment = '" + comment + "' AND holidayverfied is not NULL;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select COUNT(*) as 'anz' from workingtime where usersid = " + uid.ToString() + " AND art = '" + art + "' AND  datetimefrom = '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "' AND datetimeto = '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "' AND comment = '" + comment + "' AND holidayverfied is not NULL;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
                     ret += myReader["anz"].ToString();
                 }
-                myConnection.Close();
+                _myConnection.Close();
             }
             catch (Exception e)
             {
@@ -2172,7 +2171,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             if (ret == "0")
                 return false;
@@ -2187,8 +2186,8 @@ namespace IntranetTG
             {
                 try
                 {
-                    myConnection.Open();
-                    MySqlCommand myCommand = new MySqlCommand("insert into workingtime (usersid, art, datetimefrom, datetimeto, comment) values (" + uid.ToString() + ", '" + art + "', '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "', '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "', '" + comment + "');", myConnection);
+                    _myConnection.Open();
+                    MySqlCommand myCommand = new MySqlCommand("insert into workingtime (usersid, art, datetimefrom, datetimeto, comment) values (" + uid.ToString() + ", '" + art + "', '" + datetimefrom.Year + "." + datetimefrom.Month + "." + datetimefrom.Day + " " + datetimefrom.Hour + ":" + datetimefrom.Minute + ":00" + "', '" + datetimeto.Year + "." + datetimeto.Month + "." + datetimeto.Day + " " + datetimeto.Hour + ":" + datetimeto.Minute + ":00" + "', '" + comment + "');", _myConnection);
                     test = myCommand.ExecuteNonQuery();
                 }
                 catch (Exception e)
@@ -2197,7 +2196,7 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
             if (test == 0)
@@ -2237,11 +2236,11 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("INSERT INTO workinginstructions(title, describtion , startdate , uid) VALUES ('" + title + "' , '" + desc + "' , '" + date + "'" + " , " + uid + ");", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("INSERT INTO workinginstructions(title, describtion , startdate , uid) VALUES ('" + title + "' , '" + desc + "' , '" + date + "'" + " , " + uid + ");", _myConnection);
                 String instructionid = "";
                 myCommand.ExecuteNonQuery();
-                myCommand = new MySqlCommand("select max(iid) abc from workinginstructions", myConnection);
+                myCommand = new MySqlCommand("select max(iid) abc from workinginstructions", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2249,9 +2248,9 @@ namespace IntranetTG
                     instructionid = myReader["abc"].ToString();
                 }
                 myReader.Close();
-                myCommand = new MySqlCommand("insert into readinstructions(iid,pid,checked) select " + instructionid + " , id , 0 from users", myConnection);
+                myCommand = new MySqlCommand("insert into readinstructions(iid,pid,checked) select " + instructionid + " , id , 0 from users", _myConnection);
                 myCommand.ExecuteNonQuery();
-                myCommand = new MySqlCommand("update readinstructions set checked=1 where pid=" + uid + " and iid=" + instructionid, myConnection);
+                myCommand = new MySqlCommand("update readinstructions set checked=1 where pid=" + uid + " and iid=" + instructionid, _myConnection);
                 myCommand.ExecuteNonQuery();
 
 
@@ -2262,7 +2261,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -2272,9 +2271,9 @@ namespace IntranetTG
             try
             {
                 List<Instruction> list = new List<Instruction>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2282,7 +2281,7 @@ namespace IntranetTG
                     String title = myReader["title"].ToString();
                     String desc = myReader["describtion"].ToString();
                     String uid = myReader["uid"].ToString();
-                    list.Add(new Instruction(title, desc, startdate, uid));
+                    list.Add(new Instruction(title, desc, startdate, uid, this));
                 }
                 myReader.Close();
 
@@ -2295,7 +2294,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2305,9 +2304,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 String instructionid = "";
-                MySqlCommand myCommand = new MySqlCommand("select iid abc from workinginstructions where title='" + titel + "' and startdate='" + date + "' and describtion='" + desc + "';", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select iid abc from workinginstructions where title='" + titel + "' and startdate='" + date + "' and describtion='" + desc + "';", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2315,7 +2314,7 @@ namespace IntranetTG
                     instructionid = myReader["abc"].ToString();
                 }
                 myReader.Close();
-                myCommand = new MySqlCommand("update readinstructions set checked=1 where pid=" + p + " and iid=" + instructionid, myConnection);
+                myCommand = new MySqlCommand("update readinstructions set checked=1 where pid=" + p + " and iid=" + instructionid, _myConnection);
                 myCommand.ExecuteNonQuery();
 
 
@@ -2326,7 +2325,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2335,10 +2334,10 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 List<ReadInstruction> list = new List<ReadInstruction>();
                 String instructionid = "";
-                MySqlCommand myCommand = new MySqlCommand("select iid abc from workinginstructions where title='" + titel + "' and startdate='" + date + "' and describtion='" + desc + "';", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select iid abc from workinginstructions where title='" + titel + "' and startdate='" + date + "' and describtion='" + desc + "';", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2346,7 +2345,7 @@ namespace IntranetTG
                     instructionid = myReader["abc"].ToString();
                 }
                 myReader.Close();
-                myCommand = new MySqlCommand("select  u.firstname f, u.lastname l , ri.checked c from readinstructions ri join users u on ri.pid = u.id where iid=" + instructionid + ";", myConnection);
+                myCommand = new MySqlCommand("select  u.firstname f, u.lastname l , ri.checked c from readinstructions ri join users u on ri.pid = u.id where iid=" + instructionid + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2366,7 +2365,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2375,9 +2374,9 @@ namespace IntranetTG
             try
             {
                 List<Instruction> list = new List<Instruction>();
-                myConnection.Open();
+                _myConnection.Open();
                 List<String> sl = new List<string>();
-                MySqlCommand myCommand = new MySqlCommand("select iid abc from readinstructions where pid=" + id + " and checked = 0", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select iid abc from readinstructions where pid=" + id + " and checked = 0", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2388,7 +2387,7 @@ namespace IntranetTG
                 myReader.Close();
                 foreach (String laufuid in sl)
                 {
-                    myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions where iid=" + laufuid + ";", myConnection);
+                    myCommand = new MySqlCommand("Select startdate,title,describtion, uid from workinginstructions where iid=" + laufuid + ";", _myConnection);
                     myReader = myCommand.ExecuteReader();
                     while (myReader.Read())
                     {
@@ -2396,7 +2395,7 @@ namespace IntranetTG
                         String title = myReader["title"].ToString();
                         String desc = myReader["describtion"].ToString();
                         String uid = myReader["uid"].ToString();
-                        list.Add(new Instruction(title, desc, startdate, uid));
+                        list.Add(new Instruction(title, desc, startdate, uid, this));
                     }
                     myReader.Close();
                 }
@@ -2410,7 +2409,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2424,8 +2423,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("insert into taskt (uid1, uid2, startdate, enddate, descr, status) values (" + uid1 + " , " + uid2 + " , '" + startdate + "' , '" + enddate + "' , '" + desc + "' , " + 0 + ");", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("insert into taskt (uid1, uid2, startdate, enddate, descr, status) values (" + uid1 + " , " + uid2 + " , '" + startdate + "' , '" + enddate + "' , '" + desc + "' , " + 0 + ");", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -2434,7 +2433,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2442,8 +2441,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update taskt set status=1 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update taskt set status=1 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -2452,7 +2451,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2460,8 +2459,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update taskt set status=2 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update taskt set status=2 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -2470,7 +2469,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2478,8 +2477,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update taskt set enddate='" + enddate + "'where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and descr='" + desc + "';", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update taskt set enddate='" + enddate + "'where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and descr='" + desc + "';", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -2488,7 +2487,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2496,8 +2495,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update taskt set status=0 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update taskt set status=0 where uid1=" + uid1 + " and uid2=" + uid2 + " and startdate='" + startdate + "' and enddate='" + enddate + "' and descr='" + desc + "';", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -2506,7 +2505,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2515,9 +2514,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<Task> list = new List<Task>();
-                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and status=0;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2527,7 +2526,7 @@ namespace IntranetTG
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
                     String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc));
+                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
 
                 }
                 myReader.Close();
@@ -2541,7 +2540,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2549,9 +2548,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<Task> list = new List<Task>();
-                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=1;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=1;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2561,7 +2560,7 @@ namespace IntranetTG
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
                     String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc));
+                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
 
                 }
                 myReader.Close();
@@ -2575,7 +2574,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2583,9 +2582,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<Task> list = new List<Task>();
-                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=0;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid1=" + id + " and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2595,7 +2594,7 @@ namespace IntranetTG
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
                     String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc));
+                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
 
                 }
                 myReader.Close();
@@ -2609,7 +2608,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2618,9 +2617,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<Task> list = new List<Task>();
-                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and (Datediff(enddate,CurDate())<=5  or CurDate() >= enddate)  and status=0;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select uid1, uid2, startdate, enddate, descr from taskt where uid2=" + id + " and (Datediff(enddate,CurDate())<=5  or CurDate() >= enddate)  and status=0;", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -2630,7 +2629,7 @@ namespace IntranetTG
                     String startdate = myReader["startdate"].ToString();
                     String enddate = myReader["enddate"].ToString();
                     String desc = myReader["descr"].ToString();
-                    list.Add(new Task(uid1, uid2, startdate, enddate, desc));
+                    list.Add(new Task(uid1, uid2, startdate, enddate, desc, this));
 
                 }
                 myReader.Close();
@@ -2644,7 +2643,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2696,9 +2695,9 @@ namespace IntranetTG
             try
             {
                 List<String> values = new List<String>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select sex, firstname, lastname, inclusion, date_of_birth, citizenship, district_authority, insurance, leaving, icd, place_of_birth, social_insurance_number, co_insured, contact_id, status, assignment from clients where id=" + id + ";", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select sex, firstname, lastname, inclusion, date_of_birth, citizenship, district_authority, insurance, leaving, icd, place_of_birth, social_insurance_number, co_insured, contact_id, status, assignment from clients where id=" + id + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2729,7 +2728,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2740,9 +2739,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("insert into contacts (created, createuser_id, institution, salutation_id, title_id, firstname, lastname, job_company, job_department, job_street, job_zip, job_country, job_city, job_phone_1, job_email, comment, job_function) values ('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , " + createuserid.Trim() + " , '" + institution.Trim() + "' , " + salutation_id + " , " + title_id +" , '" + firstname.Trim() + "' , '" + lastname.Trim() + "' , '" + job_company.Trim() + "' , '" + job_department.Trim() + "' , '" + job_street.Trim() + "' , '" + job_zip.Trim() + "' , '" + job_country.Trim() + "' , '" + job_city.Trim() + "' , '" + job_phone_1.Trim() + "' , '" + job_email.Trim() + "' , '" + comment.Trim() + "' , '" + job_function.Trim() + "');", myConnection);
+                myCommand = new MySqlCommand("insert into contacts (created, createuser_id, institution, salutation_id, title_id, firstname, lastname, job_company, job_department, job_street, job_zip, job_country, job_city, job_phone_1, job_email, comment, job_function) values ('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , " + createuserid.Trim() + " , '" + institution.Trim() + "' , " + salutation_id + " , " + title_id +" , '" + firstname.Trim() + "' , '" + lastname.Trim() + "' , '" + job_company.Trim() + "' , '" + job_department.Trim() + "' , '" + job_street.Trim() + "' , '" + job_zip.Trim() + "' , '" + job_country.Trim() + "' , '" + job_city.Trim() + "' , '" + job_phone_1.Trim() + "' , '" + job_email.Trim() + "' , '" + comment.Trim() + "' , '" + job_function.Trim() + "');", _myConnection);
                 //myCommand = new MySqlCommand("insert into contacts (created, createuser_id, institution, salutation_id, title_id, firstname, lastname, job_company, job_department, job_street, job_zip, job_country, job_city, job_phone_1, job_phone_2, job_fax, job_email, job_www, job_skype, comment, groups, job_function) values ('" + DateTime.Now.ToString() + "' , '" + id.Trim() + "' , '" + s1.Trim() + "' , (select id from salutations where name='" + s2.Trim() + "') , (select id from titles where name='" + s3.Trim() + "') , '" + s4.Trim() + "' , '" + s5.Trim() + "' , '" + s6.Trim() + "' , '" + s7.Trim() + "' , '" + s8.Trim() + "' , '" + s9.Trim() + "' , '" + s10.Trim() + "' , '" + s11.Trim() + "' , '" + s12.Trim() + "' , '" + s13.Trim() + "' , '" + s14.Trim() + "' , '" + s15.Trim() + "' , '" + s16.Trim() + "' , '" + s17.Trim() + "' , '" + s18.Trim() + "' , (select id from groups where name='" + s19.Trim() + "') , '" + s20.Trim() + "');", myConnection);
                 myCommand.ExecuteNonQuery();
             }
@@ -2752,7 +2751,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2762,9 +2761,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select id, name, name_long from salutations;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select id, name, name_long from salutations;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -2780,7 +2779,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2788,9 +2787,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("update contacts set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', lastuser_id = '" + id.Trim() + "', institution = '" + s1.Trim() + "', salutation_id = (select id from salutations where name='" + s2.Trim() + "'), title_id = (select id from titles where name='" + s3.Trim() + "'), firstname = '" + s4.Trim() + "', lastname = '" + s5.Trim() + "', job_company = '" + s6.Trim() + "', job_department = '" + s7.Trim() + "', job_street = '" + s8.Trim() + "', job_zip = '" + s9.Trim() + "', job_country = '" + s10.Trim() + "', job_city = '" + s11.Trim() + "', job_phone_1 = '" + s12.Trim() + "', job_phone_2 = '" + s13.Trim() + "', job_fax = '" + s14.Trim() + "', job_email = '" + s15.Trim() + "', job_www = '" + s16.Trim() + "', job_skype = '" + s17.Trim() + "', comment = '" + s18.Trim() + "', groups = (select id from groups where name='" + s19.Trim() + "'), job_function = '" + s20.Trim() + "' where id = " + cid.Trim(), myConnection);
+                myCommand = new MySqlCommand("update contacts set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', lastuser_id = '" + id.Trim() + "', institution = '" + s1.Trim() + "', salutation_id = (select id from salutations where name='" + s2.Trim() + "'), title_id = (select id from titles where name='" + s3.Trim() + "'), firstname = '" + s4.Trim() + "', lastname = '" + s5.Trim() + "', job_company = '" + s6.Trim() + "', job_department = '" + s7.Trim() + "', job_street = '" + s8.Trim() + "', job_zip = '" + s9.Trim() + "', job_country = '" + s10.Trim() + "', job_city = '" + s11.Trim() + "', job_phone_1 = '" + s12.Trim() + "', job_phone_2 = '" + s13.Trim() + "', job_fax = '" + s14.Trim() + "', job_email = '" + s15.Trim() + "', job_www = '" + s16.Trim() + "', job_skype = '" + s17.Trim() + "', comment = '" + s18.Trim() + "', groups = (select id from groups where name='" + s19.Trim() + "'), job_function = '" + s20.Trim() + "' where id = " + cid.Trim(), _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception)
@@ -2799,7 +2798,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2807,9 +2806,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("update contacts set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', lastuser_id = '" + moduserid.Trim() + "', institution = '" + institution + "', salutation_id = " + salutation_id + ", title_id = " + title_id + ", firstname = '" + firstname.Trim() + "', lastname = '" + lastname.Trim() + "', job_company = '" + job_company.Trim() + "', job_department = '" + job_department.Trim() + "', job_street = '" + job_street.Trim() + "', job_zip = '" + job_zip.Trim() + "', job_country = '" + job_country.Trim() + "', job_city = '" + job_city.Trim() + "', job_phone_1 = '" + job_phone_1.Trim() + "', job_email = '" + job_email.Trim() + "', comment = '" + comment.Trim() + "', job_function = '" + job_function.Trim() + "' where id = " + id.Trim(), myConnection);
+                myCommand = new MySqlCommand("update contacts set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', lastuser_id = '" + moduserid.Trim() + "', institution = '" + institution + "', salutation_id = " + salutation_id + ", title_id = " + title_id + ", firstname = '" + firstname.Trim() + "', lastname = '" + lastname.Trim() + "', job_company = '" + job_company.Trim() + "', job_department = '" + job_department.Trim() + "', job_street = '" + job_street.Trim() + "', job_zip = '" + job_zip.Trim() + "', job_country = '" + job_country.Trim() + "', job_city = '" + job_city.Trim() + "', job_phone_1 = '" + job_phone_1.Trim() + "', job_email = '" + job_email.Trim() + "', comment = '" + comment.Trim() + "', job_function = '" + job_function.Trim() + "' where id = " + id.Trim(), _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception)
@@ -2818,7 +2817,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2826,9 +2825,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("delete from contacts where id = '" + id + "';", myConnection);
+                myCommand = new MySqlCommand("delete from contacts where id = '" + id + "';", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception)
@@ -2837,7 +2836,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2847,9 +2846,9 @@ namespace IntranetTG
             {
                 List<string> fillTitle = new List<string>();
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select name from titles", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select name from titles", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -2869,7 +2868,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2879,9 +2878,9 @@ namespace IntranetTG
             {
                 List<Title> fillTitle = new List<Title>();
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id, name from titles order by id", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select id, name from titles order by id", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -2898,7 +2897,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2908,9 +2907,9 @@ namespace IntranetTG
             {
                 List<string> fillGroups = new List<string>();
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select name from groups", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select name from groups", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -2930,7 +2929,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -2941,8 +2940,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("select c.id, s.name as salutation, t.name as title, firstname, lastname, institution, job_company, job_department, job_country, job_zip, job_city, job_street, job_phone_1, job_phone_2, job_fax, job_email, job_www, job_skype, comment, g.name as groups, job_function from contacts c left join salutations s on c.salutation_id=s.id left join titles t on c.title_id=t.id left join groups g on c.groups=g.id", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("select c.id, s.name as salutation, t.name as title, firstname, lastname, institution, job_company, job_department, job_country, job_zip, job_city, job_street, job_phone_1, job_phone_2, job_fax, job_email, job_www, job_skype, comment, g.name as groups, job_function from contacts c left join salutations s on c.salutation_id=s.id left join titles t on c.title_id=t.id left join groups g on c.groups=g.id", _myConnection);
                 MySqlDataReader myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -2979,7 +2978,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return list;
@@ -2992,8 +2991,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("select c.id, s.name as salutation, t.name as title, firstname, lastname, institution, job_company, job_department, job_country, job_zip, job_city, job_street, job_phone_1, job_phone_2, job_fax, job_email, job_www, job_skype, comment, g.name as groups, job_function from contacts c left join salutations s on c.salutation_id=s.id left join titles t on c.title_id=t.id left join groups g on c.groups=g.id where job_function LIKE  '%sozialarbeiter%'", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("select c.id, s.name as salutation, t.name as title, firstname, lastname, institution, job_company, job_department, job_country, job_zip, job_city, job_street, job_phone_1, job_phone_2, job_fax, job_email, job_www, job_skype, comment, g.name as groups, job_function from contacts c left join salutations s on c.salutation_id=s.id left join titles t on c.title_id=t.id left join groups g on c.groups=g.id where job_function LIKE  '%sozialarbeiter%'", _myConnection);
                 MySqlDataReader myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -3030,7 +3029,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return list;
@@ -3044,9 +3043,9 @@ namespace IntranetTG
             {
                 List<Contacts> contacts = new List<Contacts>();
                 String cid = "";
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select service_id from clientstoservices where client_id=" + id + ";", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select service_id from clientstoservices where client_id=" + id + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3062,7 +3061,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3071,9 +3070,9 @@ namespace IntranetTG
             try
             {
                 List<Service> services = new List<Service>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select id , name from services;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select id , name from services;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3091,7 +3090,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3100,22 +3099,22 @@ namespace IntranetTG
             string check = null;
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("insert into clients(sex, firstname, lastname, inclusion, date_of_birth, citizenship, district_authority, insurance, icd, place_of_birth, social_insurance_number, co_insured, contact_id, status, assignment) values(" + sex + ",'" + firstname + "','" + lastname + "','" + inclusion + "','" + date_of_birth + "','" + citizenship + "','" + district_authority + "','" + insurance + "','" + icd + "','" + place_of_birth + "','" + social_insurance_number + "','" + co_insured + "'," + contact_id + ",'" + status + "','" + assignment + "');", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("insert into clients(sex, firstname, lastname, inclusion, date_of_birth, citizenship, district_authority, insurance, icd, place_of_birth, social_insurance_number, co_insured, contact_id, status, assignment) values(" + sex + ",'" + firstname + "','" + lastname + "','" + inclusion + "','" + date_of_birth + "','" + citizenship + "','" + district_authority + "','" + insurance + "','" + icd + "','" + place_of_birth + "','" + social_insurance_number + "','" + co_insured + "'," + contact_id + ",'" + status + "','" + assignment + "');", _myConnection);
                 myCommand.ExecuteNonQuery();
-                myConnection.Close();
-                myConnection.Open();
+                _myConnection.Close();
+                _myConnection.Open();
                 String clientid = "";
-                myCommand = new MySqlCommand("select max(id) abc from clients", myConnection);
+                myCommand = new MySqlCommand("select max(id) abc from clients", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
                     clientid = myReader["abc"].ToString();
                 }
-                myConnection.Close();
-                myConnection.Open();
-                myCommand = new MySqlCommand("insert into clientstoservices(client_id,service_id) values(" + clientid + " , " + service_id + ");", myConnection);
+                _myConnection.Close();
+                _myConnection.Open();
+                myCommand = new MySqlCommand("insert into clientstoservices(client_id,service_id) values(" + clientid + " , " + service_id + ");", _myConnection);
                 myCommand.ExecuteNonQuery();
                 
 
@@ -3135,7 +3134,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             return true;
         }
@@ -3144,21 +3143,21 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommannd;
                 if (String.IsNullOrEmpty(leaving.Trim()))
                 {
-                    myCommannd = new MySqlCommand("update clients set sex=" + sex + " , firstname='" + firstname + "' , lastname='" + lastname + "' , date_of_birth='" + date_of_birth + "' , inclusion='" + inclusion + "' , citizenship='" + citizenship + "' , district_authority='" + district_authority + "' , insurance='" + insurance + "' , icd='" + icd + "' , place_of_birth='" + place_of_birth + "' , social_insurance_number='" + social_insurance_number + "' , co_insured='" + co_insured + "' , contact_id=" + contact_id + " , status='" + status + "' , assignment='" + assignment + "' where id=" + id + ";", myConnection);
+                    myCommannd = new MySqlCommand("update clients set sex=" + sex + " , firstname='" + firstname + "' , lastname='" + lastname + "' , date_of_birth='" + date_of_birth + "' , inclusion='" + inclusion + "' , citizenship='" + citizenship + "' , district_authority='" + district_authority + "' , insurance='" + insurance + "' , icd='" + icd + "' , place_of_birth='" + place_of_birth + "' , social_insurance_number='" + social_insurance_number + "' , co_insured='" + co_insured + "' , contact_id=" + contact_id + " , status='" + status + "' , assignment='" + assignment + "' where id=" + id + ";", _myConnection);
                 }
                 else
                 {
-                    myCommannd = new MySqlCommand("update clients set sex=" + sex + " , firstname='" + firstname + "' , lastname='" + lastname + "' , date_of_birth='" + date_of_birth + "' , inclusion='" + inclusion + "' , citizenship='" + citizenship + "' , district_authority='" + district_authority + "' , insurance='" + insurance + "' , icd='" + icd + "' , place_of_birth='" + place_of_birth + "' , social_insurance_number='" + social_insurance_number + "' , co_insured='" + co_insured + "' , contact_id=" + contact_id + " , leaving=" + leaving + " , status='" + status + "' , assignment='" + assignment + "' where id=" + id + ";", myConnection);
+                    myCommannd = new MySqlCommand("update clients set sex=" + sex + " , firstname='" + firstname + "' , lastname='" + lastname + "' , date_of_birth='" + date_of_birth + "' , inclusion='" + inclusion + "' , citizenship='" + citizenship + "' , district_authority='" + district_authority + "' , insurance='" + insurance + "' , icd='" + icd + "' , place_of_birth='" + place_of_birth + "' , social_insurance_number='" + social_insurance_number + "' , co_insured='" + co_insured + "' , contact_id=" + contact_id + " , leaving=" + leaving + " , status='" + status + "' , assignment='" + assignment + "' where id=" + id + ";", _myConnection);
                 }
                 
                 myCommannd.ExecuteNonQuery();
-                myConnection.Close();
-                myConnection.Open();
-                myCommannd = new MySqlCommand("update clientstoservices set service_id=" + service_id + " where client_id=" + id + ";", myConnection);
+                _myConnection.Close();
+                _myConnection.Open();
+                myCommannd = new MySqlCommand("update clientstoservices set service_id=" + service_id + " where client_id=" + id + ";", _myConnection);
                 myCommannd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -3167,7 +3166,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3176,9 +3175,9 @@ namespace IntranetTG
             try
             {
                 List<BodyInfo> infos = new List<BodyInfo>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select created, size, weight from clientsvitalstats where client_id=" + id + " order by created desc ;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select created, size, weight from clientsvitalstats where client_id=" + id + " order by created desc ;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3199,7 +3198,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3207,8 +3206,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommannd = new MySqlCommand("insert into clientsvitalstats(client_id,size,weight,created) values(" + id + " , " + size + " , " + weight + " , curDate() );", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommannd = new MySqlCommand("insert into clientsvitalstats(client_id,size,weight,created) values(" + id + " , " + size + " , " + weight + " , curDate() );", _myConnection);
                 myCommannd.ExecuteNonQuery();
             }
             catch 
@@ -3218,7 +3217,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3226,8 +3225,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommannd = new MySqlCommand("insert into medicalactions(name) values('" + type + "');", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommannd = new MySqlCommand("insert into medicalactions(name) values('" + type + "');", _myConnection);
                 myCommannd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -3236,7 +3235,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3245,9 +3244,9 @@ namespace IntranetTG
             try
             {
                 List<Art> infos = new List<Art>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select id,name from medicalactions;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select id,name from medicalactions;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3265,7 +3264,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3274,9 +3273,9 @@ namespace IntranetTG
             try
             {
                 String id = "";
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select id from medicalactions where name = '"+ name + "';", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select id from medicalactions where name = '"+ name + "';", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3292,7 +3291,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3300,8 +3299,8 @@ namespace IntranetTG
         {
             try
             { //c.WasSollDieseMethodeKoennen(id, hoergeraetstrahlenangriff12345, date, txtdesc.Text, cmbArt.SelectedValue.ToString());
-                myConnection.Open();
-                MySqlCommand myCommannd = new MySqlCommand("insert into clientsmedicalactions(client_id,createuser_id,created,realized,medicalaction_id,statement) values(" + cid + " , " + id + " , curDate() , '" + date + "' , " + artid + " , '" + desc + "');", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommannd = new MySqlCommand("insert into clientsmedicalactions(client_id,createuser_id,created,realized,medicalaction_id,statement) values(" + cid + " , " + id + " , curDate() , '" + date + "' , " + artid + " , '" + desc + "');", _myConnection);
                 myCommannd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -3310,7 +3309,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3319,9 +3318,9 @@ namespace IntranetTG
             try
             {
                 List<MediAkt> infos = new List<MediAkt>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " order by realized desc;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " order by realized desc;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3340,7 +3339,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3349,9 +3348,9 @@ namespace IntranetTG
             try
             {
                 List<MediAkt> infos = new List<MediAkt>();
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " and month(clientsmedicalactions.realized) = " + month + " and year(clientsmedicalactions.realized) = " + year + " order by realized desc;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " and month(clientsmedicalactions.realized) = " + month + " and year(clientsmedicalactions.realized) = " + year + " order by realized desc;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3370,7 +3369,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3382,8 +3381,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("insert into kilometergeld (User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km) Values(" + uid + " , '" + Kennzeichen + "' , '" + Ortvon + "' , '" + Ortbis + "' , '" + Zeitvon + "' , '" + Zeitbis + "' , " + Summe + " , " + km + ");", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("insert into kilometergeld (User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km) Values(" + uid + " , '" + Kennzeichen + "' , '" + Ortvon + "' , '" + Ortbis + "' , '" + Zeitvon + "' , '" + Zeitbis + "' , " + Summe + " , " + km + ");", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch 
@@ -3392,7 +3391,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3400,9 +3399,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<KmG> list = new List<KmG>();
-                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid, _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -3427,7 +3426,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3435,9 +3434,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<KmG> list = new List<KmG>();
-                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid + " AND MONTH(Zeitvon) = " + month + " AND YEAR(Zeitvon) = " + year, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid + " AND MONTH(Zeitvon) = " + month + " AND YEAR(Zeitvon) = " + year, _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -3462,7 +3461,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3470,9 +3469,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 List<KmG> list = new List<KmG>();
-                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid + " and Month(Zeitvon)='" + month + "' and Year(Zeitvon)='" + year + "'" + " and Month(Zeitbis)='" + month + "' and Year(Zeitbis)='" + year + "'", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select User,Kennzeichen,Ortvon,Ortbis,Zeitvon,Zeitbis,Summe,km from kilometergeld where User=" + uid + " and Month(Zeitvon)='" + month + "' and Year(Zeitvon)='" + year + "'" + " and Month(Zeitbis)='" + month + "' and Year(Zeitbis)='" + year + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -3497,7 +3496,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3508,11 +3507,11 @@ namespace IntranetTG
             try
             {
                 string[] name = p.Split(' ');
-                myConnection.Open();
+                _myConnection.Open();
                 string clientId = "";
 
                 MySqlCommand myCommand = new MySqlCommand("select id from clients where firstname ='"
-                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", myConnection);
+                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -3522,12 +3521,12 @@ namespace IntranetTG
 
 
 
-                myConnection.Close();
-                myConnection.Open();
+                _myConnection.Close();
+                _myConnection.Open();
 
 
                 myCommand = new MySqlCommand("insert into clientsmedicationsconfirmations (created, createuser_id, client_id, for_day,clientsmedication_id, morning, midday ,evening ,night,confirmed,reason_confirmed) " +
-                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "'," + id + ",'" + clientId + "','" + when.ToString("yyyy-MM-dd") + "','" + medi.cmId + "','" + boolToInt(medi.morningConfirmed) + "','" + boolToInt(medi.middayConfirmed) + "','" + boolToInt(medi.eveningConfirmed) + "','" + boolToInt(medi.nightConfirmed) + "','" + "1" + "','" + why + "')", myConnection);
+                    "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "'," + id + ",'" + clientId + "','" + when.ToString("yyyy-MM-dd") + "','" + medi.cmId + "','" + boolToInt(medi.morningConfirmed) + "','" + boolToInt(medi.middayConfirmed) + "','" + boolToInt(medi.eveningConfirmed) + "','" + boolToInt(medi.nightConfirmed) + "','" + "1" + "','" + why + "')", _myConnection);
                 int test = myCommand.ExecuteNonQuery();
                 myReader.Close();
 
@@ -3538,7 +3537,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3558,9 +3557,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("update wiki set lastuser_id = " + u.Id + " , title='" + title + "' where id = " + tmp.client_id + " ;", myConnection);
+                myCommand = new MySqlCommand("update wiki set lastuser_id = " + u.Id + " , title='" + title + "' where id = " + tmp.client_id + " ;", _myConnection);
 
                 myCommand.ExecuteNonQuery();
             }
@@ -3570,7 +3569,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3579,9 +3578,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select pwThera from users u where u.id = " + p, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select pwThera from users u where u.id = " + p, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3598,7 +3597,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3607,10 +3606,10 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
 
 
-                MySqlCommand myCommand = new MySqlCommand("Update users set pwThera = '" + pw + "' where id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Update users set pwThera = '" + pw + "' where id = " + id, _myConnection);
                 int test = myCommand.ExecuteNonQuery();
 
 
@@ -3621,7 +3620,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -3631,9 +3630,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select s.name from users u join userstoservices us on u.id = us.user_id join services s on us.service_id=s.id where u.id = " + p, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select s.name from users u join userstoservices us on u.id = us.user_id join services s on us.service_id=s.id where u.id = " + p, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3652,7 +3651,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3661,9 +3660,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select isAdmin from users u where u.id = " + p, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select isAdmin from users u where u.id = " + p, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3682,7 +3681,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3691,7 +3690,7 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 string command = "";
 
                 foreach (Service serv in service_id)
@@ -3699,7 +3698,7 @@ namespace IntranetTG
                     command += "insert into userstoservices (user_id, service_id) values (" + user_id + ", " + serv.Id + " ); ";
                 }
 
-                MySqlCommand myCommand = new MySqlCommand(command, myConnection);
+                MySqlCommand myCommand = new MySqlCommand(command, _myConnection);
                 myCommand.ExecuteNonQuery();
 
 
@@ -3710,7 +3709,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3721,9 +3720,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select firstname, lastname, username, social_insurance_number, street, zip, city, phone_1, fax, bank, bank_code, bank_account_number, email_user, email_password, weeklyHours, weeklyDays, isAdmin, date_of_birth,inclusion,leaving from users where users.id = " + p, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select firstname, lastname, username, social_insurance_number, street, zip, city, phone_1, fax, bank, bank_code, bank_account_number, email_user, email_password, weeklyHours, weeklyDays, isAdmin, date_of_birth,inclusion,leaving from users where users.id = " + p, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3758,7 +3757,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3766,8 +3765,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("INSERT INTO users(bank_account_number, firstname , lastname, bank , bank_code , city , fax , email_password, email_address , email_user , street , social_insurance_number , phone_1 , username , weeklyHours , weeklyDays , zip , pwThera , createuser_id , lastuser_id , date_of_birth , isAdmin, inclusion) VALUES ('" + p1 + "' , '" + p2 + "' ,'" + p3 + "' ,'" + p4 + "' ,'" + p5 + "' ,'" + p6 + "' ,'" + p7 + "' ,'" + p8 + "' ,'" + p9 + "', '" + p9 + "' ,'" + p10 + "' ,'" + p11 + "' ,'" + p12 + "' ,'" + p13 + "' ,'" + p14 + "' ,'" + p15 + "' ,'" + p16 + "' ,'" + p17 + "','" + p18 + "','" + p18 + "','" + Convert.ToDateTime(p19).ToString("yyyy-MM-dd HH:mm") + "','" + p20 + "', '" + p21.ToString("yyyy-MM-dd HH:mm") + "');", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("INSERT INTO users(bank_account_number, firstname , lastname, bank , bank_code , city , fax , email_password, email_address , email_user , street , social_insurance_number , phone_1 , username , weeklyHours , weeklyDays , zip , pwThera , createuser_id , lastuser_id , date_of_birth , isAdmin, inclusion) VALUES ('" + p1 + "' , '" + p2 + "' ,'" + p3 + "' ,'" + p4 + "' ,'" + p5 + "' ,'" + p6 + "' ,'" + p7 + "' ,'" + p8 + "' ,'" + p9 + "', '" + p9 + "' ,'" + p10 + "' ,'" + p11 + "' ,'" + p12 + "' ,'" + p13 + "' ,'" + p14 + "' ,'" + p15 + "' ,'" + p16 + "' ,'" + p17 + "','" + p18 + "','" + p18 + "','" + Convert.ToDateTime(p19).ToString("yyyy-MM-dd HH:mm") + "','" + p20 + "', '" + p21.ToString("yyyy-MM-dd HH:mm") + "');", _myConnection);
                 myCommand.ExecuteNonQuery();
 
 
@@ -3779,7 +3778,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             //AddUserstoServices(Convert.ToInt32(getUserIDbyFullname(p2 + " " + p3)), Convert.ToInt32(getServicesIdByName(p21)));
@@ -3791,9 +3790,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id from services where name = '" + p21 + "'", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select id from services where name = '" + p21 + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -3809,7 +3808,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3817,8 +3816,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update users set email_password='" + emailpass + "' where id = '" + id + "' ; ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update users set email_password='" + emailpass + "' where id = '" + id + "' ; ", _myConnection);
 
                 myCommand.ExecuteNonQuery();
                 MessageBox.Show("Erfolg");
@@ -3830,7 +3829,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3838,8 +3837,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update users set Dropboxpw='" + pass + "' where id = '" + id + "' ; ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update users set Dropboxpw='" + pass + "' where id = '" + id + "' ; ", _myConnection);
 
                 myCommand.ExecuteNonQuery();
                 MessageBox.Show("Erfolg");
@@ -3851,7 +3850,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3859,10 +3858,10 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 
                 
-                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "' , pwThera='" + p17 + "' , lastuser_id='" + p18 + "', isAdmin='" + p21 + "' , date_of_birth='" + p19 + "' , leaving='" + p22 + "' , inclusion='" + p19 + "' where id = '" + p20 + "' ; ", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "' , pwThera='" + p17 + "' , lastuser_id='" + p18 + "', isAdmin='" + p21 + "' , date_of_birth='" + p19 + "' , leaving='" + p22 + "' , inclusion='" + p19 + "' where id = '" + p20 + "' ; ", _myConnection);
 
                 myCommand.ExecuteNonQuery();
 
@@ -3875,7 +3874,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -3884,10 +3883,10 @@ namespace IntranetTG
             {
                 try
                 {
-                    myConnection.Open();
+                    _myConnection.Open();
                     String id = "";
                     String[] ar = name.Split(' ');
-                    MySqlCommand command = new MySqlCommand("select id from users where firstname='" + ar[0] + "' and lastname='" + ar[1] + "' and leaving is null;", myConnection);
+                    MySqlCommand command = new MySqlCommand("select id from users where firstname='" + ar[0] + "' and lastname='" + ar[1] + "' and leaving is null;", _myConnection);
 
 
                     MySqlDataReader reader = command.ExecuteReader();
@@ -3905,7 +3904,7 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
         }
@@ -3916,10 +3915,10 @@ namespace IntranetTG
                 try
                 {
                     string[] name = kid.Split(' ');
-                    myConnection.Open();
+                    _myConnection.Open();
                     String id = "";
                     MySqlCommand myCommand = new MySqlCommand("select id from clients where firstname ='"
-                        + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", myConnection);
+                        + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", _myConnection);
                     MySqlDataReader myReader = null;
                     myReader = myCommand.ExecuteReader();
                     while (myReader.Read())
@@ -3935,7 +3934,7 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
         }
@@ -3945,8 +3944,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "', lastuser_id='" + p17 + "', isAdmin='" + p19 + "', inclusion='" + Convert.ToDateTime(p22).ToString("yyyy-MM-dd HH:mm") + "', leaving='" + Convert.ToDateTime(p21).ToString("yyyy-MM-dd HH:mm") + "' , date_of_birth='" + p18 + "' where id = '" + p20 + "' ; ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "', lastuser_id='" + p17 + "', isAdmin='" + p19 + "', inclusion='" + Convert.ToDateTime(p22).ToString("yyyy-MM-dd HH:mm") + "', leaving='" + Convert.ToDateTime(p21).ToString("yyyy-MM-dd HH:mm") + "' , date_of_birth='" + p18 + "' where id = '" + p20 + "' ; ", _myConnection);
 
                 myCommand.ExecuteNonQuery();
 
@@ -3959,7 +3958,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             //updateUsertoService(Convert.ToInt32(getUserIDbyFullname(p2 + " " + p3)), Convert.ToInt32(getServicesIdByName(p21)));
@@ -3969,8 +3968,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "', lastuser_id='" + p17 + "', isAdmin='" + p19 + "', inclusion='" + Convert.ToDateTime(p22).ToString("yyyy-MM-dd HH:mm") + "', date_of_birth='" + p18 + "' where id = '" + p20 + "' ; ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("update users set bank_account_number='" + p1 + "', firstname='" + p2 + "' , lastname='" + p3 + "', bank='" + p4 + "' , bank_code='" + p5 + "' , city='" + p6 + "' , fax='" + p7 + "' , email_password='" + p8 + "' , email_user='" + p9 + "' , street='" + p10 + "' , social_insurance_number='" + p11 + "' , phone_1='" + p12 + "' , username='" + p13 + "' , weeklyHours='" + p14 + "' , weeklyDays='" + p15 + "' , zip='" + p16 + "', lastuser_id='" + p17 + "', isAdmin='" + p19 + "', inclusion='" + Convert.ToDateTime(p22).ToString("yyyy-MM-dd HH:mm") + "', date_of_birth='" + p18 + "' where id = '" + p20 + "' ; ", _myConnection);
 
                 myCommand.ExecuteNonQuery();
 
@@ -3983,7 +3982,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             //updateUsertoService(Convert.ToInt32(getUserIDbyFullname(p2 + " " + p3)), Convert.ToInt32(getServicesIdByName(p21)));
@@ -3995,9 +3994,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
 
-                MySqlCommand myCommand = new MySqlCommand("delete from userstoservices where user_id = " + p, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("delete from userstoservices where user_id = " + p, _myConnection);
                 myCommand.ExecuteNonQuery();
 
 
@@ -4008,7 +4007,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             AddUserstoServices(Convert.ToInt32(p), p_2);
@@ -4019,9 +4018,9 @@ namespace IntranetTG
             try
             {
 
-                myConnection.Open();
+                _myConnection.Open();
                 string gaaaah = "";
-                MySqlCommand myCommand = new MySqlCommand("select weeklyDays from users where id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select weeklyDays from users where id = " + id, _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -4037,7 +4036,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4045,7 +4044,7 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
 
                 myCommand = new MySqlCommand("insert into taschengeld(Client_ID, TG_before, TG_diff, TG_after, Comment, Name, Date) values(" + tgKlient + ", " +
@@ -4054,10 +4053,10 @@ namespace IntranetTG
                     "(select pocket_money from clients where id = " + tgKlient + ") " + zeichen.ToString() + " " + diff + ", '" +
                     com + "' , '" +
                     name + "' , '" +
-                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "')", myConnection);
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "')", _myConnection);
                 myCommand.ExecuteNonQuery();
 
-                myCommand = new MySqlCommand("update clients set pocket_money = pocket_money" + zeichen.ToString() + diff + " where id = " + tgKlient, myConnection);
+                myCommand = new MySqlCommand("update clients set pocket_money = pocket_money" + zeichen.ToString() + diff + " where id = " + tgKlient, _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -4066,7 +4065,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4075,8 +4074,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select pocket_money from clients where id = " + id, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select pocket_money from clients where id = " + id, _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4093,7 +4092,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4102,8 +4101,8 @@ namespace IntranetTG
             try
             {
                 List<Taschengeld> tglist = new List<Taschengeld>();
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select Name, Date, TG_before, TG_diff, TG_after, Comment from taschengeld where Client_ID = " + id + " order by ID desc", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select Name, Date, TG_before, TG_diff, TG_after, Comment from taschengeld where Client_ID = " + id + " order by ID desc", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4140,7 +4139,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4149,8 +4148,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=3", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=3", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4167,7 +4166,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4178,8 +4177,8 @@ namespace IntranetTG
             {
                 string[] datum = p2.Split(' ')[0].Split('.');
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs c where day(c.from) = '" + datum[0] + "' and month(c.from) = '" + datum[1] + "' and year(c.from) = '" + datum[2] + "' and client_id = (select id from clients where firstname='" + name + "' and lastname='" + p + "') ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs c where day(c.from) = '" + datum[0] + "' and month(c.from) = '" + datum[1] + "' and year(c.from) = '" + datum[2] + "' and client_id = (select id from clients where firstname='" + name + "' and lastname='" + p + "') ", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4196,7 +4195,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4206,8 +4205,8 @@ namespace IntranetTG
             {
                 string[] datum = p2.Split(' ')[0].Split('.');
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs c where day(c.from) = '" + datum[0] + "' and month(c.from) = '" + datum[1] + "' and year(c.from) = '" + datum[2] + "' and client_id = (select id from clients where firstname='" + name + "' and lastname='" + p + "') ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs c where day(c.from) = '" + datum[0] + "' and month(c.from) = '" + datum[1] + "' and year(c.from) = '" + datum[2] + "' and client_id = (select id from clients where firstname='" + name + "' and lastname='" + p + "') ", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4224,7 +4223,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4242,8 +4241,8 @@ namespace IntranetTG
                     command = "select content from clientsreports where id = " + ber.id;
                 }
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -4260,7 +4259,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4273,8 +4272,8 @@ namespace IntranetTG
                 command = "insert into clientsreports (created, modified, createuser_id, client_id, name, content, art) values ('" + datetime + "', '" + datetime + "' , " + u.Id + ", " + ber.Client_id + ", '" + ber.name + "', '" + ber.content + "', " + ber.art + " );";
                 
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 
                 myTg.ExecuteNonQuery();
 
@@ -4286,7 +4285,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4299,8 +4298,8 @@ namespace IntranetTG
                 command = "insert into vorlagen_bericht (name, content) values ('" + ber.name +"', '" + ber.content +"');";
 
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 
                 myTg.ExecuteNonQuery();
 
@@ -4312,7 +4311,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4330,8 +4329,8 @@ namespace IntranetTG
                     command = "update clientsreports set content = '" + ber.content + "', modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', lastuser_id = " + u.Id + " where id = " + ber.id;
                 }
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                myTg.ExecuteNonQuery();
                MessageBox.Show("Gespeichert");
             }
@@ -4341,7 +4340,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4359,8 +4358,8 @@ namespace IntranetTG
                     command = "update clientsreports set art = " + ber.art + " where id = " + ber.id;
                 }
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 myTg.ExecuteNonQuery();
                 MessageBox.Show("Gespeichert");
             }
@@ -4370,7 +4369,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4379,11 +4378,11 @@ namespace IntranetTG
             List<Klienten_Berichte> ret = new List<Klienten_Berichte>();
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
                 MySqlCommand myCommand = new MySqlCommand();
                 
-                myCommand = new MySqlCommand("Select id, name, content from vorlagen_bericht", myConnection);
+                myCommand = new MySqlCommand("Select id, name, content from vorlagen_bericht", _myConnection);
                 
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -4407,7 +4406,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4417,8 +4416,8 @@ namespace IntranetTG
             List<string> value = new List<string>();
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT id, pocket_money FROM clients", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT id, pocket_money FROM clients", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4430,7 +4429,7 @@ namespace IntranetTG
                 myReader.Close();
                 for (int i = 0; i < id.Count; i++)
                 {
-                    myCommand = new MySqlCommand("insert into pocket_money (ID, val, comment, eintrUserID, datum) values (\'" + id[i] + "\', \'" + value[i] + "\', 'Anfangsbestand des Taschengeldes', " + uid + ", CURDATE())", myConnection);
+                    myCommand = new MySqlCommand("insert into pocket_money (ID, val, comment, eintrUserID, datum) values (\'" + id[i] + "\', \'" + value[i] + "\', 'Anfangsbestand des Taschengeldes', " + uid + ", CURDATE())", _myConnection);
                     myCommand.ExecuteNonQuery();
                 }
             }
@@ -4440,7 +4439,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4449,9 +4448,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select von FROM workingtime WHERE usersid='" + user + "' AND art = 'Urlaub' AND holidayverfied = 1 AND DAY(datetimefrom)=" + from.Day + " AND MONTH(datetimefrom)=" + from.Month + " AND YEAR(datetimefrom)=" + from.Year + " AND DAY(datetimeto)=" + to.Day + " AND MONTH(datetimeto)=" + to.Month + " AND YEAR(datetimeto)=" + to.Year + " AND comment ='" + comment + "' AND MINUTE(datetimefrom)=" + from.Minute + " AND HOUR(datetimefrom)=" + from.Hour + " AND MINUTE(datetimeto)=" + to.Minute + " AND HOUR(datetimeto)=" + to.Hour, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select von FROM workingtime WHERE usersid='" + user + "' AND art = 'Urlaub' AND holidayverfied = 1 AND DAY(datetimefrom)=" + from.Day + " AND MONTH(datetimefrom)=" + from.Month + " AND YEAR(datetimefrom)=" + from.Year + " AND DAY(datetimeto)=" + to.Day + " AND MONTH(datetimeto)=" + to.Month + " AND YEAR(datetimeto)=" + to.Year + " AND comment ='" + comment + "' AND MINUTE(datetimefrom)=" + from.Minute + " AND HOUR(datetimefrom)=" + from.Hour + " AND MINUTE(datetimeto)=" + to.Minute + " AND HOUR(datetimeto)=" + to.Hour, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -4468,7 +4467,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4481,8 +4480,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("insert into clientsdocuments (client_id, created, modified, createuser_id, title, path, filesize) values (" + client + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/clients/" + client + "/documents/" + filename + "', " + size + ");", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("insert into clientsdocuments (client_id, created, modified, createuser_id, title, path, filesize) values (" + client + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/clients/" + client + "/documents/" + filename + "', " + size + ");", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch
@@ -4491,7 +4490,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4500,9 +4499,9 @@ namespace IntranetTG
             try
             {
                 string date = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
-                myCommand = new MySqlCommand("insert into services (created, modified, createuser_id, lastuser_id, name, street, zip, city, phone_2, email_address, home_page, start) values('" + date + "' , '" + date + "' , '" + ID + "' , '" + ID + "' , '" + name + "' , '" + street + "' , '" + zip + "' , '" + city + "' , '" + tel + "' , '" + email + "' , '" + homepage + "' , '" + start + "');", myConnection);
+                myCommand = new MySqlCommand("insert into services (created, modified, createuser_id, lastuser_id, name, street, zip, city, phone_2, email_address, home_page, start) values('" + date + "' , '" + date + "' , '" + ID + "' , '" + ID + "' , '" + name + "' , '" + street + "' , '" + zip + "' , '" + city + "' , '" + tel + "' , '" + email + "' , '" + homepage + "' , '" + start + "');", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -4511,7 +4510,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4520,9 +4519,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("SELECT User FROM `kilometergeld` WHERE YEAR(Zeitvon) = " + year + " AND MONTH(Zeitvon) = " + month + " AND User = " + id + " ;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("SELECT User FROM `kilometergeld` WHERE YEAR(Zeitvon) = " + year + " AND MONTH(Zeitvon) = " + month + " AND User = " + id + " ;", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -4548,7 +4547,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4556,8 +4555,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("insert into login (pcname, datum) values ('"+ System.Environment.MachineName +"','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "');", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("insert into login (pcname, datum) values ('"+ System.Environment.MachineName +"','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "');", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -4566,7 +4565,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4574,8 +4573,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("insert into wiki (created, modified, createuser_id, title, path) values ('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/wiki/" + filename + "');", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("insert into wiki (created, modified, createuser_id, title, path) values ('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/wiki/" + filename + "');", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -4584,7 +4583,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4596,8 +4595,8 @@ namespace IntranetTG
             string id, name;
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT id, name FROM services", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT id, name FROM services", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4619,7 +4618,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4632,8 +4631,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT ID, KontoNr, Beschr FROM KontoNr WHERE HID = " + hid + " ORDER BY KontoNr ASC", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT ID, KontoNr, Beschr FROM KontoNr WHERE HID = " + hid + " ORDER BY KontoNr ASC", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4656,7 +4655,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4669,8 +4668,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT Kassabuch.ID, BelNr, Datum, Bezeichn, Brutto, Steuers, Netto, MWST, KontoNr.KontoNr, users.firstname, users.lastname, services.name FROM Kassabuch JOIN users ON Kassabuch.EintrUserID = users.id JOIN services ON Kassabuch.Haus = services.id JOIN KontoNr ON Kassabuch.KontoNr = KontoNr.ID WHERE Haus = " + hid + " AND Kassabuch.Datum >= '" + from + "' AND Kassabuch.Datum <= '" + to + "' ORDER BY BelNr desc", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT Kassabuch.ID, BelNr, Datum, Bezeichn, Brutto, Steuers, Netto, MWST, KontoNr.KontoNr, users.firstname, users.lastname, services.name FROM Kassabuch JOIN users ON Kassabuch.EintrUserID = users.id JOIN services ON Kassabuch.Haus = services.id JOIN KontoNr ON Kassabuch.KontoNr = KontoNr.ID WHERE Haus = " + hid + " AND Kassabuch.Datum >= '" + from + "' AND Kassabuch.Datum <= '" + to + "' ORDER BY BelNr desc", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4698,7 +4697,7 @@ namespace IntranetTG
                 for (int i = 0; i < ret.Count; i++)
                 {
                     id = ret[i].id.ToString();
-                    myCommand = new MySqlCommand("SELECT SUM(Brutto) kassst FROM Kassabuch WHERE ID <= " + id + " AND Haus = " + hid, myConnection);
+                    myCommand = new MySqlCommand("SELECT SUM(Brutto) kassst FROM Kassabuch WHERE ID <= " + id + " AND Haus = " + hid, _myConnection);
                     myReader = myCommand.ExecuteReader();
                     if (myReader.Read() && (kassst = myReader["kassst"].ToString()) != "")
                     {
@@ -4713,7 +4712,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4727,9 +4726,9 @@ namespace IntranetTG
                 brutto = brutto.Replace(",", ".");
                 netto = netto.Replace(",", ".");
                 mwst = mwst.Replace(",", ".");
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand = new MySqlCommand("INSERT INTO Kassabuch (BelNr, Datum, Bezeichn, Brutto, Steuers, Netto, MWST, KontoNr, EintrUserID, Haus) VALUES (" +
-                belnr + abst + hk + datum + hk + abst + hk + beschr + hk + abst + brutto + abst + steuers + abst + netto + abst + mwst + abst + knr + abst + uid + abst + hid + ")", myConnection);
+                belnr + abst + hk + datum + hk + abst + hk + beschr + hk + abst + brutto + abst + steuers + abst + netto + abst + mwst + abst + knr + abst + uid + abst + hid + ")", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -4738,7 +4737,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4746,8 +4745,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("INSERT INTO KontoNr (KontoNr, Beschr, HID) VALUES (\'" + knr + "\', \'" + desc + "\', " + hid + ")", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("INSERT INTO KontoNr (KontoNr, Beschr, HID) VALUES (\'" + knr + "\', \'" + desc + "\', " + hid + ")", _myConnection);
                 myCommand.ExecuteNonQuery();
 
             }
@@ -4757,7 +4756,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4767,8 +4766,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT MAX(BelNr) as BelNr FROM Kassabuch WHERE Haus = " + hid + " AND YEAR(Datum) = YEAR(CURDATE())", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT MAX(BelNr) as BelNr FROM Kassabuch WHERE Haus = " + hid + " AND YEAR(Datum) = YEAR(CURDATE())", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 myReader.Read();
@@ -4788,7 +4787,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4799,8 +4798,8 @@ namespace IntranetTG
             float ret = 0;
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT SUM(Brutto) Netto FROM Kassabuch WHERE haus = " + hid + " AND isKey = 0", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT SUM(Brutto) Netto FROM Kassabuch WHERE haus = " + hid + " AND isKey = 0", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4816,7 +4815,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             return ret;
         }
@@ -4844,8 +4843,8 @@ namespace IntranetTG
             try
             {
                 val = val.Replace(",", ".");
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("UPDATE Kassabuch SET " + col + " = " + val + " WHERE ID = " + id, myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("UPDATE Kassabuch SET " + col + " = " + val + " WHERE ID = " + id, _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -4854,7 +4853,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -4865,8 +4864,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT ID FROM KontoNr WHERE KontoNr = " + knr + " AND HID = " + hid, myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT ID FROM KontoNr WHERE KontoNr = " + knr + " AND HID = " + hid, _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 if (myReader.Read() && (s = myReader["id"].ToString()) != "")
@@ -4881,7 +4880,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4903,8 +4902,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT ID FROM users WHERE firstname = \'" + fir + "\' AND lastname = \'" + las + "\'", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT ID FROM users WHERE firstname = \'" + fir + "\' AND lastname = \'" + las + "\'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 if (myReader.Read() && (s = myReader["id"].ToString()) != "")
@@ -4919,7 +4918,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             return ret;
@@ -4930,8 +4929,8 @@ namespace IntranetTG
             float ret = 0;
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT SUM(Brutto) Netto FROM Kassabuch WHERE haus = " + hid + " AND Datum < '" + dat + "' AND isKey = 0", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT SUM(Brutto) Netto FROM Kassabuch WHERE haus = " + hid + " AND Datum < '" + dat + "' AND isKey = 0", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4947,7 +4946,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             return ret;
         }
@@ -4957,8 +4956,8 @@ namespace IntranetTG
             float ret = 0;
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("SELECT 1 fggt FROM Kassabuch WHERE (SELECT MAX(Datum) FROM Kassabuch) >= '" + dat + "'", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("SELECT 1 fggt FROM Kassabuch WHERE (SELECT MAX(Datum) FROM Kassabuch) >= '" + dat + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 if (!myReader.Read() || myReader["fggt"].ToString() == String.Empty)
@@ -4967,7 +4966,7 @@ namespace IntranetTG
                     return ret;
                 }
                 myReader.Close();
-                myCommand = new MySqlCommand("SELECT SUM(Netto) Netto FROM Kassabuch WHERE haus = " + hid + " AND Datum < '" + dat + "' AND isKey = 0", myConnection);
+                myCommand = new MySqlCommand("SELECT SUM(Netto) Netto FROM Kassabuch WHERE haus = " + hid + " AND Datum < '" + dat + "' AND isKey = 0", _myConnection);
                 myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -4987,7 +4986,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             return ret;
         }
@@ -5043,8 +5042,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("update clientsdocuments set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , lastuser_id= " + modified_id + ", path = '/data/clients/" + client_id + "/documents/" + name + "', title = '" + titel + "' , filesize = " + size + " where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm") + "' and client_id = " + doc.client_id + ";", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("update clientsdocuments set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , lastuser_id= " + modified_id + ", path = '/data/clients/" + client_id + "/documents/" + name + "', title = '" + titel + "' , filesize = " + size + " where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm") + "' and client_id = " + doc.client_id + ";", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5053,7 +5052,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5063,8 +5062,8 @@ namespace IntranetTG
 
             try
             {
-                myConnection.Open();
-                MySqlCommand myCommand = new MySqlCommand("select SUM(Summe) as 'Summe' from kilometergeld where User=" + id + " and Month(Zeitvon)='" + month + "' and Year(Zeitvon)='" + year + "'" + " and Month(Zeitbis)='" + month + "' and Year(Zeitbis)='" + year + "'", myConnection);
+                _myConnection.Open();
+                MySqlCommand myCommand = new MySqlCommand("select SUM(Summe) as 'Summe' from kilometergeld where User=" + id + " and Month(Zeitvon)='" + month + "' and Year(Zeitvon)='" + year + "'" + " and Month(Zeitbis)='" + month + "' and Year(Zeitbis)='" + year + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
 
@@ -5081,7 +5080,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
             if (ret != "")
@@ -5099,9 +5098,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select client_id, created, modified, createuser_id, lastuser_id, title, path, filesize from clientsphotos where client_id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select client_id, created, modified, createuser_id, lastuser_id, title, path, filesize from clientsphotos where client_id = " + id, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -5126,7 +5125,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5134,8 +5133,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("insert into clientsphotos (client_id, created, modified, createuser_id, title, path, filesize) values (" + client + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/clients/" + client + "/documents/" + filename + "', " + size + ");", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("insert into clientsphotos (client_id, created, modified, createuser_id, title, path, filesize) values (" + client + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', " + creater + ", '" + titel + "', '/data/clients/" + client + "/documents/" + filename + "', " + size + ");", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5144,7 +5143,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5152,8 +5151,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("update clientsphotos set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , lastuser_id= " + modified_id + ", path = '/data/clients/" + client_id + "/documents/" + name + "', title = '" + titel + "' , filesize = " + size + " where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm") + "' and client_id = " + doc.client_id + ";", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("update clientsphotos set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , lastuser_id= " + modified_id + ", path = '/data/clients/" + client_id + "/documents/" + name + "', title = '" + titel + "' , filesize = " + size + " where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm") + "' and client_id = " + doc.client_id + ";", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5162,7 +5161,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5170,8 +5169,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("delete from clientsdocuments where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm:ss") + "' and client_id = " + doc.client_id + ";", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("delete from clientsdocuments where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm:ss") + "' and client_id = " + doc.client_id + ";", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5180,7 +5179,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5188,8 +5187,8 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("delete from clientsphotos where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm:ss") + "' and client_id = " + doc.client_id + ";", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("delete from clientsphotos where title= '" + doc.title + "' and path = '" + doc.path + "' and createuser_id = " + doc.createuser_id + " and created = '" + doc.created.ToString("yyyy-MM-dd HH:mm:ss") + "' and client_id = " + doc.client_id + ";", _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5198,7 +5197,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5207,8 +5206,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=0 ", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=0 ", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5225,7 +5224,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5237,8 +5236,8 @@ namespace IntranetTG
             {
                 List<Klienten_Berichte> ret = new List<Klienten_Berichte>();
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select id, modified, name, created from clientsreports where client_id = (select id from clients where firstname='" + firstname + "' and lastname='" + lastname + "') and art=" + art.ToString(), myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select id, modified, name, created from clientsreports where client_id = (select id from clients where firstname='" + firstname + "' and lastname='" + lastname + "') and art=" + art.ToString(), _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5261,7 +5260,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5271,8 +5270,8 @@ namespace IntranetTG
             {
                 List<Klienten_Berichte> ret = new List<Klienten_Berichte>();
                 
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select id, modified, name, created from clientsfvgs where client_id = (select id from clients where firstname='" + firstname + "' and lastname='" + lastname + "') and art=" + art.ToString(), myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select id, modified, name, created from clientsfvgs where client_id = (select id from clients where firstname='" + firstname + "' and lastname='" + lastname + "') and art=" + art.ToString(), _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5295,7 +5294,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5304,8 +5303,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=1", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=1", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5322,7 +5321,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5331,8 +5330,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=2", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=2", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5349,7 +5348,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5358,8 +5357,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=4", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=4", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5376,7 +5375,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5385,8 +5384,8 @@ namespace IntranetTG
             try
             {
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=5", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select * from clientsfvgs where client_id = (select id from clients where firstname='" + p1 + "' and lastname='" + p2 + "') and art=5", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5403,7 +5402,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5414,11 +5413,11 @@ namespace IntranetTG
             try
             {
                 string[] name = p.Split(' ');
-                myConnection.Open();
+                _myConnection.Open();
                 string clientId = "";
 
                 MySqlCommand myCommand = new MySqlCommand("select id from clients where firstname ='"
-                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", myConnection);
+                    + name[0].Replace(',', ' ') + "' and lastname ='" + name[1].Replace(',', ' ') + "'", _myConnection);
                 MySqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
@@ -5428,12 +5427,12 @@ namespace IntranetTG
 
 
 
-                myConnection.Close();
-                myConnection.Open();
+                _myConnection.Close();
+                _myConnection.Open();
 
                 string tg = "";
-                myConnection.Open();
-                MySqlCommand myTg = new MySqlCommand("select COUNT(*) as 'count' from clientsmedicationsconfirmations where created = " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " and client_id= " + clientId.ToString() + " and clientsmedication_id = " + medi.cmId + " and for_day = " + when.ToString("yyyy-MM-dd") + ";", myConnection);
+                _myConnection.Open();
+                MySqlCommand myTg = new MySqlCommand("select COUNT(*) as 'count' from clientsmedicationsconfirmations where created = " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " and client_id= " + clientId.ToString() + " and clientsmedication_id = " + medi.cmId + " and for_day = " + when.ToString("yyyy-MM-dd") + ";", _myConnection);
                 MySqlDataReader myTgReader = null;
                 myTgReader = myTg.ExecuteReader();
 
@@ -5458,7 +5457,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5466,10 +5465,10 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlCommand myCommand;
 
-                myCommand = new MySqlCommand("insert into clientssanctions(client_id, created, modified, createuser_id, lastuser_id, sanction, statement, date_from, date_to) values(" + s2 + " , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:SS") + "' , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:SS") + "' , " + s1 + " , " + s1 + " , '" + s3 + "' , '" + s4 + "' , '" + s5 + "' , '" + s6 + "')", myConnection);
+                myCommand = new MySqlCommand("insert into clientssanctions(client_id, created, modified, createuser_id, lastuser_id, sanction, statement, date_from, date_to) values(" + s2 + " , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:SS") + "' , '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:SS") + "' , " + s1 + " , " + s1 + " , '" + s3 + "' , '" + s4 + "' , '" + s5 + "' , '" + s6 + "')", _myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -5478,7 +5477,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5490,9 +5489,9 @@ namespace IntranetTG
             {
                 
 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select created, createuser_id, sanction, statement, date_from, date_to from clientssanctions where client_id=" + id + " order by created desc;", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select created, createuser_id, sanction, statement, date_from, date_to from clientssanctions where client_id=" + id + " order by created desc;", _myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
@@ -5516,7 +5515,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             
             foreach (PadMas p in list)
@@ -5534,9 +5533,9 @@ namespace IntranetTG
             string ret = "";
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("Select service_id from userstoservices where user_id = " + id, myConnection);
+                MySqlCommand myCommand = new MySqlCommand("Select service_id from userstoservices where user_id = " + id, _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -5555,7 +5554,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
 
         }
@@ -5565,9 +5564,9 @@ namespace IntranetTG
             try
             {
                 string ret = "";
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select count(*) as 'count' from wiki where title = '" + p + "'", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select count(*) as 'count' from wiki where title = '" + p + "'", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -5593,7 +5592,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5601,9 +5600,9 @@ namespace IntranetTG
         {
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 string command = "update wiki set modified = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "' , path = '/data/wiki/" + name + "', lastuser_id = " + UserId + " where id = " + doc.client_id + ";";
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch
@@ -5613,7 +5612,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5622,10 +5621,10 @@ namespace IntranetTG
             //@Kostal
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
 
                 string command = "delete from wiki where title = '" + doc.Name + "' and path = '" + doc.path + "' and modified = '" + doc.Verändert.ToString("yyyy-MM-dd HH:mm") + "' and created = '" + doc.Erstellt.ToString("yyyy-MM-dd HH:mm") + "';";
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5635,7 +5634,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5645,9 +5644,9 @@ namespace IntranetTG
             {
                 int isset = -1;
                 
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select count(*) as 'count' from feedback where userId = " + uid + " and wikiId = " + tmp.client_id + ";", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select count(*) as 'count' from feedback where userId = " + uid + " and wikiId = " + tmp.client_id + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -5672,7 +5671,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5682,9 +5681,9 @@ namespace IntranetTG
             {
                 try
                 {
-                    myConnection.Open();
+                    _myConnection.Open();
                     MySqlCommand myCommand;
-                    myCommand = new MySqlCommand("update feedback set rate = " + rating + " where userId = " + uid + " and wikiId = " + tmp.client_id + ";", myConnection);
+                    myCommand = new MySqlCommand("update feedback set rate = " + rating + " where userId = " + uid + " and wikiId = " + tmp.client_id + ";", _myConnection);
 
                     myCommand.ExecuteNonQuery();
                 }
@@ -5696,16 +5695,16 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
             else //neuer eintrag
             {
                 try
                 {
-                    myConnection.Open();
+                    _myConnection.Open();
                     MySqlCommand myCommand;
-                    myCommand = new MySqlCommand("insert into feedback values (" + uid + ", '', " + rating + ", " + tmp.client_id + ");", myConnection);
+                    myCommand = new MySqlCommand("insert into feedback values (" + uid + ", '', " + rating + ", " + tmp.client_id + ");", _myConnection);
 
                     myCommand.ExecuteNonQuery();
                 }
@@ -5717,7 +5716,7 @@ namespace IntranetTG
                 }
                 finally
                 {
-                    myConnection.Close();
+                    _myConnection.Close();
                 }
             }
             //Wiki-Rating muss noch aktuallisiert werden
@@ -5725,9 +5724,9 @@ namespace IntranetTG
             int count = -1;
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
                 MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select sum(rate) as 'rate', count(*) as 'count' from feedback where wikiId = " + tmp.client_id + ";", myConnection);
+                MySqlCommand myCommand = new MySqlCommand("select sum(rate) as 'rate', count(*) as 'count' from feedback where wikiId = " + tmp.client_id + ";", _myConnection);
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
@@ -5746,7 +5745,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
             if (sum > 0)
             {
@@ -5756,9 +5755,9 @@ namespace IntranetTG
                     rate = Math.Round(rate, 2);
                     try
                     {
-                        myConnection.Open();
+                        _myConnection.Open();
                         MySqlCommand myCommand;
-                        myCommand = new MySqlCommand("update wiki set rate = " + rate + " where id = " + tmp.client_id + ";", myConnection);
+                        myCommand = new MySqlCommand("update wiki set rate = " + rate + " where id = " + tmp.client_id + ";", _myConnection);
 
                         myCommand.ExecuteNonQuery();
                         return rate;
@@ -5771,7 +5770,7 @@ namespace IntranetTG
                     }
                     finally
                     {
-                        myConnection.Close();
+                        _myConnection.Close();
                     }
                 }
             }
@@ -5788,10 +5787,10 @@ namespace IntranetTG
             //@Kostal
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
 
                 string command = "insert into clientsmedications (client_id, created, modified, createuser_id, lastuser_id, medicament_id, from, to, apply_date, apply_time, morning, midday, evening, night, cancelled) values (" + clientmed.client_id + ", '" + clientmed.created.ToString("yyyy-MM-dd HH:mm") + "', '" + clientmed.modified.ToString("yyyy-MM-dd HH:mm") + "', " + clientmed.createuser_id + ", " + clientmed.lastuser_id + ", " + clientmed.medicament_id + ", '" + clientmed.from.ToString("yyyy-MM-dd") + "', '" + clientmed.to.ToString("yyyy-MM-dd") + "', '" + clientmed.apply_date.ToString("yyyy-MM-dd") + "', " + clientmed.apply_time + ", " + clientmed.morning + ", " + clientmed.midday + ", " + clientmed.evening + ", " + clientmed.night + ", '" + clientmed.cancelled.ToString("yyyy-MM-dd") + "');";
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5801,7 +5800,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
@@ -5810,10 +5809,10 @@ namespace IntranetTG
             //@Kostal
             try
             {
-                myConnection.Open();
+                _myConnection.Open();
 
                 string command = "insert into clientsdailydocs (created, modified, createuser_id, lastuser_id, client_id, for_day, content_bodily, content_psychic, content_external_contact, content_responsibilities, draft, insert_key, content_school) values ('" + clientsdailydoc.created.ToString("yyyy-MM-dd HH:mm") + "', '" + clientsdailydoc.modified.ToString("yyyy-MM-dd HH:mm") + "', " + clientsdailydoc.createuser_id + ", " + clientsdailydoc.lastuser_id + ", '" + clientsdailydoc.for_day.ToString("yyyy-MM-dd HH:mm") + "', '" + clientsdailydoc.content_bodily + "', '" + clientsdailydoc.content_psychic + "', '" + clientsdailydoc.content_external_contact + "', '" + clientsdailydoc.content_responsibilities + "', " + clientsdailydoc.draft + ", " + clientsdailydoc.insert_key + ", " + clientsdailydoc.content_school + ");";
-                MySqlCommand myTg = new MySqlCommand(command, myConnection);
+                MySqlCommand myTg = new MySqlCommand(command, _myConnection);
                 myTg.ExecuteNonQuery();
             }
             catch 
@@ -5823,7 +5822,7 @@ namespace IntranetTG
             }
             finally
             {
-                myConnection.Close();
+                _myConnection.Close();
             }
         }
 
