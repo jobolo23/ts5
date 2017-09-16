@@ -37,9 +37,9 @@ namespace TGTheraS4
             lblArt.Visibility = Visibility.Hidden;
             foreach (var service in services)
             {
-                foreach (var cl in c.WgToClients(service))
+                foreach (var cl in c.WgToClients(service, SQLCommands.ClientFilter.NotLeft))
                 {
-                    cmbgetKlient.Items.Add(cl);
+                    cmbgetKlient.Items.Add(cl.Key + " " + cl.Value);
                 }
 
                 cmbgetKlient.IsEnabled = false;

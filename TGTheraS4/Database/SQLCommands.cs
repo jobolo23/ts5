@@ -263,19 +263,25 @@ namespace IntranetTG
         /// <param name="wg">Name of the house of which u need the Children</param>
         /// <returns>Firstname and lastname of the Kids</returns>
 
-        public List<string> WgToClients(string wg)
+        public enum ClientFilter {
+            NotLeft,
+            Left,
+            All
+        }
+
+        public Dictionary<string, string> WgToClients(string wg, ClientFilter filter)
         {
             using (var db = new Theras5DB())
             {
-                var query = from c in db.Clients
-                            join cs in db.Clientstoservices on c.Id equals cs.ClientId
-                            join s in db.Services on cs.ServiceId equals s.Id
-                            where s.Name == wg && c.Leaving == null
-                            orderby c.Lastname, s.Name
-                            select c;
+                var query = db.Clients.Join(db.Clientstoservices, c => c.Id, cs => cs.ClientId, (c, cs) => new {c, cs})
+                    .Join(db.Services, @t => @t.cs.ServiceId, s => s.Id, (@t, s) => new {@t, s})
+                    .Where(@t => @t.s.Name == wg && (filter == ClientFilter.NotLeft ? @t.@t.c.Leaving == null :
+                    (filter == ClientFilter.Left ? @t.@t.c.Leaving != null : @t.@t.c.Leaving == null || @t.@t.c.Leaving != null)))
+                    .OrderBy(@t => @t.@t.c.Lastname)
+                    .ThenBy(@t => @t.s.Name)
+                    .Select(@t => @t.@t.c);
 
-                var clients = query.ToList();
-                return clients.Select(client => $"{client.Firstname} {client.Lastname}").ToList();
+                return query.ToList().ToDictionary(client => client.Firstname, client => client.Lastname);
             }
         }
 

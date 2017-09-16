@@ -588,14 +588,22 @@ namespace TGTheraS4
             cmbPad.Items.Clear();
             foreach (string service in u.Services)
             {
+                List<string> temp = new List<string>();
 
+                foreach (var cc in c.WgToClients(service, SQLCommands.ClientFilter.NotLeft))
+                {
+                    temp.Add(cc.Key + "$" + cc.Value);
+                }
 
+                List<string> temp2 = temp;
 
+                List<string> temp3 = new List<string>();
 
+                foreach (var cc in c.WgToClients(service, SQLCommands.ClientFilter.Left))
+                {
+                    temp3.Add(cc.Key + "$" + cc.Value);
+                }
 
-                string[] temp = c.WgToClients(service).Split('%');
-                string[] temp2 = c.WgToClients(service).Split('%');
-                string[] temp3 = c.WgToClientsAllClients_notleft(service).Split('%');
                 foreach (string name in temp)
                 {
 

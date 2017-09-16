@@ -40,9 +40,9 @@ namespace TGTheraS4
         private void FillKidsIntoBerichtKombo(){
             foreach (var service in u.Services)
             {
-                foreach (var client in c.WgToClients(service))
+                foreach (var client in c.WgToClients(service, SQLCommands.ClientFilter.NotLeft))
                 {
-                    cmbKlient.Items.Add(client);
+                    cmbKlient.Items.Add(client.Key + " " + client.Value);
                 }
             }
         }
