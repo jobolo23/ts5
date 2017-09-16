@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using IntranetTG;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     public class Task
     {

@@ -14,7 +14,7 @@ using IntranetTG;
 using IntranetTG.Objects;
 using IntranetTG.Functions;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     
     public partial class EditAppointmentsDialog : Window

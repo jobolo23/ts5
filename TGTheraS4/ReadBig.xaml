@@ -1,4 +1,4 @@
-﻿<Window x:Name="wndwReadBig" x:Class="TGTheraS4.ReadBig"
+﻿<Window x:Name="wndwReadBig" x:Class="TheraS5.ReadBig"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Textansicht" Height="403.861" Width="664.664" Loaded="wndwReadBig_Loaded" ResizeMode="NoResize">

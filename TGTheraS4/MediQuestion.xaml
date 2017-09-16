@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.MediQuestion"
+﻿<Window x:Class="TheraS5.MediQuestion"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MediQuestion" Height="300" Width="611" Closing="Window_Closing_1">

@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.ShowReadInstruction"
+﻿<Window x:Class="TheraS5.ShowReadInstruction"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ShowReadInstruction" Height="397" Width="599">

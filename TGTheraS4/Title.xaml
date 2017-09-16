@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.Title"
+﻿<Window x:Class="TheraS5.Title"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Titel" Height="157" Width="387">

@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.loading"
+﻿<Window x:Class="TheraS5.loading"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="loading" Height="300" Width="540.226" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="LightBlue" Loaded="Window_Loaded_1" ShowInTaskbar="False">

@@ -8,8 +8,8 @@
     <ProjectGuid>{22446334-A1A8-49DF-A9C8-C5E0948FE5E0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TheraS5</RootNamespace>
-    <AssemblyName>TheraS5</AssemblyName>
+    <RootNamespace>TGTheraS4</RootNamespace>
+    <AssemblyName>TGTheraS4</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

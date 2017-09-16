@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.EditInstruction"
+﻿<Window x:Class="TheraS5.EditInstruction"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Dienstanweisung" Height="387" Width="563">

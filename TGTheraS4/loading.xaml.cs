@@ -3,7 +3,7 @@ using System.Windows;
 
 
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für loading.xaml

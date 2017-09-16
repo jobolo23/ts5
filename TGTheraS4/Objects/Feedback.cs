@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     public class Feedback
     {

@@ -17,7 +17,7 @@ using IntranetTG.Objects;
 using System.Data;
 
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaction logic for EditUserControl.xaml

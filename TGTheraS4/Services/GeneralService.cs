@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
-using TGTheraS4.Database.Objects;
+using TheraS5.Database.Objects;
 
-namespace TGTheraS4.Services {
+namespace TheraS5.Services {
     public class GeneralService
     {
         public string ApplicationId { get; set; }
