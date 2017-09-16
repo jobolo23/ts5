@@ -38,24 +38,11 @@ namespace TGTheraS4
         }
 
         private void FillKidsIntoBerichtKombo(){
-            foreach (string service in u.Services)
+            foreach (var service in u.Services)
             {
-                string[] temp = c.WgToClients(service).Split('%');
-                foreach (string name in temp)
+                foreach (var client in c.WgToClients(service))
                 {
-                    string[] namen = name.Split('$');
-                    if (namen.Length > 1)
-                    {
-                        if (namen[0].Contains(' '))
-                        {
-                            namen[0] = namen[0].Replace(' ', ',');
-                        }
-                        if (namen[1].Contains(' '))
-                        {
-                            namen[1] = namen[1].Replace(' ', ',');
-                        }
-                        cmbKlient.Items.Add(namen[0] + " " + namen[1]);
-                    }
+                    cmbKlient.Items.Add(client);
                 }
             }
         }

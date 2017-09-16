@@ -35,31 +35,16 @@ namespace TGTheraS4
             cmbArt.DisplayMemberPath = "name";
             lbllala.Visibility = Visibility.Hidden;
             lblArt.Visibility = Visibility.Hidden;
-            foreach (string service in services)
+            foreach (var service in services)
             {
-                string[] temp = c.WgToClients(service).Split('%');
-                foreach (string name in temp)
+                foreach (var cl in c.WgToClients(service))
                 {
-                    string[] namen = name.Split('$');
-                    if (namen.Length > 1)
-                    {
-                        if (namen[0].Contains(' '))
-                        {
-                            namen[0] = namen[0].Replace(' ', ',');
-                        }
-                        if (namen[1].Contains(' '))
-                        {
-                            namen[1] = namen[1].Replace(' ', ',');
-                        }
-                        cmbgetKlient.Items.Add(namen[0] + " " + namen[1]);
-                    }
+                    cmbgetKlient.Items.Add(cl);
                 }
 
                 cmbgetKlient.IsEnabled = false;
                 cmbgetKlient.SelectedValue = client;
             }
-
-
         }
 
         public EditMedicalActions(String client, String date, String art, String desc, bool showdel)
