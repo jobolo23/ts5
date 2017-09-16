@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DataModels;
+using IntranetTG;
+using TGTheraS4.Database.Objects;
 
 namespace TGTheraS4.Objects
 {
@@ -20,5 +23,29 @@ namespace TGTheraS4.Objects
         public string Bewertung { get; set; }
         public string path;
         public int filesize;
+
+        public WikiDoc(Wiki wiki)
+        {
+            var c = new SQLCommands(new MySqlConnectionInformation("0", "0", "0", "0", "0"));
+            client_id = 0;
+            Erstellt = (DateTime) wiki.Created;
+            Verändert = ( DateTime ) wiki.Modified;
+            createuser_id = ( int ) wiki.CreateuserId;
+            Ersteller = c.getNameByID(createuser_id.ToString(), false);
+            if (wiki.LastuserId == null)
+            {
+                lastuser_id = -1;
+                Verändert_von = "keine Angabe";
+            }
+            else
+            {
+                lastuser_id = ( int ) wiki.LastuserId;
+                Verändert_von = c.getNameByID(lastuser_id.ToString(), false);
+            }
+            Name = wiki.Title;
+            path = wiki.Path;
+            Bewertung = "Keine Bewertungen";
+            filesize = 0;
+        }
     }
 }

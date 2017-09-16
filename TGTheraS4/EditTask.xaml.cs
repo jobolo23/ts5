@@ -55,7 +55,7 @@ namespace TGTheraS4
             c = sql;
             this.uid1 = uid1;
             this.uid2 = uid2;
-            lblan.Content = c.getNameByID(uid2);
+            lblan.Content = c.getNameByID(uid2, false);
 
             btnSave.Visibility = Visibility.Hidden;
             cmbTaskforUser.Visibility = Visibility.Hidden;

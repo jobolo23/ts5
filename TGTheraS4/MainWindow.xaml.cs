@@ -447,78 +447,11 @@ namespace TGTheraS4
 
         private void loadWiki()
         {
-            string tmp = c.getWikiDocs();
-            string[] lines = tmp.Split('%');
+            var docs = c.getWikiDocs();
             wiki = new List<WikiDoc>();
-            IFormatProvider culture = new CultureInfo("de-DE", true);
-            foreach (string line in lines)
+            foreach (WikiDoc doc in docs)
             {
-                string[] values = line.Split('$');
-                if (values.Count() == 9)
-                {
-                    WikiDoc doc = new WikiDoc();
-                    try
-                    {
-                        doc.client_id = Convert.ToInt32(values[0].Trim());
-                    }
-                    catch
-                    {
-                        doc.client_id = -1;
-                    }
-                    doc.Erstellt = DateTime.ParseExact(values[1].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.Erstellung = doc.Erstellt.ToString("dd.MM.yyyy HH:mm:ss");
-                    doc.Verändert = DateTime.ParseExact(values[2].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.Veränderung = doc.Verändert.ToString("dd.MM.yyyy HH:mm:ss");
-                    doc.createuser_id = Convert.ToInt32(values[3].Trim());
-                    try
-                    {
-                        doc.lastuser_id = Convert.ToInt32(values[4].Trim());
-                    }
-                    catch
-                    {
-                        doc.lastuser_id = -1;
-                    }
-                    doc.Name = values[5];
-                    doc.path = values[6];
-                    if (values[7] == "0")
-                        doc.Bewertung = "Keine Bewertungen";
-                    else
-                    {
-                        double counter = Convert.ToDouble(values[7]);
-                        doc.Bewertung = "";
-                        while (counter >= 1)
-                        {
-                            doc.Bewertung += "✮";
-                            counter--;
-                        }
-                        if (counter >= 0.50)
-                        {
-                            doc.Bewertung += "✩";
-                        }
-                    }
-
-
-                    if (doc.createuser_id == -1)
-                    {
-                        doc.Ersteller = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.Ersteller = c.getNameByID(doc.createuser_id.ToString());
-                    }
-
-                    if (doc.lastuser_id == -1)
-                    {
-                        doc.Verändert_von = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.Verändert_von = c.getNameByID(doc.lastuser_id.ToString());
-                    }
-
-                    wiki.Add(doc);
-                }
-
+                wiki.Add(doc);
             }
             dgvWikiDocs.ItemsSource = wiki;
         }
@@ -919,7 +852,7 @@ namespace TGTheraS4
                                 txtDokuPsychischAnzeige.Text = temp[2];
                                 txtDokuAußenkontaktAnzeige.Text = temp[3];
                                 txtDokuPflichteAnzeige.Text = temp[4];
-                                txtDokuCreatedUser.Text = c.getNameByID(temp[5]);
+                                txtDokuCreatedUser.Text = c.getNameByID(temp[5], false);
                                 txtDokuAußenkontaktAnzeige.IsReadOnly = true;
                                 txtDokuKoerperlichAnzeige.IsReadOnly = true;
                                 txtDokuPflichteAnzeige.IsReadOnly = true;
@@ -943,7 +876,7 @@ namespace TGTheraS4
                                         string[] temp_doku = temps[i].Split('$');
                                         if (i == 0)
                                         {
-                                            txtDokuCreatedUser.Text = c.getNameByID(temp_doku[5]);
+                                            txtDokuCreatedUser.Text = c.getNameByID(temp_doku[5], false);
                                         }
 
                                         if (temp_doku[0] != "")
@@ -1287,51 +1220,51 @@ namespace TGTheraS4
                             if (txtDokuKoerperlich.Text != "")
                             {
                                 dokuKoerperlichMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
-                                                        ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                        ") VON: " + c.getNameByID(u.Id, false) + "---\r\n\r\n" +
                                                         txtDokuKoerperlich.Text;
                                 txtDokuKoerperlichAnzeige.Text =
                                     txtDokuKoerperlichAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id, false) +
                                     "---\r\n\r\n" + txtDokuKoerperlich.Text;
                             }
                             if (txtDokuSchulisch.Text != "")
                             {
                                 dokuSchulischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
-                                                      ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                      ") VON: " + c.getNameByID(u.Id, false) + "---\r\n\r\n" +
                                                       txtDokuSchulisch.Text;
                                 txtDokuSchulischAnzeige.Text =
                                     txtDokuSchulischAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id, false) +
                                     "---\r\n\r\n" + txtDokuSchulisch.Text;
                             }
                             if (txtDokuPsychisch.Text != "")
                             {
                                 dokuPsychischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
-                                                      ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                      ") VON: " + c.getNameByID(u.Id, false) + "---\r\n\r\n" +
                                                       txtDokuPsychisch.Text;
                                 txtDokuPsychischAnzeige.Text =
                                     txtDokuPsychischAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id, false) +
                                     "---\r\n\r\n" + txtDokuPsychisch.Text;
                             }
                             if (txtDokuPflichte.Text != "")
                             {
                                 dokuPflichteMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
-                                                     ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                     ") VON: " + c.getNameByID(u.Id, false) + "---\r\n\r\n" +
                                                      txtDokuPflichte.Text;
                                 txtDokuPflichteAnzeige.Text =
                                     txtDokuPflichteAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id, false) +
                                     "---\r\n\r\n" + txtDokuPflichte.Text;
                             }
                             if (txtDokuAußenkontakt.Text != "")
                             {
                                 dokuAußenkontaktMerged =
                                     "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " +
-                                    c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuAußenkontakt.Text;
+                                    c.getNameByID(u.Id, false) + "---\r\n\r\n" + txtDokuAußenkontakt.Text;
                                 txtDokuAußenkontaktAnzeige.Text =
                                     txtDokuAußenkontaktAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id, false) +
                                     "---\r\n\r\n" + txtDokuAußenkontakt.Text;
                             }
 
@@ -1462,7 +1395,7 @@ namespace TGTheraS4
                     if (DateTime.Parse(tmp.Zeitbis).Month.ToString() == month &&
                         DateTime.Parse(tmp.Zeitbis).Year.ToString() == year)
                     {
-                        tmp.Verfasser = c.getNameByID(tmp.Verfasser);
+                        tmp.Verfasser = c.getNameByID(tmp.Verfasser, false);
                         KmGlist2.Add(tmp);
                     }
                 }
@@ -1477,7 +1410,7 @@ namespace TGTheraS4
 
             foreach (KmG tmp in KmGlist)
             {
-                tmp.Verfasser = c.getNameByID(tmp.Verfasser);
+                tmp.Verfasser = c.getNameByID(tmp.Verfasser, false);
                 KmGlist2.Add(tmp);
             }
 
@@ -1498,7 +1431,7 @@ namespace TGTheraS4
 
             foreach (KmG tmp in KmGlist)
             {
-                tmp.Verfasser = c.getNameByID(tmp.Verfasser);
+                tmp.Verfasser = c.getNameByID(tmp.Verfasser, false);
                 KmGlist2.Add(tmp);
             }
 
@@ -1607,7 +1540,7 @@ namespace TGTheraS4
          * */
         private void btnNewInstruction_Click(object sender, RoutedEventArgs e)
         {
-            String name = c.getNameByID(u.Id);
+            String name = c.getNameByID(u.Id, false);
             EditInstruction newinstruction = new EditInstruction(name, c);
             newinstruction.ShowDialog();
             refreshAllInstructions();
@@ -4144,7 +4077,7 @@ namespace TGTheraS4
                             zeichen = '-';
                         }
                         id = c.getIdbyNameClients(cmbTg.SelectedValue.ToString());
-                        c.setTaschengeld(id, diff, zeichen, txtTgKommentar.Text, c.getNameByID(u.Id));
+                        c.setTaschengeld(id, diff, zeichen, txtTgKommentar.Text, c.getNameByID(u.Id, false));
 
                         txtTgDiff.Text = "";
                         txtTgKommentar.Text = "";
@@ -4238,8 +4171,8 @@ namespace TGTheraS4
              * [4] = Krankenstand 
              */
                     string[] tempUserData = getWorkinhDataForUserOida(us, DAAAAATUM);
-                    pdfShizzle += c.getNameByIDLastFirst(us.Id);
-                    for (int i = c.getNameByID(us.Id).Count(); i < 30; i++)
+                    pdfShizzle += c.getNameByID(us.Id, true);
+                    for (int i = c.getNameByID(us.Id, false).Count(); i < 30; i++)
                     {
                         pdfShizzle += " ";
                     }
@@ -4636,7 +4569,7 @@ namespace TGTheraS4
 
             if (!u.IsAdmin)
             {
-                cmbUserKmG.Text = c.getNameByID(u.Id);
+                cmbUserKmG.Text = c.getNameByID(u.Id, false);
                 cmbUserKmG.SelectedValue = u.Id;
             }
 
@@ -5334,7 +5267,7 @@ namespace TGTheraS4
             foreach (User us in ids)
             {
                 //184
-                string name = c.getNameByID(us.Id);
+                string name = c.getNameByID(us.Id, false);
                 string[] arr = name.Split(' ');
                 if (!(arr[0] == "" | arr[0] == " " | arr[1] == "" | arr[1] == " "))
                 {
@@ -5367,7 +5300,7 @@ namespace TGTheraS4
             {
                 int uid = Convert.ToInt32(c.getUserIDbyFullname(wt.username));
                 string asdsdfsdfsdfvdcb = c.getName(uid, wt.datetimefrom, wt.datetimeto, wt.comment);
-                string name = c.getNameByID(asdsdfsdfsdfvdcb);
+                string name = c.getNameByID(asdsdfsdfsdfvdcb, false);
                 if (String.IsNullOrEmpty(name))
                 {
                     MessageBox.Show("Genehmigt von: keine Angabe");
@@ -5417,62 +5350,11 @@ namespace TGTheraS4
 
         public void update_docs(int id)
         {
-            string tmp = c.getClientdoku(id);
-            string[] lines = tmp.Split('%');
+            var docs = c.getClientdoku(id, false);
             doclist = new List<Document>();
-            IFormatProvider culture = new System.Globalization.CultureInfo("de-DE", true);
-            foreach (string line in lines)
+            foreach (Document doc in docs)
             {
-                string[] values = line.Split('$');
-                if (values.Count() == 8)
-                {
-                    //if (!(values[6].EndsWith("jpg") | values[6].EndsWith("png") | values[6].EndsWith("jepg") | values[6].EndsWith("tif")))
-                    //{
-                    Document doc = new Document();
-                    try
-                    {
-                        doc.client_id = Convert.ToInt32(values[0].Trim());
-                    }
-                    catch
-                    {
-                        doc.client_id = -1;
-                    }
-                    doc.created = DateTime.ParseExact(values[1].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.modified = DateTime.ParseExact(values[2].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.createuser_id = Convert.ToInt32(values[3].Trim());
-                    try
-                    {
-                        doc.lastuser_id = Convert.ToInt32(values[4].Trim());
-                    }
-                    catch
-                    {
-                        doc.lastuser_id = -1;
-                    }
-                    doc.title = values[5];
-                    doc.path = values[6];
-                    doc.filesize = Convert.ToInt32(values[7].Trim());
-
-                    if (doc.createuser_id == -1)
-                    {
-                        doc.createuser = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.createuser = c.getNameByID(doc.createuser_id.ToString());
-                    }
-
-                    if (doc.lastuser_id == -1)
-                    {
-                        doc.lastuser = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.lastuser = c.getNameByID(doc.lastuser_id.ToString());
-                    }
-
-                    doclist.Add(doc);
-                    //}
-                }
+                doclist.Add(doc);
             }
             dgv_Doc_List.ItemsSource = doclist;
         }
@@ -7173,62 +7055,11 @@ namespace TGTheraS4
 
         public void update_pics(int id)
         {
-            string tmp = c.getClientpics(id);
-            string[] lines = tmp.Split('%');
+            var docs = c.getClientdoku(id, true);
             List<Document> oclist = new List<Document>();
-            IFormatProvider culture = new System.Globalization.CultureInfo("de-DE", true);
-            foreach (string line in lines)
+            foreach (Document doc in docs)
             {
-                string[] values = line.Split('$');
-                if (values.Count() == 8)
-                {
-                    //if (values[6].EndsWith("jpg") | values[6].EndsWith("png") | values[6].EndsWith("jepg") | values[6].EndsWith("tif"))
-                    //{
-                    Document doc = new Document();
-                    try
-                    {
-                        doc.client_id = Convert.ToInt32(values[0].Trim());
-                    }
-                    catch
-                    {
-                        doc.client_id = -1;
-                    }
-                    doc.created = DateTime.ParseExact(values[1].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.modified = DateTime.ParseExact(values[2].Trim(), "dd.MM.yyyy HH:mm:ss", culture);
-                    doc.createuser_id = Convert.ToInt32(values[3].Trim());
-                    try
-                    {
-                        doc.lastuser_id = Convert.ToInt32(values[4].Trim());
-                    }
-                    catch
-                    {
-                        doc.lastuser_id = -1;
-                    }
-                    doc.title = values[5];
-                    doc.path = values[6];
-                    doc.filesize = Convert.ToInt32(values[7].Trim());
-
-                    if (doc.createuser_id == -1)
-                    {
-                        doc.createuser = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.createuser = c.getNameByID(doc.createuser_id.ToString());
-                    }
-
-                    if (doc.lastuser_id == -1)
-                    {
-                        doc.lastuser = "keine Angabe";
-                    }
-                    else
-                    {
-                        doc.lastuser = c.getNameByID(doc.lastuser_id.ToString());
-                    }
-
-                    oclist.Add(doc);
-                    //}
-                }
+                oclist.Add(doc);
             }
             dataGrid2.ItemsSource = oclist;
         }
@@ -7414,7 +7245,7 @@ namespace TGTheraS4
 
             foreach (User usäer in list)
             {
-                string s = c.getNameByID(usäer.Id);
+                string s = c.getNameByID(usäer.Id, false);
                 if (len < s.Length)
                 {
                     len = s.Length;
@@ -7424,7 +7255,7 @@ namespace TGTheraS4
             string fagit = "Name" + (fillSpace(len - "Name".Length, " ")) + " | Kilometergeld\n";
             foreach (User asad in list)
             {
-                string usornäm = c.getNameByID(asad.Id);
+                string usornäm = c.getNameByID(asad.Id, false);
                 fagit += usornäm + (fillSpace(len - usornäm.Length, " ")) + " | ";
                 fagit += RefreshKmG_PDF(asad.Id);
                 fagit += "\n";
@@ -7471,7 +7302,7 @@ namespace TGTheraS4
 
             foreach (User usäer in list)
             {
-                string s = c.getNameByID(usäer.Id);
+                string s = c.getNameByID(usäer.Id, false);
                 if (len < s.Length)
                 {
                     len = s.Length;
@@ -7481,7 +7312,7 @@ namespace TGTheraS4
             string fagit = "Name" + (fillSpace(len - "Name".Length, " ")) + " | Kilometergeld\n";
             foreach (User asad in list)
             {
-                string usornäm = c.getNameByID(asad.Id);
+                string usornäm = c.getNameByID(asad.Id, false);
                 fagit += usornäm + (fillSpace(len - usornäm.Length, " ")) + " | ";
                 fagit += RefreshKmG_PDF(asad.Id);
                 fagit += "\n";

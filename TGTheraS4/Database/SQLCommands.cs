@@ -240,10 +240,7 @@ namespace IntranetTG
 
 
 
-                list.Sort(delegate(NewestDokus o1, NewestDokus o2)
-                {
-                    return o1.created.CompareTo(o2.created);
-                });
+                list.Sort((o1, o2) => string.Compare(o1.created, o2.created, StringComparison.Ordinal));
                 list.Reverse();
                 return list;
             }
@@ -274,106 +271,31 @@ namespace IntranetTG
             using (var db = new Theras5DB())
             {
                 var query = db.Clients.Join(db.Clientstoservices, c => c.Id, cs => cs.ClientId, (c, cs) => new {c, cs})
-                    .Join(db.Services, @t => @t.cs.ServiceId, s => s.Id, (@t, s) => new {@t, s})
-                    .Where(@t => @t.s.Name == wg && (filter == ClientFilter.NotLeft ? @t.@t.c.Leaving == null :
-                    (filter == ClientFilter.Left ? @t.@t.c.Leaving != null : @t.@t.c.Leaving == null || @t.@t.c.Leaving != null)))
-                    .OrderBy(@t => @t.@t.c.Lastname)
-                    .ThenBy(@t => @t.s.Name)
-                    .Select(@t => @t.@t.c);
+                    .Join(db.Services, t => t.cs.ServiceId, s => s.Id, (t, s) => new {t, s})
+                    .Where(t => t.s.Name == wg && (filter == ClientFilter.NotLeft ? t.t.c.Leaving == null :
+                    (filter == ClientFilter.Left ? t.t.c.Leaving != null : t.t.c.Leaving == null || t.t.c.Leaving != null)))
+                    .OrderBy(t => t.t.c.Lastname)
+                    .ThenBy(t => t.s.Name)
+                    .Select(t => t.t.c);
 
                 return query.ToList().ToDictionary(client => client.Firstname, client => client.Lastname);
             }
         }
 
-        public string getClientdoku(int id)
+        public List<Document> getClientdoku (int id, bool isPhoto)
         {
-            string ret = "";
-            try
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select client_id, created, modified, createuser_id, lastuser_id, title, path, filesize from clientsdocuments where client_id = " + id, _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["client_id"].ToString() + "$";
-                    ret += myReader["created"].ToString() + "$";
-                    ret += myReader["modified"].ToString() + "$";
-                    ret += myReader["createuser_id"].ToString() + "$";
-                    ret += myReader["lastuser_id"].ToString() + "$";
-                    ret += myReader["title"].ToString() + "$";
-                    ret += myReader["path"].ToString() + "$";
-                    ret += myReader["filesize"].ToString();
-                    ret += "%";
-                }
-
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
+                return isPhoto ? db.Clientsphotos.Where(cp => cp.Id == id).ToList().Select(doc => new Document(doc)).ToList() :
+                    db.Clientsdocuments.Where(cd => cd.ClientId == id).ToList().Select(doc => new Document(doc)).ToList();
             }
         }
 
-        public void addwikirate(Feedback feedback)
+        public List<WikiDoc> getWikiDocs()
         {
-            try
+            using (var db = new Theras5DB())
             {
-                //if exists
-                _myConnection.Open();
-                MySqlCommand myCommand;
-                myCommand = new MySqlCommand("update feedback set rate = " + feedback.rating + " where userId = " + feedback.userid.ToString() + " ;", _myConnection);
-                myCommand.ExecuteNonQuery();
-            }
-            catch 
-            {
-                MessageBox.Show("Das Dokument existiert nicht mehr","Fehler!", MessageBoxButton.OK,MessageBoxImage.Error);
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-        }
-
-        public string getWikiDocs()
-        {
-            string ret = "";
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                MySqlCommand myCommand = new MySqlCommand("select id, created, modified, createuser_id, lastuser_id, title, path, rate from wiki",_myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["id"].ToString() + "$";
-                    ret += myReader["created"].ToString() + "$";
-                    ret += myReader["modified"].ToString() + "$";
-                    ret += myReader["createuser_id"].ToString() + "$";
-                    ret += myReader["lastuser_id"].ToString() + "$";
-                    ret += myReader["title"].ToString() + "$";
-                    ret += myReader["path"].ToString() + "$";
-                    ret += myReader["rate"].ToString() + "$";
-                    ret += "%";
-                }
-
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
+                return db.Wikis.ToList().Select(wiki => new WikiDoc(wiki)).ToList();
             }
         }
 
@@ -381,28 +303,6 @@ namespace IntranetTG
         {
             return getData("users", new string[] { "s.email_user", "s.email_password" }, new string[] { "email_user", "email_password" }, "where s.id = '" + id + "'");
         }
-
-        public string getMailCredetials_World4U(string id)
-        {
-            return getData("users", new string[] { "s.email_address", "s.email_password" }, new string[] { "email_address", "email_password" }, "where s.id = '" + id + "'");
-        }
-
-        public string getDropbox(string id)
-        {
-            return getData("users", new string[] { "s.email_address", "s.Dropboxpw" }, new string[] { "email_address", "Dropboxpw" }, "where s.id = '" + id + "'");
-        }
-
-        public string getMailCredentials_Gmail(string id)
-        {
-            return getData("users", new string[] { "s.gmail_address", "s.gmail_password" }, new string[] { "gmail_address", "gmail_password" }, "where s.id = '" + id + "'");
-        }
-
-        #region Medication
-        /// <summary>
-        /// Children get connected to their Medications
-        /// </summary>
-        /// <param name="vorname">Firstname of Child u want MED</param>
-        /// <param name="nachname">Lastname of Child u want MED</param>
 
         public string clientToMedication(string vorname, string nachname)
         {
@@ -436,13 +336,6 @@ namespace IntranetTG
             }
         }
 
-        #endregion
-
-        #region Shouts
-
-        /// <summary>
-        /// Gets all shout starts with the new ones
-        /// </summary>
         public string getShouts()
         {
             string ret = "";
@@ -494,17 +387,6 @@ namespace IntranetTG
             }
         }
 
-        #endregion
-
-        #region Doku
-
-        // Doku
-
-
-        //info an Anna:
-
-        //hier bitte die daten im folgenden Format returnen:        "TextKörperlich%TextSchlisch%TextPsychisch%TextAußenkontakt%TextPflichten"
-        // weiters bitte leere felder als "" übergeben und trotzdem mit % trennen danke schön 
         internal string getDoku(string p, DateTime dateTime)
         {
             string ret = "";
@@ -586,8 +468,6 @@ namespace IntranetTG
                 _myConnection.Close();
             }
         }
-
-        // DC NEW ->
 
         internal string getMedicationConfirmations(string kid, DateTime dt)
         {
@@ -688,7 +568,6 @@ namespace IntranetTG
             _myConnection.Close();
         }
 
-        //Select medicalactions.name a, clientsmedicalactions.realized b, clientsmedicalactions.statement c from clientsmedicalactions JOIN medicalactions ON medicalactions.id = clientsmedicalactions.medicalaction_id where client_id=" + rudi + " order by realized desc;", myConnection);
         internal void deleteMediActionForClient(string client, string date, string art, string desc)
         {
             string id = getMediActionIDbyName(art);
@@ -723,11 +602,6 @@ namespace IntranetTG
 
                 while (myReader.Read())
                 {
-                    //MessageBox.Show(myReader["cancelled"].ToString());
-                    /*if (myReader["cancelled"].ToString() != "01.01.0001 00:00:00" || Convert.ToDateTime(myReader["to"].ToString()) < DateTime.Today)
-                    {
-                        ret = true;
-                    }*/
                     ret = true;
                 }
                 myReader.Close();
@@ -927,8 +801,6 @@ namespace IntranetTG
             }
         }
 
-        // DC End
-
         internal string[] readDokuOverTime(string p, DateTime von, DateTime bis)
         {
             string[] ret = new string[5];
@@ -983,12 +855,6 @@ namespace IntranetTG
                 myReader = myCommand.ExecuteReader();
                 while (myReader.Read())
                 {
-                    //---------DC Begin---------
-                    /*ret[0] += "Dokument: Körperlich " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_bodily"].ToString() + "$";
-                    ret[0] += "Dokument: Schulisch " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_school"].ToString() + "$";
-                    ret[0] += "Dokument: Psychisch " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_psychic"].ToString() + "$";
-                    ret[0] += "Dokument: Außenkontakt " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_external_contact"].ToString() + "$";
-                    ret[0] += "Dokument: Pflichten " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_responsibilities"].ToString() + "$";*/
                     if (myReader["content_bodily"].ToString() != "")
                     {
                         ret[0] += "Dokument: Körperlich " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_bodily"].ToString() + "$";
@@ -1009,7 +875,6 @@ namespace IntranetTG
                     {
                         ret[0] += "Dokument: Pflichten " + "\r\n" + "Autor: " + myReader["first"].ToString() + " " + myReader["last"].ToString() + "\r\n" + " Klient: " + myReader["firstname"].ToString() + " " + myReader["lastname"].ToString() + "\r\n Für den Tag: " + myReader["forday"].ToString() + "\r\n Erstellt am: " + myReader["created"] + "\r\n" + myReader["content_responsibilities"].ToString() + "$";
                     }
-                    //---------DC End---------
                 }
                 myReader.Close();
                 return ret;
@@ -1065,85 +930,17 @@ namespace IntranetTG
             }
         }
 
-        public string getNameByID(string id)
+        public string getNameByID(string id, bool lastFirst)
         {
-            try
+            using (var db = new Theras5DB())
             {
-                
-                _myConnection.Open();
-                string ret = "";
+                var query = db.Users.Where(u => u.Id == Convert.ToUInt32(id));
 
-                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", _myConnection);
-
-
-                MySqlDataReader reader = command.ExecuteReader();
-                string tmp = "";
-                while (reader.Read())
-                {
-                    tmp = "";
-                    tmp += reader["firstname"];
-                    ret += tmp.Trim() + " ";
-                    tmp = "";
-                    tmp += reader["lastname"];
-                    ret += tmp.Trim();
-
-
-
-                }
-                return ret;
-
-            }
-            catch (Exception e)
-            {
-                return e.ToString(); ;
-            }
-            finally
-            {
-                _myConnection.Close();
+                return lastFirst
+                    ? query.ToList().First().Lastname + " " + query.ToList().First().Firstname
+                    : query.ToList().First().Firstname + " " + query.ToList().First().Lastname;
             }
         }
-        public string getNameByIDLastFirst(string id)
-        {
-            try
-            {
-                _myConnection.Open();
-                string ret = "";
-
-                MySqlCommand command = new MySqlCommand("select u.firstname, u.lastname from users u where u.id='" + id + "'", _myConnection);
-
-
-                MySqlDataReader reader = command.ExecuteReader();
-                string tmp = "";
-                while (reader.Read())
-                {
-                    tmp = "";
-                    tmp += reader["lastname"];
-                    ret += tmp.Trim() + " ";
-                    tmp = "";
-                    tmp += reader["firstname"];
-                    ret += tmp.Trim();
-
-
-
-                }
-                return ret;
-
-            }
-            catch (Exception e)
-            {
-                return e.ToString(); ;
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-        }
-
-        #endregion
-
-        /**************Ende (B)JB**************   (B) von Kostal :P */
-
-
 
         #region Global
 
@@ -2461,7 +2258,7 @@ namespace IntranetTG
                 myReader.Close();
                 _myConnection.Close();
 
-                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
+                return data.Select(dat => new Task(this.getNameByID(dat[0], false), this.getNameByID(dat[1], false), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2497,7 +2294,7 @@ namespace IntranetTG
                 myReader.Close();
                 _myConnection.Close();
 
-                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
+                return data.Select(dat => new Task(this.getNameByID(dat[0], false), this.getNameByID(dat[1], false), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2533,7 +2330,7 @@ namespace IntranetTG
                 myReader.Close();
                 _myConnection.Close();
 
-                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
+                return data.Select(dat => new Task(this.getNameByID(dat[0], false), this.getNameByID(dat[1], false), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -2570,7 +2367,7 @@ namespace IntranetTG
                 myReader.Close();
                 _myConnection.Close();
 
-                return data.Select(dat => new Task(this.getNameByID(dat[0]), this.getNameByID(dat[1]), dat[2], dat[3], dat[4])).ToList();
+                return data.Select(dat => new Task(this.getNameByID(dat[0], false), this.getNameByID(dat[1], false), dat[2], dat[3], dat[4])).ToList();
             }
             catch (Exception e)
             {
@@ -5438,7 +5235,7 @@ namespace IntranetTG
             
             foreach (PadMas p in list)
             {
-                p.from = getNameByID(p.from);
+                p.from = getNameByID(p.from, false);
                 list2.Add(p);
             }
 
