@@ -1,0 +1,13 @@
+<#@ template language="C#" debug="True" hostSpecific="True"                       #>
+<#@ output extension=".generated.cs"                                              #>
+<#@ include file="$(ProjectDir)LinqToDB.Templates\LinqToDB.MySql.Tools.ttinclude" #>
+<#@ include file="$(ProjectDir)LinqToDB.Templates\PluralizationService.ttinclude" #>
+<#
+	
+	NamespaceName = "DataModels";
+
+	LoadMySqlMetadata("82.149.102.22", "theras5", "test", "test");
+//	LoadMySqlMetadata(string connectionString);
+
+	GenerateModel();
+#>

@@ -1,12 +1,21 @@
-﻿using IntranetTG.Objects;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using DataModels;
+using LinqToDB;
 using TGTheraS4.Database.Objects;
 using TGTheraS4.Objects;
 using TGTheraS4.Database_SQLite;
+using Document = TGTheraS4.Objects.Document;
+using Feedback = TGTheraS4.Objects.Feedback;
+using Instruction = TGTheraS4.Objects.Instruction;
+using Service = TGTheraS4.Objects.Service;
+using Taschengeld = TGTheraS4.Objects.Taschengeld;
+using Task = TGTheraS4.Objects.Task;
+using Title = IntranetTG.Objects.Title;
+using User = IntranetTG.Objects.User;
 
 namespace IntranetTG
 {
@@ -16,7 +25,20 @@ namespace IntranetTG
      * 
      * *****************************************/
 
-    /************Anfang JB***************/ 
+
+    /*
+     
+     using (var db = new Theras5DB())
+        {
+            var products = db.Users.Select(x=>x.City).Where(x=>x.Contains("Wien"1));
+            
+            return products.ToList();
+        }
+     
+     
+    */
+
+    /************Anfang JB***************/
     public class SQLCommands 
     {
         //public MySqlConnection myConnection = new MySqlConnection("uid=ultra;" + "pwd=radeonhd7870;server=81.19.152.119;" + "database=intranetTest; Convert Zero Datetime=True"); //Test-Server
@@ -25,7 +47,11 @@ namespace IntranetTG
         public SQLCommands(MySqlConnectionInformation connectionData)
         {
             _myConnection = new MySqlConnection($"uid={connectionData.Username};pwd={connectionData.Password};server={connectionData.Host};database={connectionData.Database}; Convert Zero Datetime=True");
+
+            
         }
+
+
 
         /// <summary>
         /// The Children get connected to the Houses
