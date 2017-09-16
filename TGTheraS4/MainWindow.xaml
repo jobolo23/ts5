@@ -28,9 +28,6 @@
         <Rectangle x:Name="rct_waiting" Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="202" Margin="51,338,584,197" Stroke="Black" VerticalAlignment="Center" Width="386" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <Label x:Name="lbl_waiting" Content="einen Moment bitte..." HorizontalAlignment="Left" Margin="57,12,0,0" VerticalAlignment="Top" Height="100" Width="477" FontSize="36" Visibility="Hidden"/>
         <TabControl Height="Auto" HorizontalAlignment="Stretch" Margin="-1,-6,1,10" x:Name="tabMain" VerticalAlignment="Stretch" Visibility="Visible" SelectionChanged="tabMain_SelectionChanged" SelectedIndex="8" Loaded="tabMain_Loaded" Grid.ColumnSpan="4" Background="#FFCFCFCF" Grid.RowSpan="4">
-            <TabItem x:Name="TabEmail" Header="Email" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
-                <WebBrowser x:Name="webMail" LoadCompleted="webMail_LoadCompleted" />
-            </TabItem>
             <TabItem Header="Home" x:Name="tabHome" Height="Auto" Width="Auto" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -175,24 +172,6 @@
                             <PasswordBox Height="23" HorizontalAlignment="Left" Margin="321,133,0,0" x:Name="pwdNewConfirm" VerticalAlignment="Top" Width="139" FontWeight="Normal" />
                             <Button Content="Passwort ändern"  Height="24" HorizontalAlignment="Left" x:Name="btnChangePW" VerticalAlignment="Top" Width="138" Click="btnChangePW_Click" FontWeight="Normal" Margin="154,204,0,0" />
 
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox x:Name="gpbPWEmail" Header="E-Mail World4You" Grid.Row="1" Grid.Column="7" Grid.RowSpan="12" Grid.ColumnSpan="6" Height="315" Width="407" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
-                        <Grid>
-                            <Label Content="Neues Passwort:" FontWeight="Normal" Foreground="#FF5075A9" Height="25" HorizontalAlignment="Left" Margin="10,49,0,0" x:Name="label73" VerticalAlignment="Top" Width="123" />
-                            <Label Content="Neues Passwort WH :" FontWeight="Normal" Foreground="#FF5075A9" Height="28" HorizontalAlignment="Left" Margin="10,103,0,0" x:Name="label74" VerticalAlignment="Top" Width="150" />
-                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,49,0,0" x:Name="passwordBox1" VerticalAlignment="Top" Width="140" />
-                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,103,0,0" x:Name="passwordBox2" VerticalAlignment="Top" Width="140" />
-                            <Button Content="Passwort ändern" FontWeight="Normal" Height="22" HorizontalAlignment="Left" Margin="125,192,0,0" x:Name="button3" VerticalAlignment="Top" Width="138" Click="btnChangeEMailPW_Click" />
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox x:Name="gpbPWDropbox" Header="Dropbox" Grid.Row="1" Grid.Column="13" Grid.RowSpan="12" Grid.ColumnSpan="6" Height="315" Width="407" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
-                        <Grid>
-                            <Label Content="Neues Passwort:" FontWeight="Normal" Foreground="#FF5075A9" Height="25" HorizontalAlignment="Left" Margin="10,49,0,0" x:Name="label73Dropbox" VerticalAlignment="Top" Width="123" />
-                            <Label Content="Neues Passwort WH :" FontWeight="Normal" Foreground="#FF5075A9" Height="28" HorizontalAlignment="Left" Margin="10,103,0,0" x:Name="label74Dropbox" VerticalAlignment="Top" Width="150" />
-                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,49,0,0" x:Name="passwordBox1_Dropbox" VerticalAlignment="Top" Width="140" />
-                            <TextBox FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="245,103,0,0" x:Name="passwordBox2_Dropbox" VerticalAlignment="Top" Width="140" />
-                            <Button Content="Passwort ändern" FontWeight="Normal" Height="22" HorizontalAlignment="Left" Margin="125,192,0,0" x:Name="button3Dropbox" VerticalAlignment="Top" Width="138" Click="button3Dropbox_Click"  />
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -1253,13 +1232,6 @@
                     </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem FontSize="14" FontWeight="Bold" Foreground="#FF461ECC" IsEnabled="True" x:Name="tabItem2" Opacity="1" Visibility="Visible" Header="Kalender">
-                <Grid>
-                    <WebBrowser x:Name="Gmail" LoadCompleted="Gmail_LoadCompleted_1" Margin="0,23,0,0" />
-                    <Button Content="Tagesplan drucken" Height="23" HorizontalAlignment="Left" Margin="1160,0,0,0" x:Name="btnPrintCal" VerticalAlignment="Top" Width="141" FontWeight="Normal" Click="btnPrintCal_Click" />
-                    <Button Content="Kalender aktualisieren" Height="23" HorizontalAlignment="Left" Margin="1014,0,0,0" x:Name="btnRefreshCal" VerticalAlignment="Top" Width="141" FontWeight="Normal" Click="btnRefreshCal_Click" />
-                </Grid>
-            </TabItem>
 
             <TabItem Header="Platzhalter" Visibility="Hidden" />
             <TabItem Header="Aufgaben" x:Name="tabAppointments" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
@@ -1958,17 +1930,6 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabDropbox" Header="Gemeinsame Dateien" ToolTip="Hilfsdatein für Mitarbeiter" Foreground="#FF461ECC" FontWeight="Bold" FontSize="14">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <WebBrowser x:Name="WebBrowserDropbox" Loaded="WebBrowserDropbox_Loaded" LoadCompleted="WebBrowserDropbox_LoadCompleted" Navigating="WebBrowserDropbox_Navigating"/>
-
-                </Grid>
-            </TabItem>
-
         </TabControl>
      
     </Grid>

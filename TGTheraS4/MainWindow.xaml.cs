@@ -28,7 +28,8 @@ using PdfSharp.Drawing;
 using TGTheraS4.Services;
 
 
-namespace TGTheraS4 {
+namespace TGTheraS4
+{
     /// <summary> 
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
@@ -37,7 +38,7 @@ namespace TGTheraS4 {
         public MySqlConnection myConnection;
         SQLCommands c;
         string[] databaseString;
-        User u; 
+        User u;
         private DataTable table;
         private DateTime dataTime;
         List<WorkingTime> holidaydata;
@@ -57,7 +58,7 @@ namespace TGTheraS4 {
         bool contactSearch;
         string contID = "";
         private GeneralService _generalService;
-        public bool isOnline = false; 
+        public bool isOnline = false;
         List<Contacts> allContacts = new List<Contacts>();
         bool contSearch1 = false;
         bool contSearch2 = false;
@@ -70,7 +71,9 @@ namespace TGTheraS4 {
         SolidColorBrush color1 = Brushes.White;
         SolidColorBrush color2 = new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x17, 0x0E));
         bool funcset = false;
+
         bool cmbKMGset = false;
+
         /*
         Table<clients> db_clients = new Table<clients>();
         Table<clientsmedications> db_clientsmedications = new Table<clientsmedications>();
@@ -90,12 +93,15 @@ namespace TGTheraS4 {
 
             isOnline = _generalService.NetworkCheck();
 
-            if ((this.Width > SystemParameters.PrimaryScreenWidth) || (this.Height > SystemParameters.PrimaryScreenHeight))
+            if ((this.Width > SystemParameters.PrimaryScreenWidth) ||
+                (this.Height > SystemParameters.PrimaryScreenHeight))
             {
                 this.Width = SystemParameters.PrimaryScreenWidth;
                 this.Height = SystemParameters.PrimaryScreenHeight;
-                MessageBox.Show("Achtung! \nIhre Bildschirmauflösung entspricht nicht den empfohlenen Mindestanforderungen von \n \n1600*900\n Ich werde die Fenstergröße für Sie anpassen"
-                    + "Dies kann jedoch Probleme bei der Skalierung hervorrufen", "Bildschirmauflösung", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(
+                    "Achtung! \nIhre Bildschirmauflösung entspricht nicht den empfohlenen Mindestanforderungen von \n \n1600*900\n Ich werde die Fenstergröße für Sie anpassen"
+                    + "Dies kann jedoch Probleme bei der Skalierung hervorrufen", "Bildschirmauflösung",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
 
             }
             deleteOldTempFiles();
@@ -116,7 +122,7 @@ namespace TGTheraS4 {
 
             db = new DataContext(con);
 
-            
+
         }
 
 
@@ -126,35 +132,23 @@ namespace TGTheraS4 {
             {
                 AutoUpdate();
 
-                webMail.Navigate("https://webmail.world4you.com/"); //http://www.t-gemeinschaften.org/webmail
-
-                DeleteAllCookies();
-                Gmail.Navigate("https://www.google.com/calendar/render#h%7Cday", null, null, "User-Agent: Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; eSobiSubscriber 1.0.0.40; .NET4.0E; .NET4.0C)");
-
-                string[] shouts = new string[] { "Shoutbox", "Erstellt", "Name" };
+                string[] shouts = new string[] {"Shoutbox", "Erstellt", "Name"};
                 FillMoreData(dgShouts, c.getShouts(), shouts);
 
 
-                string[] names = new string[] { "Id", "Name", "Bezeichnung", "Prozent" };
+                string[] names = new string[] {"Id", "Name", "Bezeichnung", "Prozent"};
 
                 txtUser.Focus();
                 tabHome.IsSelected = true;
-
-                Uri uri = new Uri("https://www.dropbox.com/logout");
-
-                WebBrowserDropbox.Navigate(uri, null, null, "User-Agent: Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; eSobiSubscriber 1.0.0.40; .NET4.0E; .NET4.0C)");
-
             }
             else
             {
                 offline = true;
-                TabEmail.IsEnabled = false;
                 tabHome.IsEnabled = false;
                 tabPass.IsEnabled = false;
                 tabKassabuch.IsEnabled = false;
                 tabKontakte.IsEnabled = false;
                 tabVitaldaten.IsEnabled = false;
-                tabItem2.IsEnabled = false;
                 tabAppointments.IsEnabled = false;
                 tabTasks.IsEnabled = false;
                 tabWorkingTime.IsEnabled = false;
@@ -218,7 +212,9 @@ namespace TGTheraS4 {
                 cmbAdminUsers.SelectedIndex = index + 1;
                 hide_waiting();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
 
@@ -333,7 +329,9 @@ namespace TGTheraS4 {
 
                 hide_waiting();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void txtPW_KeyDown(object sender, KeyEventArgs e)
@@ -386,7 +384,8 @@ namespace TGTheraS4 {
         {
             loading loadingWindow = new loading();
             loadingWindow.Show();
-            CloseLoadingWindows += () => loadingWindow.Dispatcher.BeginInvoke(new ThreadStart(() => loadingWindow.Close()));
+            CloseLoadingWindows +=
+                () => loadingWindow.Dispatcher.BeginInvoke(new ThreadStart(() => loadingWindow.Close()));
         }
 
         private void view_waiting()
@@ -489,7 +488,8 @@ namespace TGTheraS4 {
                 cmbBxKBHaus.SelectedValuePath = "id";
                 dtPckrKBDat.SelectedDate = DateTime.Now;
                 dtPckrKBFiltVon.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                dtPckrKBFiltBis.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+                dtPckrKBFiltBis.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month,
+                    DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
                 fillArt();
                 loadWiki();
             }
@@ -581,6 +581,7 @@ namespace TGTheraS4 {
             }
             dgvWikiDocs.ItemsSource = wiki;
         }
+
         private List<Project> FillProject(string data)
         {
 
@@ -918,12 +919,14 @@ namespace TGTheraS4 {
             usc.dgEdit.ItemsSource = dataset.Tables[0].DefaultView;
             usc.dgEdit.DataContext = dataset.Tables[0];
         }
+
         private int selectedIndex = 0;
+
         private void tabMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tabMain.SelectedIndex == 0)
             {
-                string[] shouts = new string[] { "Shoutbox", "Erstellt", "Name" };
+                string[] shouts = new string[] {"Shoutbox", "Erstellt", "Name"};
                 FillMoreData(dgShouts, c.getShouts(), shouts);
             }
             if (tabMain.SelectedIndex == 6)
@@ -944,12 +947,13 @@ namespace TGTheraS4 {
                 txtDokuAußenkontaktAnzeige.Text = "";
                 txtDokuPflichteAnzeige.Text = "";
                 txtDokuCreatedUser.Text = "";
-                if ((bool)!chkMultiday.IsChecked)
+                if ((bool) !chkMultiday.IsChecked)
                 {
                     if (dateDoku.ToString() != "" && cmbKlient.SelectedValue.ToString() != null)
                     {
-                        fillMedi(cmbKlient.SelectedValue.ToString(), (DateTime)dateDoku.SelectedDate);
-                        string currDoku = c.getDoku(cmbKlient.SelectedValue.ToString(), (DateTime)dateDoku.SelectedDate);
+                        fillMedi(cmbKlient.SelectedValue.ToString(), (DateTime) dateDoku.SelectedDate);
+                        string currDoku = c.getDoku(cmbKlient.SelectedValue.ToString(),
+                            (DateTime) dateDoku.SelectedDate);
                         string[] temps = currDoku.Split('%');
                         string[] temp = currDoku.Split('$');
                         if (temp.Length > 5)
@@ -977,7 +981,7 @@ namespace TGTheraS4 {
                             }
                             else
                             {
-                                bool[] firsts = { true, true, true, true, true };
+                                bool[] firsts = {true, true, true, true, true};
                                 for (int i = 0; i < temps.Length; i++)
                                 {
                                     if (temps[i] != "")
@@ -992,16 +996,19 @@ namespace TGTheraS4 {
                                         {
                                             if (!firsts[0])
                                             {
-                                                txtDokuKoerperlichAnzeige.Text = txtDokuKoerperlichAnzeige.Text + "\r\n\r\n";
+                                                txtDokuKoerperlichAnzeige.Text =
+                                                    txtDokuKoerperlichAnzeige.Text + "\r\n\r\n";
                                             }
-                                            txtDokuKoerperlichAnzeige.Text = txtDokuKoerperlichAnzeige.Text + temp_doku[0];
+                                            txtDokuKoerperlichAnzeige.Text =
+                                                txtDokuKoerperlichAnzeige.Text + temp_doku[0];
                                             firsts[0] = false;
                                         }
                                         if (temp_doku[1] != "")
                                         {
                                             if (!firsts[1])
                                             {
-                                                txtDokuSchulischAnzeige.Text = txtDokuSchulischAnzeige.Text + "\r\n\r\n";
+                                                txtDokuSchulischAnzeige.Text =
+                                                    txtDokuSchulischAnzeige.Text + "\r\n\r\n";
                                             }
                                             txtDokuSchulischAnzeige.Text = txtDokuSchulischAnzeige.Text + temp_doku[1];
                                             firsts[1] = false;
@@ -1010,7 +1017,8 @@ namespace TGTheraS4 {
                                         {
                                             if (!firsts[2])
                                             {
-                                                txtDokuPsychischAnzeige.Text = txtDokuPsychischAnzeige.Text + "\r\n\r\n";
+                                                txtDokuPsychischAnzeige.Text =
+                                                    txtDokuPsychischAnzeige.Text + "\r\n\r\n";
                                             }
                                             txtDokuPsychischAnzeige.Text = txtDokuPsychischAnzeige.Text + temp_doku[2];
                                             firsts[2] = false;
@@ -1019,9 +1027,11 @@ namespace TGTheraS4 {
                                         {
                                             if (!firsts[3])
                                             {
-                                                txtDokuAußenkontaktAnzeige.Text = txtDokuAußenkontaktAnzeige.Text + "\r\n\r\n";
+                                                txtDokuAußenkontaktAnzeige.Text =
+                                                    txtDokuAußenkontaktAnzeige.Text + "\r\n\r\n";
                                             }
-                                            txtDokuAußenkontaktAnzeige.Text = txtDokuAußenkontaktAnzeige.Text + temp_doku[3];
+                                            txtDokuAußenkontaktAnzeige.Text =
+                                                txtDokuAußenkontaktAnzeige.Text + temp_doku[3];
                                             firsts[3] = false;
                                         }
                                         if (temp_doku[4] != "")
@@ -1074,10 +1084,13 @@ namespace TGTheraS4 {
                 }
                 hide_waiting();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         List<Medicaments> m;
+
         private void fillMedi(string p, DateTime dt)
         {
             m = new List<Medicaments>();
@@ -1126,11 +1139,13 @@ namespace TGTheraS4 {
                     {
                         if (temp[1] == "0" && temp[2] == "0" && temp[3] == "0" && temp[4] == "0")
                         {
-                            m.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4], converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
+                            m.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4],
+                                converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
                         }
                         else
                         {
-                            m.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
+                            m.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], converter(mo),
+                                converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
                         }
                     }
                     else
@@ -1138,11 +1153,13 @@ namespace TGTheraS4 {
                         crea = DateTime.Today.ToString();
                         if (temp[1] == "0" && temp[2] == "0" && temp[3] == "0" && temp[4] == "0")
                         {
-                            m.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4], converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
+                            m.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4],
+                                converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
                         }
                         else
                         {
-                            m.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], converter(mo), converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
+                            m.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], converter(mo),
+                                converter(mi), converter(ev), converter(ni), temp[5], temp[6], crea));
                         }
                     }
 
@@ -1172,7 +1189,7 @@ namespace TGTheraS4 {
                     found = false;
                 }
             }
-            if ((bool)chk_noMedi.IsChecked)
+            if ((bool) chk_noMedi.IsChecked)
             {
                 chk_noMedi.IsChecked = false;
             }
@@ -1196,7 +1213,7 @@ namespace TGTheraS4 {
         {
             for (int i = 0; i < this.dgvMedi.Items.Count; i++)
             {
-                if (((Medicaments)this.dgvMedi.Items[i]).morning == "1")
+                if (((Medicaments) this.dgvMedi.Items[i]).morning == "1")
                 {
 
                 }
@@ -1204,6 +1221,7 @@ namespace TGTheraS4 {
         }
 
         bool firsttimer = true;
+
         private void CheckBox_Loaded(object sender, RoutedEventArgs e)
         {
             CheckBox CheckBoxSender = sender as CheckBox;
@@ -1236,7 +1254,7 @@ namespace TGTheraS4 {
 
             if (!(cmbKlient.SelectionBoxItem.Equals("")))
             {
-                if ((bool)!chkMultiday.IsChecked)
+                if ((bool) !chkMultiday.IsChecked)
                 {
                     view_waiting();
                     btnRecoverDoku.Visibility = Visibility.Visible;
@@ -1256,17 +1274,18 @@ namespace TGTheraS4 {
                     foreach (Medicaments medic in dgvMedi.Items)
                     {
                         if (((medic.morning == "1") && (medic.morningConfirmed == false)) ||
-                           ((medic.midday == "1") && (medic.middayConfirmed == false)) ||
-                           ((medic.evening == "1") && (medic.eveningConfirmed == false)) ||
-                           ((medic.night == "1") && (medic.nightConfirmed == false)))
+                            ((medic.midday == "1") && (medic.middayConfirmed == false)) ||
+                            ((medic.evening == "1") && (medic.eveningConfirmed == false)) ||
+                            ((medic.night == "1") && (medic.nightConfirmed == false)))
                         {
-                            if (!(bool)chk_noMedi.IsChecked)
+                            if (!(bool) chk_noMedi.IsChecked)
                             {
                                 MediQuestion mq = new MediQuestion(medic.name);
                                 mq.ShowDialog();
                                 if (mq.getIt() != "")
                                 {
-                                    c.setMediForDay(cmbKlient.Text, (DateTime)dateDoku.SelectedDate, medic, u.Id, mq.getIt());
+                                    c.setMediForDay(cmbKlient.Text, (DateTime) dateDoku.SelectedDate, medic, u.Id,
+                                        mq.getIt());
                                 }
                                 else
                                 {
@@ -1278,11 +1297,11 @@ namespace TGTheraS4 {
                         }
                         else
                         {
-                            c.setMediForDay(cmbKlient.Text, (DateTime)dateDoku.SelectedDate, medic, u.Id, "");
+                            c.setMediForDay(cmbKlient.Text, (DateTime) dateDoku.SelectedDate, medic, u.Id, "");
                             dgvMedi.IsEnabled = false;
                         }
                     }
-                    if ((bool)chk_noMedi.IsChecked)
+                    if ((bool) chk_noMedi.IsChecked)
                     {
                         chk_noMedi.IsChecked = false;
                         dgvMedi.IsEnabled = true;
@@ -1292,10 +1311,13 @@ namespace TGTheraS4 {
                     if (!no_post)
                     {
 
-                        if (txtDokuKoerperlichAnzeige.Text == "" && txtDokuSchulischAnzeige.Text == "" && txtDokuPsychischAnzeige.Text == "" && txtDokuPflichteAnzeige.Text == "" && txtDokuAußenkontaktAnzeige.Text == "")
+                        if (txtDokuKoerperlichAnzeige.Text == "" && txtDokuSchulischAnzeige.Text == "" &&
+                            txtDokuPsychischAnzeige.Text == "" && txtDokuPflichteAnzeige.Text == "" &&
+                            txtDokuAußenkontaktAnzeige.Text == "")
                         {
-                            c.setDoku(cmbKlient.Text, (DateTime)dateDoku.SelectedDate, txtDokuKoerperlich.Text,
-                                txtDokuSchulisch.Text, txtDokuPsychisch.Text, txtDokuPflichte.Text, txtDokuAußenkontakt.Text, u.Id);
+                            c.setDoku(cmbKlient.Text, (DateTime) dateDoku.SelectedDate, txtDokuKoerperlich.Text,
+                                txtDokuSchulisch.Text, txtDokuPsychisch.Text, txtDokuPflichte.Text,
+                                txtDokuAußenkontakt.Text, u.Id);
 
                             txtDokuKoerperlichAnzeige.Text = txtDokuKoerperlich.Text;
                             txtDokuSchulischAnzeige.Text = txtDokuSchulisch.Text;
@@ -1312,32 +1334,58 @@ namespace TGTheraS4 {
                             string dokuAußenkontaktMerged = txtDokuAußenkontakt.Text;
                             if (txtDokuKoerperlich.Text != "")
                             {
-                                dokuKoerperlichMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuKoerperlich.Text;
-                                txtDokuKoerperlichAnzeige.Text = txtDokuKoerperlichAnzeige.Text + "\r\n\r\n---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuKoerperlich.Text;
+                                dokuKoerperlichMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
+                                                        ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                        txtDokuKoerperlich.Text;
+                                txtDokuKoerperlichAnzeige.Text =
+                                    txtDokuKoerperlichAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    "---\r\n\r\n" + txtDokuKoerperlich.Text;
                             }
                             if (txtDokuSchulisch.Text != "")
                             {
-                                dokuSchulischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuSchulisch.Text;
-                                txtDokuSchulischAnzeige.Text = txtDokuSchulischAnzeige.Text + "\r\n\r\n---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuSchulisch.Text;
+                                dokuSchulischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
+                                                      ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                      txtDokuSchulisch.Text;
+                                txtDokuSchulischAnzeige.Text =
+                                    txtDokuSchulischAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    "---\r\n\r\n" + txtDokuSchulisch.Text;
                             }
                             if (txtDokuPsychisch.Text != "")
                             {
-                                dokuPsychischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuPsychisch.Text;
-                                txtDokuPsychischAnzeige.Text = txtDokuPsychischAnzeige.Text + "\r\n\r\n---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuPsychisch.Text;
+                                dokuPsychischMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
+                                                      ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                      txtDokuPsychisch.Text;
+                                txtDokuPsychischAnzeige.Text =
+                                    txtDokuPsychischAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    "---\r\n\r\n" + txtDokuPsychisch.Text;
                             }
                             if (txtDokuPflichte.Text != "")
                             {
-                                dokuPflichteMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuPflichte.Text;
-                                txtDokuPflichteAnzeige.Text = txtDokuPflichteAnzeige.Text + "\r\n\r\n---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuPflichte.Text;
+                                dokuPflichteMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") +
+                                                     ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" +
+                                                     txtDokuPflichte.Text;
+                                txtDokuPflichteAnzeige.Text =
+                                    txtDokuPflichteAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    "---\r\n\r\n" + txtDokuPflichte.Text;
                             }
                             if (txtDokuAußenkontakt.Text != "")
                             {
-                                dokuAußenkontaktMerged = "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuAußenkontakt.Text;
-                                txtDokuAußenkontaktAnzeige.Text = txtDokuAußenkontaktAnzeige.Text + "\r\n\r\n---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuAußenkontakt.Text;
+                                dokuAußenkontaktMerged =
+                                    "---NACHTRAG (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " +
+                                    c.getNameByID(u.Id) + "---\r\n\r\n" + txtDokuAußenkontakt.Text;
+                                txtDokuAußenkontaktAnzeige.Text =
+                                    txtDokuAußenkontaktAnzeige.Text + "\r\n\r\n---NACHTRAG (" +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ") VON: " + c.getNameByID(u.Id) +
+                                    "---\r\n\r\n" + txtDokuAußenkontakt.Text;
                             }
 
-                            c.setDoku(cmbKlient.Text, (DateTime)dateDoku.SelectedDate, dokuKoerperlichMerged,
-                                dokuSchulischMerged, dokuPsychischMerged, dokuPflichteMerged, dokuAußenkontaktMerged, u.Id);
+                            c.setDoku(cmbKlient.Text, (DateTime) dateDoku.SelectedDate, dokuKoerperlichMerged,
+                                dokuSchulischMerged, dokuPsychischMerged, dokuPflichteMerged, dokuAußenkontaktMerged,
+                                u.Id);
                         }
 
                         txtDokuAußenkontakt.Text = "";
@@ -1352,7 +1400,8 @@ namespace TGTheraS4 {
                 else
                 {
                     view_waiting();
-                    string[] temp = c.readDokuOverTime(cmbKlient.Text, (DateTime)dateDoku.SelectedDate, (DateTime)dateDokuTo.SelectedDate);
+                    string[] temp = c.readDokuOverTime(cmbKlient.Text, (DateTime) dateDoku.SelectedDate,
+                        (DateTime) dateDokuTo.SelectedDate);
                     txtDokuKoerperlichAnzeige.Text = temp[0];
                     txtDokuSchulischAnzeige.Text = temp[1];
                     txtDokuPsychischAnzeige.Text = temp[2];
@@ -1385,7 +1434,7 @@ namespace TGTheraS4 {
             EditShoutDialog shout = new EditShoutDialog(c);
             shout.ShowDialog();
 
-            string[] shouts = new string[] { "Shoutbox", "Erstellt", "Name" };
+            string[] shouts = new string[] {"Shoutbox", "Erstellt", "Name"};
             FillMoreData(dgShouts, c.getShouts(), shouts);
         }
 
@@ -1394,6 +1443,7 @@ namespace TGTheraS4 {
             Bericht b = new Bericht(u, c);
             b.ShowDialog();
         }
+
         /**
          * Erstellen einer neuen Aufgabe
          * */
@@ -1413,7 +1463,9 @@ namespace TGTheraS4 {
                 et.Show();
                 refreshAllTasks();
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
         }
 
         private void dgInstructionsFromUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1447,16 +1499,20 @@ namespace TGTheraS4 {
                 month = (Int32.Parse(cmbKMGMonth.SelectedIndex.ToString()) + 1).ToString();
                 year = cmbKMGYear.Text;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
 
             List<KmG> KmGlist = c.getKilometerGeld(id, month, year);
             List<KmG> KmGlist2 = new List<KmG>();
 
             foreach (KmG tmp in KmGlist)
             {
-                if (DateTime.Parse(tmp.Zeitvon).Month.ToString() == month && DateTime.Parse(tmp.Zeitvon).Year.ToString() == year)
+                if (DateTime.Parse(tmp.Zeitvon).Month.ToString() == month &&
+                    DateTime.Parse(tmp.Zeitvon).Year.ToString() == year)
                 {
-                    if (DateTime.Parse(tmp.Zeitbis).Month.ToString() == month && DateTime.Parse(tmp.Zeitbis).Year.ToString() == year)
+                    if (DateTime.Parse(tmp.Zeitbis).Month.ToString() == month &&
+                        DateTime.Parse(tmp.Zeitbis).Year.ToString() == year)
                     {
                         tmp.Verfasser = c.getNameByID(tmp.Verfasser);
                         KmGlist2.Add(tmp);
@@ -1580,6 +1636,7 @@ namespace TGTheraS4 {
             refreshInstructions();
             refreshUnreadInstructions();
         }
+
         private void btnGoToTasks_Click(object sender, RoutedEventArgs e)
         {
             view_waiting();
@@ -1588,54 +1645,8 @@ namespace TGTheraS4 {
             hide_waiting();
         }
 
-        private void btnChangeEMailPW_Click(object sender, RoutedEventArgs e)
-        {
-            if (passwordBox1.Text == passwordBox2.Text)
-            {
-                c.setEmailPass(u.Id, passwordBox2.Text);
-            }
-            else
-            {
-                MessageBox.Show("Passwörter stimmen nicht überein.");
-            }
-
-            passwordBox1.Text = "";
-            passwordBox2.Text = "";
-        }
-
         int load = 0;
         bool webmailFirst = true;
-
-        private void webMail_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-            string[] temp = c.getMailCredetials_World4U(u.Id).Split('$');
-            if (webmailFirst)
-            {
-                HTMLDocument doc = (HTMLDocument) this.webMail.Document;
-                doc.getElementsByName("_user").item(0).SetAttribute("value", temp[0]);
-                doc.getElementsByName("_pass").item(0).SetAttribute("value", temp[1]);
-                foreach (mshtml.HTMLFormElement form in doc.forms)
-                {
-                    var children = form as IEnumerable;
-                    var inputs = children.OfType<mshtml.HTMLInputElement>();
-                    var submitButton = inputs.First(i => i.type == "submit");
-                    submitButton.click();
-                    break;
-                }
-                load++;
-                webmailFirst = !webmailFirst;
-            }
-            else
-            {
-                Uri uri = new Uri("https://webmail.world4you.com/");
-                if (webMail.Source == uri) //#noemail 
-                {
-                    MessageBox.Show(
-                        "Werden Sie nicht automatisch eingeloggt? \n Wenn Sie im 'World4You' Ihr Passwort geändert haben, gehen Sie bitte auf den Tab 'Passwort ändern' und tragen Sie dort unter E-Mail Ihr aktuelles Passwort ein. \n Nach einem Neustart von TheraS4 sollte alles wieder funktionieren.",
-                        "Fehler bei der Anmeldung?");
-                }
-            }
-        }
 
         int gload = 0;
         bool gmailFirst = true;
@@ -1646,7 +1657,7 @@ namespace TGTheraS4 {
             string[] temp = c.getMailCredentials_Gmail(u.Id).Split('$');
 
             MessageBox.Show(temp[0] + " " + temp[1]);
-
+            
             if (gmailFirst)
             {
                 HTMLDocument doc = (HTMLDocument)this.Gmail.Document;
@@ -1792,16 +1803,19 @@ namespace TGTheraS4 {
                         {
                             if (temp[6] == "True" | temp[6] == "1")
                             {
-                                time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], true));
+                                time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                    true));
                             }
                             else if (temp[6] == "False" | temp[6] == "0")
                             {
-                                holidaydata.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], false));
+                                holidaydata.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4],
+                                    temp[5], false));
                             }
                         }
                         else
                         {
-                            time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], false));
+                            time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                false));
                         }
                     }
                 }
@@ -1835,7 +1849,8 @@ namespace TGTheraS4 {
 
 
                                     sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                        (sampleday.Year == dt.Year))
                                     {
                                         //Wenn der Tag ein Feiertag ist, dann wird die Variable auf wahr geschalten
                                         isholday = true;
@@ -1859,7 +1874,9 @@ namespace TGTheraS4 {
                         {
                             tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     derOberKillaShit[0] = tempusvaletsemper;
                 }
@@ -1877,7 +1894,8 @@ namespace TGTheraS4 {
                                 if (holidays[i] != "")
                                 {
                                     sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                        (sampleday.Year == dt.Year))
                                     {
                                         isholday = true;
                                     }
@@ -1898,7 +1916,9 @@ namespace TGTheraS4 {
                         {
                             tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     derOberKillaShit[0] = tempusvaletsemper;
                 }
@@ -1924,7 +1944,7 @@ namespace TGTheraS4 {
                 {
                     TimeSpan worktime = getworkingtime(wt);
                     TimeSpan urlaubtime = geturlaubtime(wt, workinghours);
-                    urlaubstd -= geturlaubsTage(wt);//urlaubtime.TotalHours;
+                    urlaubstd -= geturlaubsTage(wt); //urlaubtime.TotalHours;
                     habenstd += urlaubtime.TotalHours;
                     habenstd += worktime.TotalHours;
                     if (wt.comment.StartsWith("Krankenstand - "))
@@ -1949,7 +1969,9 @@ namespace TGTheraS4 {
                     {
                         tmp2 = tmp2.Substring(0, tmp2.IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 derOberKillaShit[1] = tmp2;
                 string tmp = urlaubstd.ToString();
@@ -1959,7 +1981,9 @@ namespace TGTheraS4 {
                     {
                         tmp = urlaubstd.ToString().Substring(0, urlaubstd.ToString().IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
@@ -1979,7 +2003,9 @@ namespace TGTheraS4 {
                     {
                         tmp4 = tmp4.ToString().Substring(0, tmp4.ToString().IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 derOberKillaShit[3] = tmp4;
 
@@ -1990,13 +2016,18 @@ namespace TGTheraS4 {
                     {
                         tmp5 = tmp5.ToString().Substring(0, tmp5.ToString().IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 derOberKillaShit[4] = tmp5;
 
 
             }
-            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
             return derOberKillaShit;
         }
@@ -2006,7 +2037,10 @@ namespace TGTheraS4 {
             try
             {
                 view_waiting();
-                DateTime date = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
+                DateTime date =
+                    new DateTime(
+                        Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                            .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
 
                 User a = new User();
                 User b;
@@ -2047,7 +2081,7 @@ namespace TGTheraS4 {
 
 
                 DataTable tab = new DataTable();
-                string[] columnnames = new string[5] { "User", "Art", "Von-Datum", "Bis-Datum", "Kommentar" };
+                string[] columnnames = new string[5] {"User", "Art", "Von-Datum", "Bis-Datum", "Kommentar"};
                 IFormatProvider culture = new CultureInfo("de-DE", true);
                 time = new List<WorkingTime>();
                 holidaydata = new List<WorkingTime>();
@@ -2060,16 +2094,19 @@ namespace TGTheraS4 {
                         {
                             if (temp[6] == "True" | temp[6] == "1")
                             {
-                                time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], true));
+                                time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                    true));
                             }
                             else if (temp[6] == "False" | temp[6] == "0")
                             {
-                                holidaydata.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], false));
+                                holidaydata.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4],
+                                    temp[5], false));
                             }
                         }
                         else
                         {
-                            time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], false));
+                            time.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                false));
                         }
                     }
                 }
@@ -2104,11 +2141,16 @@ namespace TGTheraS4 {
                 DateTime sampleday;
                 if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
                 {
-                    int days = DateTime.DaysInMonth(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
+                    int days = DateTime.DaysInMonth(
+                        Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                            .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
                     DateTime dt;
                     for (int counter = 1; counter <= days; counter++)
                     {
-                        dt = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1), counter);
+                        dt = new DateTime(
+                            Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                            (cmb_Month.SelectedIndex + 1), counter);
                         //Wenn der Tag kein Samstag oder Sontag ist zähle!
                         if (dt.ToString("ddd") != "Sa." && dt.ToString("ddd") != "So.")
                         {
@@ -2118,7 +2160,8 @@ namespace TGTheraS4 {
                                 if (holidays[i] != "")
                                 {
                                     sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                        (sampleday.Year == dt.Year))
                                     {
                                         //Wenn der Tag ein Feiertag ist, dann wird die Variable auf wahr geschalten
                                         isholday = true;
@@ -2142,17 +2185,24 @@ namespace TGTheraS4 {
                         {
                             tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     SollStunden.Content = tempusvaletsemper;
                 }
                 else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
                 {
-                    int days = DateTime.DaysInMonth(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
+                    int days = DateTime.DaysInMonth(
+                        Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                            .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
                     DateTime dt;
                     for (int counter = 1; counter <= days; counter++)
                     {
-                        dt = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1), counter);
+                        dt = new DateTime(
+                            Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                            (cmb_Month.SelectedIndex + 1), counter);
                         if (dt.ToString("ddd") != "So.")
                         {
                             for (int i = 0; i < holidays.Length; i++)
@@ -2160,7 +2210,8 @@ namespace TGTheraS4 {
                                 if (holidays[i] != "")
                                 {
                                     sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                    if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                        (sampleday.Year == dt.Year))
                                     {
                                         isholday = true;
                                     }
@@ -2181,7 +2232,9 @@ namespace TGTheraS4 {
                         {
                             tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     SollStunden.Content = tempusvaletsemper;
                 }
@@ -2225,7 +2278,7 @@ namespace TGTheraS4 {
                 {
                     TimeSpan worktime = getworkingtime(wt);
                     TimeSpan urlaubtime = geturlaubtime(wt, workinghours);
-                    urlaubstd -= geturlaubsTage(wt);//urlaubtime.TotalHours;
+                    urlaubstd -= geturlaubsTage(wt); //urlaubtime.TotalHours;
                     habenstd += urlaubtime.TotalHours;
                     habenstd += worktime.TotalHours;
                     if (wt.comment.StartsWith("Krankenstand - "))
@@ -2250,7 +2303,9 @@ namespace TGTheraS4 {
                     {
                         tmp2 = tmp2.Substring(0, tmp2.IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 Uberstunden.Content = tmp2;
                 string tmp = urlaubstd.ToString();
@@ -2260,7 +2315,9 @@ namespace TGTheraS4 {
                     {
                         tmp = urlaubstd.ToString().Substring(0, urlaubstd.ToString().IndexOf(',') + 5);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 lblUrlaub.Content = tmp;
                 string tmp4 = habenstd.ToString();
@@ -2270,7 +2327,9 @@ namespace TGTheraS4 {
                     {
                         tmp4 = tmp4.ToString().Substring(0, tmp4.ToString().IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 HabenStunden.Content = tmp4;
 
@@ -2281,7 +2340,9 @@ namespace TGTheraS4 {
                     {
                         tmp5 = tmp5.ToString().Substring(0, tmp5.ToString().IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 lblKrank.Content = tmp5;
                 //test area
@@ -2299,7 +2360,9 @@ namespace TGTheraS4 {
                     {
                         tmp3 = tmp3.Substring(0, tmp3.IndexOf(',') + 3);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 uberstdges.Content = tmp3;
 
@@ -2314,7 +2377,10 @@ namespace TGTheraS4 {
                 }
                 hide_waiting();
             }
-            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
 
@@ -2375,7 +2441,9 @@ namespace TGTheraS4 {
                                 a[1] = a[1].Substring(0, 2);
                             }
                         }
-                        catch { }
+                        catch
+                        {
+                        }
 
 
                         tmp = wt.datetimeto - wt.datetimefrom;
@@ -2442,7 +2510,10 @@ namespace TGTheraS4 {
 
         private void btnZeitEdit_Click(object sender, RoutedEventArgs e)
         {
-            EditWorkingTimeDialog dialog = new EditWorkingTimeDialog(cmb_Month.SelectedIndex + 1, Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), chk_allow.IsChecked.Value, Convert.ToInt32(u.Id));
+            EditWorkingTimeDialog dialog = new EditWorkingTimeDialog(cmb_Month.SelectedIndex + 1,
+                Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                    .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), chk_allow.IsChecked.Value,
+                Convert.ToInt32(u.Id));
             dialog.ShowDialog();
 
             setdgvWorkingTime();
@@ -2485,17 +2556,20 @@ namespace TGTheraS4 {
                         pwdNew.Password = "";
                         pwdNewConfirm.Password = "";
                         pwdOld.Password = "";
-                        MessageBox.Show("Passwort wurde erfolgreich geändert", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Passwort wurde erfolgreich geändert", "Erfolg!", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Sie müssen 2 mal das Selbe Passwort eingeben um die eingabe zu bestätigen", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Sie müssen 2 mal das Selbe Passwort eingeben um die eingabe zu bestätigen",
+                        "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Sie müssen bei altes Password das Korrekte alte Passwort eintragen!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Sie müssen bei altes Password das Korrekte alte Passwort eintragen!", "Achtung",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -2564,6 +2638,7 @@ namespace TGTheraS4 {
 
 
         bool newUser = false;
+
         private void btnNewUser_Click(object sender, RoutedEventArgs e)
         {
             cmbAdminUsers.Visibility = Visibility.Hidden;
@@ -2637,12 +2712,14 @@ namespace TGTheraS4 {
             {
                 newUser = !newUser;
 
-                if (txtWorkingdaysWeekly.Text != null && (Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 5 || Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 6))
+                if (txtWorkingdaysWeekly.Text != null && (Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 5 ||
+                                                          Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 6))
                 {
                     string source = txtPw.Text;
                     using (MD5 md5Hash = MD5.Create())
                     {
-                        if (checkName(txtAdminFirstname.Text) && checkName(txtAdminLastname.Text) && dgHouseSelected.Items.Count > 0)
+                        if (checkName(txtAdminFirstname.Text) && checkName(txtAdminLastname.Text) &&
+                            dgHouseSelected.Items.Count > 0)
                         {
                             DateTime geb;
                             try
@@ -2655,9 +2732,18 @@ namespace TGTheraS4 {
                                 return;
                             }
 
-                            c.setNewUser(txtAccountnr.Text, txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text, txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text, txtTel.Text, txtUsername.Text, txtWeeklyhours.Text, txtWorkingdaysWeekly.Text, txtZip.Text, Functions.GetMd5Hash(md5Hash, source), u.Id, txtAdminGeb.Text, rdbAdminYes.IsChecked.ToString(), (DateTime)dateAnfang.SelectedDate);
-                            c.AddUserstoServices(Convert.ToInt32(c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " + txtAdminLastname.Text.Trim())), SelectedHouses);
-                            Dropbox dp = new Dropbox(txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(), txtMailUser.Text);
+                            c.setNewUser(txtAccountnr.Text, txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(),
+                                txtBankname.Text, txtBLZ.Text, txtCity.Text, txtFax.Text, txtMailPw.Text,
+                                txtMailUser.Text, txtStreet.Text, txtSVNr.Text, txtTel.Text, txtUsername.Text,
+                                txtWeeklyhours.Text, txtWorkingdaysWeekly.Text, txtZip.Text,
+                                Functions.GetMd5Hash(md5Hash, source), u.Id, txtAdminGeb.Text,
+                                rdbAdminYes.IsChecked.ToString(), (DateTime) dateAnfang.SelectedDate);
+                            c.AddUserstoServices(
+                                Convert.ToInt32(
+                                    c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " +
+                                                          txtAdminLastname.Text.Trim())), SelectedHouses);
+                            Dropbox dp = new Dropbox(txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(),
+                                txtMailUser.Text);
                             dp.ShowDialog();
                             cmbAdminUsers.Visibility = Visibility.Visible;
                             txtAccountnr.Text = "";
@@ -2680,7 +2766,8 @@ namespace TGTheraS4 {
                             txtZip.Text = "";
                             dateAnfang.SelectedDate = null;
                             dateEnde.SelectedDate = null;
-                            MessageBox.Show("Erfolg", "Der Neue User wurde erfolgreich eingefügt", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("Erfolg", "Der Neue User wurde erfolgreich eingefügt", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
 
                         }
                         else
@@ -2688,7 +2775,8 @@ namespace TGTheraS4 {
                             txtAdminFirstname.Background = color2;
                             dgHouseSelected.Background = color2;
                             txtAdminLastname.Background = color2;
-                            MessageBox.Show("Namen dürfen keine Leerzeichen enthalten! Ein Haus muss ausgewählt sein!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show("Namen dürfen keine Leerzeichen enthalten! Ein Haus muss ausgewählt sein!",
+                                "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
 
@@ -2697,7 +2785,8 @@ namespace TGTheraS4 {
                 else
                 {
                     txtWorkingdaysWeekly.Background = color2;
-                    MessageBox.Show("Fehler!", "Arbeitstage pro Woche dürfen nur 5 oder 6 Tage sein!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Fehler!", "Arbeitstage pro Woche dürfen nur 5 oder 6 Tage sein!",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
@@ -2744,34 +2833,62 @@ namespace TGTheraS4 {
 
                         txtAdminGeb.Text = hodenkrebs;
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     if (!txtWorkingdaysWeekly.Text.Equals(""))
                     {
                         try
                         {
-                            if (Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 5 || Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 6)
+                            if (Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 5 ||
+                                Int32.Parse(txtWorkingdaysWeekly.Text.ToString()) == 6)
                             {
                                 if (source != "")
                                 {
                                     using (MD5 md5Hash = MD5.Create())
                                     {
-                                        c.updateUser(txtAccountnr.Text, txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text, txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text, txtTel.Text, txtUsername.Text, txtWeeklyhours.Text, txtWorkingdaysWeekly.Text, txtZip.Text, Functions.GetMd5Hash(md5Hash, source), u.Id, txtAdminGeb.Text, a.Kostalid, rdbAdminYes.IsChecked.ToString(), Functions.DateConverter(dateEnde.Text), Functions.DateConverter(dateAnfang.Text));
-                                        c.updateUsertoService(Convert.ToInt32(c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " + txtAdminLastname.Text.Trim())), SelectedHouses);
+                                        c.updateUser(txtAccountnr.Text, txtAdminFirstname.Text.Trim(),
+                                            txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text,
+                                            txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text,
+                                            txtTel.Text, txtUsername.Text, txtWeeklyhours.Text,
+                                            txtWorkingdaysWeekly.Text, txtZip.Text,
+                                            Functions.GetMd5Hash(md5Hash, source), u.Id, txtAdminGeb.Text, a.Kostalid,
+                                            rdbAdminYes.IsChecked.ToString(), Functions.DateConverter(dateEnde.Text),
+                                            Functions.DateConverter(dateAnfang.Text));
+                                        c.updateUsertoService(
+                                            Convert.ToInt32(
+                                                c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " +
+                                                                      txtAdminLastname.Text.Trim())), SelectedHouses);
                                     }
                                 }
                                 else
                                 {
                                     if (dateEnde.SelectedDate == null)
                                     {
-                                        c.updateUserNoPw(txtAccountnr.Text, txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text, txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text, txtTel.Text, txtUsername.Text, txtWeeklyhours.Text, txtWorkingdaysWeekly.Text, txtZip.Text, u.Id, txtAdminGeb.Text, rdbAdminYes.IsChecked.ToString(), a.Kostalid, (DateTime)dateAnfang.SelectedDate);
+                                        c.updateUserNoPw(txtAccountnr.Text, txtAdminFirstname.Text.Trim(),
+                                            txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text,
+                                            txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text,
+                                            txtTel.Text, txtUsername.Text, txtWeeklyhours.Text,
+                                            txtWorkingdaysWeekly.Text, txtZip.Text, u.Id, txtAdminGeb.Text,
+                                            rdbAdminYes.IsChecked.ToString(), a.Kostalid,
+                                            (DateTime) dateAnfang.SelectedDate);
                                     }
                                     else
                                     {
 
-                                        c.updateUserNoPw(txtAccountnr.Text, txtAdminFirstname.Text.Trim(), txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text, txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text, txtTel.Text, txtUsername.Text, txtWeeklyhours.Text, txtWorkingdaysWeekly.Text, txtZip.Text, u.Id, txtAdminGeb.Text, rdbAdminYes.IsChecked.ToString(), a.Kostalid, (DateTime)dateEnde.SelectedDate, (DateTime)dateAnfang.SelectedDate);
+                                        c.updateUserNoPw(txtAccountnr.Text, txtAdminFirstname.Text.Trim(),
+                                            txtAdminLastname.Text.Trim(), txtBankname.Text, txtBLZ.Text, txtCity.Text,
+                                            txtFax.Text, txtMailPw.Text, txtMailUser.Text, txtStreet.Text, txtSVNr.Text,
+                                            txtTel.Text, txtUsername.Text, txtWeeklyhours.Text,
+                                            txtWorkingdaysWeekly.Text, txtZip.Text, u.Id, txtAdminGeb.Text,
+                                            rdbAdminYes.IsChecked.ToString(), a.Kostalid,
+                                            (DateTime) dateEnde.SelectedDate, (DateTime) dateAnfang.SelectedDate);
                                     }
-                                    c.updateUsertoService(Convert.ToInt32(c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " + txtAdminLastname.Text.Trim())), SelectedHouses);
+                                    c.updateUsertoService(
+                                        Convert.ToInt32(
+                                            c.getUserIDbyFullname(txtAdminFirstname.Text.Trim() + " " +
+                                                                  txtAdminLastname.Text.Trim())), SelectedHouses);
                                 }
 
                                 cmbAdminUsers.Visibility = Visibility.Visible;
@@ -2795,7 +2912,8 @@ namespace TGTheraS4 {
                                 txtZip.Text = "";
                                 dateAnfang.SelectedDate = null;
                                 dateEnde.SelectedDate = null;
-                                MessageBox.Show("Der User wurde erfolgreich bearbeitet", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show("Der User wurde erfolgreich bearbeitet", "Erfolg", MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
 
                                 c.setEmailPass(a.Kostalid.ToString(), txtMailPw.Text);
 
@@ -2803,7 +2921,8 @@ namespace TGTheraS4 {
                             else
                             {
                                 txtWorkingdaysWeekly.Background = color2;
-                                MessageBox.Show("Arbeitstage pro Woche dürfen nur 5 oder 6 Tage sein!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Arbeitstage pro Woche dürfen nur 5 oder 6 Tage sein!", "Fehler!",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                         }
@@ -2939,7 +3058,9 @@ namespace TGTheraS4 {
                 {
                     dateEnde.SelectedDate = Convert.ToDateTime(allInfo[19]);
                 }
-                catch { }
+                catch
+                {
+                }
                 if (allInfo[16] == "true")
                 {
                     rdbAdminYes.IsChecked = true;
@@ -2976,7 +3097,9 @@ namespace TGTheraS4 {
                 setadminenadisa(true);
 
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void dgImportantTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3132,7 +3255,7 @@ namespace TGTheraS4 {
                 txtSozialversicherungsnummer.Text = values[11];
                 txtMitversichertBei.Text = values[12];
 
-                int sele = 0; 
+                int sele = 0;
                 foreach (Contacts con in sozialarbeiter)
                 {
                     if (con.id == values[13].Trim())
@@ -3143,7 +3266,7 @@ namespace TGTheraS4 {
                     sele++;
                 }
 
-                
+
                 selectedContact = values[13];
                 cmbZugehoerigkeit.SelectedValue = c.getServiceIdbyClientId(vid);
 
@@ -3202,7 +3325,9 @@ namespace TGTheraS4 {
                 tbTg.IsEnabled = true;
                 tbPad.IsEnabled = true;
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
@@ -3210,7 +3335,8 @@ namespace TGTheraS4 {
                 {
                     if (cmbKlientArchivAuswaehlen.SelectedIndex == -1)
                     {
-                        MessageBox.Show("Bitte wählen Sie einen Klienten aus!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Bitte wählen Sie einen Klienten aus!", "Achtung!", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                         return;
                     }
                 }
@@ -3303,7 +3429,9 @@ namespace TGTheraS4 {
 
         private void btnUrlaub_Click(object sender, RoutedEventArgs e)
         {
-            EditHolidayDialog edit = new EditHolidayDialog(cmb_Month.SelectedIndex + 1, Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), Convert.ToInt32(u.Id));
+            EditHolidayDialog edit = new EditHolidayDialog(cmb_Month.SelectedIndex + 1,
+                Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                    .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), Convert.ToInt32(u.Id));
             edit.setuser(u);
             edit.ShowDialog();
             if (edit.getSaved() == true)
@@ -3323,7 +3451,7 @@ namespace TGTheraS4 {
             {
                 try
                 {
-                    WorkingTime wt = (WorkingTime)dgvUrlaub.SelectedItem;
+                    WorkingTime wt = (WorkingTime) dgvUrlaub.SelectedItem;
                     int uid = Convert.ToInt32(c.getUserIDbyFullname(wt.username));
                     c.setHolidayverfied(uid, wt.datetimefrom, wt.datetimeto, 1, Convert.ToInt32(u.Id));
                     setdgvWorkingTime();
@@ -3347,7 +3475,7 @@ namespace TGTheraS4 {
             {
                 try
                 {
-                    WorkingTime wt = (WorkingTime)dgvZeiterfassung.SelectedItem;
+                    WorkingTime wt = (WorkingTime) dgvZeiterfassung.SelectedItem;
                     int uid = Convert.ToInt32(c.getUserIDbyFullname(wt.username));
                     if (wt.datetimefrom.Year == DateTime.Now.Year && wt.datetimefrom.Month == DateTime.Now.Month)
                     {
@@ -3377,7 +3505,7 @@ namespace TGTheraS4 {
             {
                 try
                 {
-                    WorkingTime wt = (WorkingTime)dgvUrlaub.SelectedItem;
+                    WorkingTime wt = (WorkingTime) dgvUrlaub.SelectedItem;
 
                     int uid = Convert.ToInt32(c.getUserIDbyFullname(wt.username));
                     c.setHolidayverfied(uid, wt.datetimefrom, wt.datetimeto, -1, Convert.ToInt32(u.Id));
@@ -3399,7 +3527,7 @@ namespace TGTheraS4 {
             if (selectedContact != null) cmbContacts.SelectedValue = selectedContact;
         }
 
-        private String selectedContact;  // zwischenspeicherung des sozialarbeiters 
+        private String selectedContact; // zwischenspeicherung des sozialarbeiters 
 
 
         public void setKlientsBrushes(Brush b)
@@ -3630,7 +3758,7 @@ namespace TGTheraS4 {
             String contacs = "null";
             if (cmbContacts.SelectedValue != null)
             {
-                Contacts con = (Contacts)cmbContacts.SelectedItem;
+                Contacts con = (Contacts) cmbContacts.SelectedItem;
                 contacs = con.id;
                 cmbContacts.Background = color1;
             }
@@ -3642,7 +3770,7 @@ namespace TGTheraS4 {
             String zugehoerigkeit = "";
             if (cmbZugehoerigkeit.SelectedValue != null)
             {
-                Service serv = (Service)cmbZugehoerigkeit.SelectedItem;
+                Service serv = (Service) cmbZugehoerigkeit.SelectedItem;
                 zugehoerigkeit = serv.Id;
                 cmbZugehoerigkeit.Background = color1;
             }
@@ -3700,7 +3828,8 @@ namespace TGTheraS4 {
             if (vitalschalter && status != "" && assignment != "" && fail == false)
             {
                 if (c.setVital(sex, vorname, nachname, aufnahmedatum, geburtsdatum, staatsbuergerschaft, zustaendig,
-                    versicherung, icd, geburtsort, sozialversicherungsnummer, mitversichert, contacs, zugehoerigkeit, status, assignment))
+                    versicherung, icd, geburtsort, sozialversicherungsnummer, mitversichert, contacs, zugehoerigkeit,
+                    status, assignment))
                 {
 
                     rbman.IsChecked = false;
@@ -3781,7 +3910,8 @@ namespace TGTheraS4 {
                 }
                 else
                 {
-                    MessageBox.Show("Fehler beim Speichern!\n\nVersuchen Sie es in wenigen Momenten bitte erneut.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Fehler beim Speichern!\n\nVersuchen Sie es in wenigen Momenten bitte erneut.",
+                        "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else if (!vitalschalter && status != "" && assignment != "")
@@ -3836,7 +3966,8 @@ namespace TGTheraS4 {
             }
             if (fail)
             {
-                MessageBox.Show("Es müssen alle Pflichtfelder ausgefüllt werden!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es müssen alle Pflichtfelder ausgefüllt werden!", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -3989,7 +4120,7 @@ namespace TGTheraS4 {
             String contacs = "null";
             if (cmbContacts.SelectedValue != null)
             {
-                Contacts con = (Contacts)cmbContacts.SelectedItem;
+                Contacts con = (Contacts) cmbContacts.SelectedItem;
                 contacs = con.id;
                 cmbContacts.Background = color1;
             }
@@ -4001,7 +4132,7 @@ namespace TGTheraS4 {
             String zugehoerigkeit = "";
             if (cmbZugehoerigkeit.SelectedValue != null)
             {
-                Service serv = (Service)cmbZugehoerigkeit.SelectedItem;
+                Service serv = (Service) cmbZugehoerigkeit.SelectedItem;
                 zugehoerigkeit = serv.Id;
                 cmbZugehoerigkeit.Background = color1;
             }
@@ -4063,7 +4194,8 @@ namespace TGTheraS4 {
                 String vid = c.getIdbyNameClients(cmbKlientAuswaehlen.SelectedValue.ToString());
 
                 c.changeVital(vid, sex, vorname, nachname, aufnahmedatum, geburtsdatum, staatsbuergerschaft, zustaendig,
-                        versicherung, icd, geburtsort, sozialversicherungsnummer, mitversichert, contacs, zugehoerigkeit, verlassendatum, status, assignment);
+                    versicherung, icd, geburtsort, sozialversicherungsnummer, mitversichert, contacs, zugehoerigkeit,
+                    verlassendatum, status, assignment);
 
                 rbwoman.IsEnabled = false;
                 txtVorname.IsEnabled = false;
@@ -4087,7 +4219,8 @@ namespace TGTheraS4 {
             }
             if (fail)
             {
-                MessageBox.Show("Es müssen alle Pflichtfelder ausgefüllt werden!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es müssen alle Pflichtfelder ausgefüllt werden!", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -4102,7 +4235,8 @@ namespace TGTheraS4 {
             }
             else
             {
-                MessageBox.Show("Es muss ein Kient ausgewählt sein.", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es muss ein Kient ausgewählt sein.", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -4148,17 +4282,20 @@ namespace TGTheraS4 {
                     }
                     else
                     {
-                        MessageBox.Show("Es muss ein Grund angegeben sein.", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Es muss ein Grund angegeben sein.", "Achtung", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Es dürfen nur Zahlen eingetragen werden.", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Es dürfen nur Zahlen eingetragen werden.", "Achtung", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Es muss eine Differenz eingetragen sein.", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es muss eine Differenz eingetragen sein.", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -4206,7 +4343,8 @@ namespace TGTheraS4 {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "PDF(*.pdf)|*.pdf";
             saveFileDialog1.Title = "PDF Speichern";
-            saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString() + "_Abrechnung";
+            saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
+                                       DateTime.Now.Day.ToString() + "_Abrechnung";
             Nullable<bool> result = saveFileDialog1.ShowDialog();
             if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
             {
@@ -4214,7 +4352,8 @@ namespace TGTheraS4 {
                 User[] userIds = c.getUsers_working().ToArray();
                 string pdfShizzle = "";
                 pdfShizzle += (DAAAAATUM.Month).ToString() + "." + DAAAAATUM.Year.ToString() + "\n";
-                pdfShizzle += "Name                          |  Über | S & F | Nacht | Urlaub | Krank | Soll | Haben \n";
+                pdfShizzle +=
+                    "Name                          |  Über | S & F | Nacht | Urlaub | Krank | Soll | Haben \n";
                 foreach (User us in userIds)
                 {
                     /*
@@ -4304,7 +4443,7 @@ namespace TGTheraS4 {
 
                     pdfShizzle += tempUserData[3]
 
-                        + "\n";
+                                  + "\n";
                 }
                 cafpdf.text = pdfShizzle;
                 cafpdf.show = show;
@@ -4399,7 +4538,8 @@ namespace TGTheraS4 {
             }
             catch
             {
-                MessageBox.Show("Sie müssen sowohl einen Benutzer als auch ein Dokument auswählen!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Sie müssen sowohl einen Benutzer als auch ein Dokument auswählen!", "Achtung",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -4431,17 +4571,20 @@ namespace TGTheraS4 {
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Es dürfen nur Zahlen eingetragen werden.", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Es dürfen nur Zahlen eingetragen werden.", "Achtung", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Überprüfen Sie die Eingabe", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Überprüfen Sie die Eingabe", "Achtung", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Es muss was eingetragen werden", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es muss was eingetragen werden", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -4460,7 +4603,8 @@ namespace TGTheraS4 {
                 {
                     if (fillings[i].Split('$')[2] == "Nachtdienst")
                     {
-                        if (!(fillings[i].Split('$')[5].StartsWith("Krankenstand") | fillings[i].Split('$')[5].StartsWith("Seminar")))
+                        if (!(fillings[i].Split('$')[5].StartsWith("Krankenstand") |
+                              fillings[i].Split('$')[5].StartsWith("Seminar")))
                             nachtdienste++;
                     }
                 }
@@ -4473,7 +4617,10 @@ namespace TGTheraS4 {
         {
             int nachtdienste = 0;
 
-            DateTime date = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
+            DateTime date =
+                new DateTime(
+                    Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                        .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
             string[] fillings = c.getWorkingtime(date, userid, u.IsAdmin).Split('%');
             if (fillings.Count() > 0)
             {
@@ -4499,7 +4646,8 @@ namespace TGTheraS4 {
                             if (line[2] == "Nachtdienst")
                             {
                                 TimeSpan diff = nextbegin - lastend;
-                                MessageBox.Show(diff.TotalMinutes.ToString() + " = " + nextbegin.ToString() + " - " + lastend.ToString());
+                                MessageBox.Show(diff.TotalMinutes.ToString() + " = " + nextbegin.ToString() + " - " +
+                                                lastend.ToString());
                                 if (diff.TotalMinutes > 0)
                                 {
                                     nachtdienste++;
@@ -4553,7 +4701,9 @@ namespace TGTheraS4 {
             try
             {
                 String mediid = c.getIdbyNameClients(cmbMA.SelectedValue.ToString());
-                medihelpname = (cmbMA.SelectedIndex != -1) ? cmbMA.SelectedValue.ToString() : cmbKlientArchivAuswaehlen.SelectedValue.ToString();
+                medihelpname = (cmbMA.SelectedIndex != -1)
+                    ? cmbMA.SelectedValue.ToString()
+                    : cmbKlientArchivAuswaehlen.SelectedValue.ToString();
                 List<MediAkt> medilist = c.GetClientMed(mediid);
                 dgmedicalaction.ItemsSource = medilist;
             }
@@ -4573,13 +4723,16 @@ namespace TGTheraS4 {
                 et.ShowDialog();
                 if (et.del)
                 {
-                    c.deleteMediActionForClient(c.getIdbyNameClients(cmbMA.SelectedValue.ToString()), ma.date, ma.art, ma.desc);
+                    c.deleteMediActionForClient(c.getIdbyNameClients(cmbMA.SelectedValue.ToString()), ma.date, ma.art,
+                        ma.desc);
                     dgmedicalaction.Items.Remove(dgmedicalaction.SelectedItem);
                     try
                     {
                         dgmedicalaction.ItemsSource = new List<MediAkt>();
                         String mediid = c.getIdbyNameClients(cmbMA.SelectedValue.ToString());
-                        medihelpname = (cmbMA.SelectedIndex != -1) ? cmbMA.SelectedValue.ToString() : cmbKlientArchivAuswaehlen.SelectedValue.ToString();
+                        medihelpname = (cmbMA.SelectedIndex != -1)
+                            ? cmbMA.SelectedValue.ToString()
+                            : cmbKlientArchivAuswaehlen.SelectedValue.ToString();
                         List<MediAkt> medilist = c.GetClientMed(mediid);
                         dgmedicalaction.ItemsSource = medilist;
                     }
@@ -4606,7 +4759,9 @@ namespace TGTheraS4 {
                 month = (Int32.Parse(cmbKMGMonth.SelectedIndex.ToString()) + 1).ToString();
                 year = cmbKMGYear.Text;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
 
             if (!u.IsAdmin)
             {
@@ -4625,29 +4780,37 @@ namespace TGTheraS4 {
                             refreshKmG(cmbUserKmG.SelectedValue.ToString());
                             if (cmbUserKmG.Text.EndsWith("*"))
                             {
-                                lblKMGSumme.Content = c.getKMGSumme(c.getIdbyName(cmbUserKmG.Text.Remove(cmbUserKmG.Text.Count() - 2)), month, year);
+                                lblKMGSumme.Content =
+                                    c.getKMGSumme(c.getIdbyName(cmbUserKmG.Text.Remove(cmbUserKmG.Text.Count() - 2)),
+                                        month, year);
                             }
                             else
                             {
                                 lblKMGSumme.Content = c.getKMGSumme(c.getIdbyName(cmbUserKmG.Text), month, year);
                             }
-                            lblKMGSumme_eur.Content = (Convert.ToDouble((c.getKMGSumme(c.getIdbyName(cmbUserKmG.Text), month, year))) / 0.42);
+                            lblKMGSumme_eur.Content =
+                                (Convert.ToDouble((c.getKMGSumme(c.getIdbyName(cmbUserKmG.Text), month, year))) / 0.42);
                         }
-                        catch (Exception) { }
+                        catch (Exception)
+                        {
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Es muss ein Jahr ausgewählt sein!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Es muss ein Jahr ausgewählt sein!", "Achtung", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Es muss ein Monat ausgewählt sein!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Es muss ein Monat ausgewählt sein!", "Achtung", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Es muss ein Benutzer ausgewählt sein!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es muss ein Benutzer ausgewählt sein!", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
             btnKMGActiveEx.IsEnabled = true;
             hide_waiting();
@@ -4694,7 +4857,8 @@ namespace TGTheraS4 {
                 }
 
                 cmbUserKmG.ItemsSource = newlist;
-            }else
+            }
+            else
             {
                 cmbUserKmG.ItemsSource = Functions.EmployeeList;
             }
@@ -4706,7 +4870,7 @@ namespace TGTheraS4 {
 
         private void fillcmbUserKmG(string year, string month)
         {
-            new Thread(() => { view_waiting(); }).Start(); 
+            new Thread(() => { view_waiting(); }).Start();
             cmbUserKmG.ItemsSource = null;
             if (Functions.EmployeeList != null)
             {
@@ -4786,14 +4950,16 @@ namespace TGTheraS4 {
                 String zeitbis = dpZeitbis.SelectedDate.Value.ToString("yyyy-MM-dd") + " " + txtZeitbis.Text;
                 if (Int32.Parse(txtKilometer.Text) <= 0)
                 {
-                    MessageBox.Show("Die Kilometer dürfen nicht negativ oder 0 sein", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Die Kilometer dürfen nicht negativ oder 0 sein", "Achtung", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                     txtKilometer.Background = color2;
                     return;
 
                 }
                 if (dpZeitvon.SelectedDate > dpZeitbis.SelectedDate)
                 {
-                    MessageBox.Show("Die von Zeit darf nicht größer als die bis Zeit sein", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Die von Zeit darf nicht größer als die bis Zeit sein", "Achtung",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                     dpZeitbis.Background = color2;
                     dpZeitvon.Background = color2;
                     return;
@@ -4801,7 +4967,8 @@ namespace TGTheraS4 {
                 String summe = (Double.Parse(txtKilometer.Text) * 0.42).ToString();
                 summe = summe.Replace(",", ".");
 
-                c.setKilometerGeld(u.Id, txtKennzeichen.Text, txtOrtvon.Text, txtOrtbis.Text, zeitvon, zeitbis, summe, txtKilometer.Text);
+                c.setKilometerGeld(u.Id, txtKennzeichen.Text, txtOrtvon.Text, txtOrtbis.Text, zeitvon, zeitbis, summe,
+                    txtKilometer.Text);
 
                 txtKilometer.Text = null;
                 txtOrtbis.Text = null;
@@ -4816,12 +4983,14 @@ namespace TGTheraS4 {
             }
             catch (FormatException)
             {
-                MessageBox.Show("Es wurde keine Zahl im Kilometer Feld eingetragen", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Es wurde keine Zahl im Kilometer Feld eingetragen", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtKilometer.Background = color2;
             }
             catch (Exception)
             {
-                MessageBox.Show("Ein Feld wurde nicht richtig befüllt", "Achtung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Ein Feld wurde nicht richtig befüllt", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
         }
@@ -4846,6 +5015,7 @@ namespace TGTheraS4 {
         public string pdf_Krank;
         public string pdf_uberganz;
         public bool set = false;
+
         public List<WorkingTime> setpdfWorkingTime(DateTime date, User a)
         {
             try
@@ -4868,7 +5038,7 @@ namespace TGTheraS4 {
 
 
                 DataTable tab = new DataTable();
-                string[] columnnames = new string[5] { "User", "Art", "Von-Datum", "Bis-Datum", "Kommentar" };
+                string[] columnnames = new string[5] {"User", "Art", "Von-Datum", "Bis-Datum", "Kommentar"};
                 IFormatProvider culture = new CultureInfo("de-DE", true);
                 List<WorkingTime> time2 = new List<WorkingTime>();
                 holidaydata = new List<WorkingTime>();
@@ -4881,7 +5051,8 @@ namespace TGTheraS4 {
                         {
                             if (temp[6] == "True" | temp[6] == "1")
                             {
-                                time2.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], true));
+                                time2.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                    true));
                             }
                             else if (temp[6] == "False" | temp[6] == "0")
                             {
@@ -4890,7 +5061,8 @@ namespace TGTheraS4 {
                         }
                         else
                         {
-                            time2.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5], false));
+                            time2.Add(new WorkingTime(temp[0] + " " + temp[1], temp[2], temp[3], temp[4], temp[5],
+                                false));
                         }
                     }
                 }
@@ -4910,11 +5082,17 @@ namespace TGTheraS4 {
                     DateTime sampleday;
                     if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 1)
                     {
-                        int days = DateTime.DaysInMonth(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
+                        int days = DateTime.DaysInMonth(
+                            Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                            (cmb_Month.SelectedIndex + 1));
                         DateTime dt;
                         for (int counter = 1; counter <= days; counter++)
                         {
-                            dt = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1), counter);
+                            dt = new DateTime(
+                                Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                    .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                                (cmb_Month.SelectedIndex + 1), counter);
                             //Wenn der Tag kein Samstag oder Sontag ist zähle!
                             if (dt.ToString("ddd") != "Sa." && dt.ToString("ddd") != "So.")
                             {
@@ -4924,7 +5102,8 @@ namespace TGTheraS4 {
                                     if (holidays[i] != "")
                                     {
                                         sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                        if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                        if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                            (sampleday.Year == dt.Year))
                                         {
                                             //Wenn der Tag ein Feiertag ist, dann wird die Variable auf wahr geschalten
                                             isholday = true;
@@ -4948,17 +5127,25 @@ namespace TGTheraS4 {
                             {
                                 tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                             }
-                            catch { }
+                            catch
+                            {
+                            }
                         }
                         pdf_soll = tempusvaletsemper;
                     }
                     else if (a.WasArbeitetDiesesHoffentlichGeistigNochFitteMenschlicheIndividuum == 2)
                     {
-                        int days = DateTime.DaysInMonth(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1));
+                        int days = DateTime.DaysInMonth(
+                            Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                            (cmb_Month.SelectedIndex + 1));
                         DateTime dt;
                         for (int counter = 1; counter <= days; counter++)
                         {
-                            dt = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), (cmb_Month.SelectedIndex + 1), counter);
+                            dt = new DateTime(
+                                Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                                    .Substring(cmb_Year.SelectedValue.ToString().Length - 5)),
+                                (cmb_Month.SelectedIndex + 1), counter);
                             if (dt.ToString("ddd") != "So.")
                             {
                                 for (int i = 0; i < holidays.Length; i++)
@@ -4966,7 +5153,8 @@ namespace TGTheraS4 {
                                     if (holidays[i] != "")
                                     {
                                         sampleday = DateTime.ParseExact(holidays[i], "dd.MM.yyyy HH:mm:ss", culture);
-                                        if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) && (sampleday.Year == dt.Year))
+                                        if ((sampleday.Day == dt.Day) && (sampleday.Month == dt.Month) &&
+                                            (sampleday.Year == dt.Year))
                                         {
                                             isholday = true;
                                         }
@@ -4987,7 +5175,9 @@ namespace TGTheraS4 {
                             {
                                 tempusvaletsemper = tempusvaletsemper.Substring(0, tempusvaletsemper.IndexOf(',') + 3);
                             }
-                            catch { }
+                            catch
+                            {
+                            }
                         }
                         pdf_soll = tempusvaletsemper;
                     }
@@ -5011,7 +5201,9 @@ namespace TGTheraS4 {
                             {
                                 urlaubstd = Convert.ToInt32(urlaub.Substring(0, urlaub.IndexOf(',')));
                             }
-                            catch { }
+                            catch
+                            {
+                            }
                         }
                     }
                     double workinghours = 0;
@@ -5028,7 +5220,7 @@ namespace TGTheraS4 {
                     {
                         TimeSpan worktime = getworkingtime(wt);
                         TimeSpan urlaubtime = geturlaubtime(wt, workinghours);
-                        urlaubstd -= geturlaubsTage(wt);//urlaubtime.TotalHours;
+                        urlaubstd -= geturlaubsTage(wt); //urlaubtime.TotalHours;
                         habenstd += urlaubtime.TotalHours;
                         habenstd += worktime.TotalHours;
                         if (wt.comment.StartsWith("Krankenstand - "))
@@ -5053,7 +5245,9 @@ namespace TGTheraS4 {
                         {
                             tmp2 = tmp2.Substring(0, tmp2.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     pdf_uber = tmp2;
                     string tmp = urlaubstd.ToString();
@@ -5063,7 +5257,9 @@ namespace TGTheraS4 {
                         {
                             tmp = urlaubstd.ToString().Substring(0, urlaubstd.ToString().IndexOf(',') + 5);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     pdf_url = tmp;
                     string tmp4 = habenstd.ToString();
@@ -5073,7 +5269,9 @@ namespace TGTheraS4 {
                         {
                             tmp4 = tmp4.ToString().Substring(0, tmp4.ToString().IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     pdf_haben = tmp4;
 
@@ -5084,7 +5282,9 @@ namespace TGTheraS4 {
                         {
                             tmp5 = tmp5.ToString().Substring(0, tmp5.ToString().IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     pdf_Krank = tmp5;
                     //test area
@@ -5102,13 +5302,18 @@ namespace TGTheraS4 {
                         {
                             tmp3 = tmp3.Substring(0, tmp3.IndexOf(',') + 3);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                     pdf_uberganz = tmp3;
                 }
                 return time2;
             }
-            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             return null;
         }
 
@@ -5125,13 +5330,16 @@ namespace TGTheraS4 {
             saveFileDialog1.Filter = "PDF(*.pdf)|*.pdf";
             saveFileDialog1.Title = "PDF Speichern";
             WorkingTime eins = wt[0];
-            saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString() + "_" + eins.username.Replace(' ', '_') + "_Abrechnung";
+            saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
+                                       DateTime.Now.Day.ToString() + "_" + eins.username.Replace(' ', '_') +
+                                       "_Abrechnung";
             Nullable<bool> result = saveFileDialog1.ShowDialog();
             if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
             {
                 CreateAFuckingPDF cafpdf = new CreateAFuckingPDF();
                 string pdfShizzle = "";
-                pdfShizzle += (DAAAAATUM.Month).ToString() + "." + DAAAAATUM.Year.ToString() + " - " + eins.username + "\n";
+                pdfShizzle += (DAAAAATUM.Month).ToString() + "." + DAAAAATUM.Year.ToString() + " - " + eins.username +
+                              "\n";
                 pdfShizzle += "Art     | Von                  | Bis                  | Kommentar \n";
                 foreach (WorkingTime item in wt)
                 {
@@ -5239,7 +5447,10 @@ namespace TGTheraS4 {
         {
             if (cmbworkingTimeUser.SelectedIndex != 0)
             {
-                DateTime date = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
+                DateTime date =
+                    new DateTime(
+                        Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                            .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
                 pdfShitIndividual(date, time, true);
             }
         }
@@ -5282,7 +5493,7 @@ namespace TGTheraS4 {
 
         private void dgvZeiterfassung_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            WorkingTime wt = (WorkingTime)dgvZeiterfassung.SelectedItem;
+            WorkingTime wt = (WorkingTime) dgvZeiterfassung.SelectedItem;
             if (wt.art != "Urlaub")
             {
                 TimeSpan ts = wt.datetimeto - wt.datetimefrom;
@@ -5304,62 +5515,11 @@ namespace TGTheraS4 {
             }
         }
 
-        private void Gmail_LoadCompleted_1(object sender, NavigationEventArgs e)
-        {
-
-            //string[] temp = c.getMailCredentials_Gmail(u.Id).Split('$');
-
-            try
-            {
-
-                if (gmailFirst)
-                {
-                    HTMLDocument doc = (HTMLDocument)this.Gmail.Document;
-
-                    //doc.getElementsByName("Email").item(0).SetAttribute("value", temp[0]);
-                    //doc.getElementsByName("Passwd").item(0).SetAttribute("value", temp[1]);
-
-                    doc.getElementsByName("Email").item(0).SetAttribute("value", "theras4.tg");
-                    doc.getElementsByName("Passwd").item(0).SetAttribute("value", "theragem1999");
-
-                    //doc.getElementsByName("PersistentCookie").item(0).removeAttribute("checked");
-
-                    foreach (mshtml.HTMLFormElement form in doc.forms)
-                    {
-                        var children = form as IEnumerable;
-                        var inputs = children.OfType<mshtml.HTMLInputElement>();
-                        var submitButton = inputs.First(i => i.type == "submit");
-                        var checkbox = inputs.First(i => i.type == "checkbox");
-                        checkbox.click();
-                        submitButton.click();
-                        break;
-                    }
-
-                    gload++;
-                    gmailFirst = false;
-
-                    calendarCancelPress();
-                }
-                else
-                {
-                    calendarCancelPress();
-                }
-            }
-            catch
-            {
-
-                gmailFirst = false;
-                /**/
-                /**/
-            }
-
-
-        }
-
         private void DeleteAllCookies()
         {
             //Set the current user cookie to have expired yesterday
-            string cookie = String.Format("c_user=; expires={0:R}; path=/; domain=.google.com", DateTime.UtcNow.AddDays(-1).ToString("R"));
+            string cookie = String.Format("c_user=; expires={0:R}; path=/; domain=.google.com",
+                DateTime.UtcNow.AddDays(-1).ToString("R"));
             Application.SetCookie(new Uri("https://www.google.com/calendar?hl=de"), cookie);
         }
 
@@ -5402,7 +5562,10 @@ namespace TGTheraS4 {
                     //dgv_Doc_List.ItemsSource = doclist;
                 }
             }
-            catch { MessageBox.Show("Wählen Sie einen Klienten aus!"); }
+            catch
+            {
+                MessageBox.Show("Wählen Sie einen Klienten aus!");
+            }
             hide_waiting();
         }
 
@@ -5480,7 +5643,7 @@ namespace TGTheraS4 {
             view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
-                Document doc = (Document)dgv_Doc_List.SelectedItem;
+                Document doc = (Document) dgv_Doc_List.SelectedItem;
 
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.FileName = doc.path.Substring(doc.path.LastIndexOf('/') + 1);
@@ -5493,7 +5656,8 @@ namespace TGTheraS4 {
                     if (ftp.DownloadFile(doc.path, saveFileDialog1.FileName))
                     {
 
-                        if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             try
                             {
@@ -5501,7 +5665,9 @@ namespace TGTheraS4 {
                                 tmp = true;
                                 Process.Start(saveFileDialog1.FileName).WaitForExit();
                             }
-                            catch { }
+                            catch
+                            {
+                            }
                         }
                     }
                     if (tmp == false)
@@ -5528,7 +5694,9 @@ namespace TGTheraS4 {
 
 
                 FtpHandler ftp = new FtpHandler();
-                bool ergeb = ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
+                bool ergeb = ftp.UploadFile(ofd.FileName,
+                    "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) +
+                    "/documents/" + name);
                 if (ergeb)
                 {
                     long a = new FileInfo(ofd.FileName).Length;
@@ -5536,7 +5704,8 @@ namespace TGTheraS4 {
                     int b = Convert.ToInt32(Math.Round(Convert.ToDecimal(a / 1024)));
 
 
-                    c.addpath(name, Convert.ToInt32(u.Id), Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())), tit.titel, b);
+                    c.addpath(name, Convert.ToInt32(u.Id),
+                        Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())), tit.titel, b);
                 }
                 update_docs(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())));
             }
@@ -5578,7 +5747,7 @@ namespace TGTheraS4 {
             view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
-                Document doc = (Document)dgv_Doc_List.SelectedItem;
+                Document doc = (Document) dgv_Doc_List.SelectedItem;
 
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.ShowDialog();
@@ -5590,14 +5759,18 @@ namespace TGTheraS4 {
 
 
                     FtpHandler ftp = new FtpHandler();
-                    ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
+                    ftp.UploadFile(ofd.FileName,
+                        "data/clients/" +
+                        Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" +
+                        name);
 
                     long a = new FileInfo(ofd.FileName).Length;
 
                     int b = Convert.ToInt32(Math.Round(Convert.ToDecimal(a / 1024)));
 
 
-                    c.updatePath(doc, name, Convert.ToInt32(u.Id), Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())), tit.titel, b);
+                    c.updatePath(doc, name, Convert.ToInt32(u.Id),
+                        Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())), tit.titel, b);
                     update_docs(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())));
                 }
             }
@@ -5612,7 +5785,10 @@ namespace TGTheraS4 {
         {
             setdgvWorkingTime();
 
-            DateTime date = new DateTime(Convert.ToInt32(cmb_Year.SelectedValue.ToString().Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
+            DateTime date =
+                new DateTime(
+                    Convert.ToInt32(cmb_Year.SelectedValue.ToString()
+                        .Substring(cmb_Year.SelectedValue.ToString().Length - 5)), cmb_Month.SelectedIndex + 1, 1);
 
             User a = new User();
             User b;
@@ -5640,9 +5816,10 @@ namespace TGTheraS4 {
             if (a.Kostalid == 0)
             {
                 List<WorkingTime> list = new List<WorkingTime>();
-                list = (List<WorkingTime>)dgvZeiterfassung.ItemsSource;
+                list = (List<WorkingTime>) dgvZeiterfassung.ItemsSource;
                 List<string> namen = new List<string>();
-                string ausgabe = "Folgende Mitarbeiter haben im " + cmb_Month.Text + " " + cmb_Year.Text + " Kilometergeld eingetragen: \n";
+                string ausgabe = "Folgende Mitarbeiter haben im " + cmb_Month.Text + " " + cmb_Year.Text +
+                                 " Kilometergeld eingetragen: \n";
                 string id = "";
                 foreach (WorkingTime wt in list)
                 {
@@ -5663,11 +5840,13 @@ namespace TGTheraS4 {
                 bool set = c.getKilometerGeldset(a.Kostalid, date.Year, date.Month);
                 if (set)
                 {
-                    MessageBox.Show(cmbworkingTimeUser.Text + " hat im " + cmb_Month.Text + " " + cmb_Year.Text + " Kilometergeld eingetragen.");
+                    MessageBox.Show(cmbworkingTimeUser.Text + " hat im " + cmb_Month.Text + " " + cmb_Year.Text +
+                                    " Kilometergeld eingetragen.");
                 }
                 else
                 {
-                    MessageBox.Show(cmbworkingTimeUser.Text + " hat im " + cmb_Month.Text + " " + cmb_Year.Text + " kein Kilometergeld eingetragen.");
+                    MessageBox.Show(cmbworkingTimeUser.Text + " hat im " + cmb_Month.Text + " " + cmb_Year.Text +
+                                    " kein Kilometergeld eingetragen.");
                 }
 
             }
@@ -5697,8 +5876,13 @@ namespace TGTheraS4 {
                 txtBxBelNr.Text = (c.getHighestKBBelNr(hid) + 1).ToString();
                 lblKBMaxBelNr.Content = "(" + c.getHighestKBBelNr(hid).ToString() + " ist die Höchste)";
                 lblKBKassStand.Content = "Kassastand: " + c.getKBBallance(hid);
-                dgvKB.ItemsSource = c.getKBEintr(hid, dtPckrKBFiltVon.SelectedDate.Value.ToString("yyyy-MM-dd"), dtPckrKBFiltBis.SelectedDate.Value.ToString("yyyy-MM-dd"));
-                lblKBKst1.Content = "Kassastand am 1." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString() + ": " + c.getKBBal1(cmbBxKBHaus.SelectedValue.ToString(), (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString("yyyy-MM-dd"));
+                dgvKB.ItemsSource = c.getKBEintr(hid, dtPckrKBFiltVon.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                    dtPckrKBFiltBis.SelectedDate.Value.ToString("yyyy-MM-dd"));
+                lblKBKst1.Content = "Kassastand am 1." + DateTime.Now.Month.ToString() + "." +
+                                    DateTime.Now.Year.ToString() + ": " +
+                                    c.getKBBal1(cmbBxKBHaus.SelectedValue.ToString(),
+                                        (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))
+                                        .ToString("yyyy-MM-dd"));
             }
             lblKBErr.Content = "";
             lblKBErr.Foreground = Brushes.Red;
@@ -5768,10 +5952,11 @@ namespace TGTheraS4 {
                         {
                             c.addKBKnr(txtBxKBKnrKnr.Text, txtBxKBKnrBeschr.Text, cmbBxKBHaus.SelectedValue.ToString());
 
-                            lblKBErr.Content = "Kontonummer eingetragen: " + txtBxKBKnrKnr.Text + " mit Beschreibung \"" + txtBxKBKnrBeschr.Text + "\"";
+                            lblKBErr.Content = "Kontonummer eingetragen: " + txtBxKBKnrKnr.Text +
+                                               " mit Beschreibung \"" + txtBxKBKnrBeschr.Text + "\"";
                             lblKBErr.Foreground = Brushes.Green;
 
-                            KontoNr ktonr = (KontoNr)cmbBxKBKnR.SelectedItem;
+                            KontoNr ktonr = (KontoNr) cmbBxKBKnR.SelectedItem;
                             List<KontoNr> knrs = c.getKBKontoNr(cmbBxKBHaus.SelectedValue.ToString());
                             cmbBxKBKnR.ItemsSource = knrs;
                             cmbBxKBKnR.DisplayMemberPath = "ges";
@@ -5780,7 +5965,7 @@ namespace TGTheraS4 {
                             {
                                 for (int i = 0; i < cmbBxKBKnR.Items.Count; i++)
                                 {
-                                    if (((KontoNr)cmbBxKBKnR.Items[i]).Equals(ktonr))
+                                    if (((KontoNr) cmbBxKBKnR.Items[i]).Equals(ktonr))
                                     {
                                         cmbBxKBKnR.SelectedIndex = i;
                                         break;
@@ -5863,20 +6048,20 @@ namespace TGTheraS4 {
                     lblKBErr.Content = "Dieser Betrag ist ungültig!";
                     return;
                 }
-                if ((bool)rdBttnKBAbh.IsChecked)
+                if ((bool) rdBttnKBAbh.IsChecked)
                 {
                     br *= -1;
                     brutto = "-" + brutto;
                 }
-                if ((bool)rdBttnKBSteuers0.IsChecked)
+                if ((bool) rdBttnKBSteuers0.IsChecked)
                 {
                     steuers = "0";
                 }
-                else if ((bool)rdBttnKBSteuers10.IsChecked)
+                else if ((bool) rdBttnKBSteuers10.IsChecked)
                 {
                     steuers = "10";
                 }
-                else if ((bool)rdBttnKBSteuers20.IsChecked)
+                else if ((bool) rdBttnKBSteuers20.IsChecked)
                 {
                     steuers = "20";
                 }
@@ -5890,7 +6075,8 @@ namespace TGTheraS4 {
                 lblKBErr.Content = "Datensatz eingetragen";
                 lblKBErr.Foreground = Brushes.Green;
                 KBEingetr();
-                dgvKB.ItemsSource = c.getKBEintr(hid, dtPckrKBFiltVon.SelectedDate.Value.ToString("yyyy-MM-dd"), dtPckrKBFiltBis.SelectedDate.Value.ToString("yyyy-MM-dd"));
+                dgvKB.ItemsSource = c.getKBEintr(hid, dtPckrKBFiltVon.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                    dtPckrKBFiltBis.SelectedDate.Value.ToString("yyyy-MM-dd"));
             }
             catch
             {
@@ -5903,7 +6089,7 @@ namespace TGTheraS4 {
         private void bttnKBExport_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            List<KassaBuchNode> kbns = ((List<KassaBuchNode>)dgvKB.ItemsSource);
+            List<KassaBuchNode> kbns = ((List<KassaBuchNode>) dgvKB.ItemsSource);
             SelectKBColumns skbc = new SelectKBColumns(false);
             string delimiter = ";";
             string file = String.Empty;
@@ -5911,13 +6097,13 @@ namespace TGTheraS4 {
             sfd.Filter = "CSV-Datei|*.csv";
             sfd.Title = "CSV Exportieren";
             skbc.ShowDialog();
-            if (skbc.ok && (bool)sfd.ShowDialog() && sfd.FileName != "")
+            if (skbc.ok && (bool) sfd.ShowDialog() && sfd.FileName != "")
             {
                 try
                 {
                     for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)
                     {
-                        switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                        switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                         {
                             case "Belegnummer":
                                 file += "Belegnummer";
@@ -5977,7 +6163,7 @@ namespace TGTheraS4 {
                     {
                         for (int j = 0; j < skbc.dgvKBOrder.Columns.Count; j++)
                         {
-                            switch ((string)skbc.dgvKBOrder.Columns[j].Header)
+                            switch ((string) skbc.dgvKBOrder.Columns[j].Header)
                             {
                                 case "Belegnummer":
                                     file += kbns[i].belnr.ToString();
@@ -5992,7 +6178,9 @@ namespace TGTheraS4 {
                                     break;
 
                                 case "Bruttobetrag":
-                                    file += (kbns[i].eing.Length > kbns[i].ausg.Length) ? kbns[i].eing : "-" + kbns[i].ausg;
+                                    file += (kbns[i].eing.Length > kbns[i].ausg.Length)
+                                        ? kbns[i].eing
+                                        : "-" + kbns[i].ausg;
                                     break;
 
                                 case "Einnahmen":
@@ -6038,7 +6226,8 @@ namespace TGTheraS4 {
                     {
                         sw.Write(file);
                     }
-                    if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo,
+                            MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         try
                         {
@@ -6063,13 +6252,24 @@ namespace TGTheraS4 {
 
         private void bttnKBPrint_Click(object sender, RoutedEventArgs e)
         {
-            if (dgvKB.ItemsSource == null || ((List<KassaBuchNode>)dgvKB.ItemsSource).Count < 1)
+            if (dgvKB.ItemsSource == null || ((List<KassaBuchNode>) dgvKB.ItemsSource).Count < 1)
             {
                 lblKBErr.Content = "Die aktuelle Liste ist leer";
                 return;
             }
             string pädehef = "";
-            int lbel = -1, ldat = -1, lcom = -1, lbrutt = -1, lein = -1, laus = -1, lsteu = -1, lnett = -1, lmwst = -1, lkass = -1, lknr = -1, leingetr = -1;
+            int lbel = -1,
+                ldat = -1,
+                lcom = -1,
+                lbrutt = -1,
+                lein = -1,
+                laus = -1,
+                lsteu = -1,
+                lnett = -1,
+                lmwst = -1,
+                lkass = -1,
+                lknr = -1,
+                leingetr = -1;
             SelectKBColumns skbc = new SelectKBColumns(true);
             skbc.ShowDialog();
             if (skbc.canceled || !skbc.closed)
@@ -6097,17 +6297,19 @@ namespace TGTheraS4 {
             //└─┴─┴─┘
 
             //längste Zeichen
-            for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)  ////////////////////////////////////////////////////////////////////////////////////////////////////
+            for (int i = 0;
+                i < skbc.dgvKBOrder.Columns.Count;
+                i++) ////////////////////////////////////////////////////////////////////////////////////////////////////
             {
-                switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                 {
                     case "Belegnummer":
                         lbel = 0;
                         for (int bel = 0; bel < dgvKB.Items.Count; bel++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[bel]).belnr.ToString().Length > lbel)
+                            if (((KassaBuchNode) dgvKB.Items[bel]).belnr.ToString().Length > lbel)
                             {
-                                lbel = ((KassaBuchNode)dgvKB.Items[bel]).belnr.ToString().Length;
+                                lbel = ((KassaBuchNode) dgvKB.Items[bel]).belnr.ToString().Length;
                             }
                         }
                         if (lbel < ("BelegNr.").Length)
@@ -6126,9 +6328,9 @@ namespace TGTheraS4 {
                         lcom = 0;
                         for (int com = 0; com < dgvKB.Items.Count; com++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[com]).bez.Length > lcom)
+                            if (((KassaBuchNode) dgvKB.Items[com]).bez.Length > lcom)
                             {
-                                lcom = ((KassaBuchNode)dgvKB.Items[com]).bez.Length;
+                                lcom = ((KassaBuchNode) dgvKB.Items[com]).bez.Length;
                             }
                         }
                         if (lcom < ("Kommentar").Length)
@@ -6142,13 +6344,13 @@ namespace TGTheraS4 {
                         lbrutt = 0;
                         for (int bru = 0; bru < dgvKB.Items.Count; bru++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[bru]).eing.Length > lbrutt)
+                            if (((KassaBuchNode) dgvKB.Items[bru]).eing.Length > lbrutt)
                             {
-                                lbrutt = ((KassaBuchNode)dgvKB.Items[bru]).eing.Length;
+                                lbrutt = ((KassaBuchNode) dgvKB.Items[bru]).eing.Length;
                             }
-                            if (("-" + ((KassaBuchNode)dgvKB.Items[bru]).ausg).Length > lbrutt)
+                            if (("-" + ((KassaBuchNode) dgvKB.Items[bru]).ausg).Length > lbrutt)
                             {
-                                lbrutt = ((KassaBuchNode)dgvKB.Items[bru]).ausg.Length;
+                                lbrutt = ((KassaBuchNode) dgvKB.Items[bru]).ausg.Length;
                             }
                         }
                         if (lbrutt < ("Brutto").Length)
@@ -6162,9 +6364,9 @@ namespace TGTheraS4 {
                         lein = 0;
                         for (int ein = 0; ein < dgvKB.Items.Count; ein++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[ein]).eing.Length > lein)
+                            if (((KassaBuchNode) dgvKB.Items[ein]).eing.Length > lein)
                             {
-                                lein = ((KassaBuchNode)dgvKB.Items[ein]).eing.Length;
+                                lein = ((KassaBuchNode) dgvKB.Items[ein]).eing.Length;
                             }
                         }
                         if (lein < ("Einnahmen").Length)
@@ -6178,9 +6380,9 @@ namespace TGTheraS4 {
                         laus = 0;
                         for (int aus = 0; aus < dgvKB.Items.Count; aus++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[aus]).ausg.Length > laus)
+                            if (((KassaBuchNode) dgvKB.Items[aus]).ausg.Length > laus)
                             {
-                                laus = ((KassaBuchNode)dgvKB.Items[aus]).ausg.Length;
+                                laus = ((KassaBuchNode) dgvKB.Items[aus]).ausg.Length;
                             }
                         }
                         if (laus < ("Ausgaben").Length)
@@ -6194,9 +6396,9 @@ namespace TGTheraS4 {
                         lsteu = 0;
                         for (int steu = 0; steu < dgvKB.Items.Count; steu++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[steu]).steuers.ToString().Length > lsteu)
+                            if (((KassaBuchNode) dgvKB.Items[steu]).steuers.ToString().Length > lsteu)
                             {
-                                lsteu = ((KassaBuchNode)dgvKB.Items[steu]).steuers.ToString().Length;
+                                lsteu = ((KassaBuchNode) dgvKB.Items[steu]).steuers.ToString().Length;
                             }
                         }
                         if (lsteu < ("Steuersatz").Length)
@@ -6210,9 +6412,9 @@ namespace TGTheraS4 {
                         lnett = 0;
                         for (int nett = 0; nett < dgvKB.Items.Count; nett++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[nett]).netto.ToString().Length > lnett)
+                            if (((KassaBuchNode) dgvKB.Items[nett]).netto.ToString().Length > lnett)
                             {
-                                lnett = ((KassaBuchNode)dgvKB.Items[nett]).netto.ToString().Length;
+                                lnett = ((KassaBuchNode) dgvKB.Items[nett]).netto.ToString().Length;
                             }
                         }
                         if (lnett < ("Netto").Length)
@@ -6226,9 +6428,9 @@ namespace TGTheraS4 {
                         lmwst = 0;
                         for (int mwst = 0; mwst < dgvKB.Items.Count; mwst++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[mwst]).mwst.ToString().Length > lmwst)
+                            if (((KassaBuchNode) dgvKB.Items[mwst]).mwst.ToString().Length > lmwst)
                             {
-                                lmwst = ((KassaBuchNode)dgvKB.Items[mwst]).mwst.ToString().Length;
+                                lmwst = ((KassaBuchNode) dgvKB.Items[mwst]).mwst.ToString().Length;
                             }
                         }
                         if (lmwst < ("MWST").Length)
@@ -6242,9 +6444,9 @@ namespace TGTheraS4 {
                         lkass = 0;
                         for (int kass = 0; kass < dgvKB.Items.Count; kass++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[kass]).kassst.ToString().Length > lkass)
+                            if (((KassaBuchNode) dgvKB.Items[kass]).kassst.ToString().Length > lkass)
                             {
-                                lkass = ((KassaBuchNode)dgvKB.Items[kass]).kassst.ToString().Length;
+                                lkass = ((KassaBuchNode) dgvKB.Items[kass]).kassst.ToString().Length;
                             }
                         }
                         if (lkass < ("Kassastand").Length)
@@ -6258,9 +6460,9 @@ namespace TGTheraS4 {
                         lknr = 0;
                         for (int knr = 0; knr < dgvKB.Items.Count; knr++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[knr]).knr.ToString().Length > lknr)
+                            if (((KassaBuchNode) dgvKB.Items[knr]).knr.ToString().Length > lknr)
                             {
-                                lknr = ((KassaBuchNode)dgvKB.Items[knr]).knr.ToString().Length;
+                                lknr = ((KassaBuchNode) dgvKB.Items[knr]).knr.ToString().Length;
                             }
                         }
                         if (lknr < ("KontoNr.").Length)
@@ -6274,9 +6476,9 @@ namespace TGTheraS4 {
                         leingetr = 0;
                         for (int eingetr = 0; eingetr < dgvKB.Items.Count; eingetr++)
                         {
-                            if (((KassaBuchNode)dgvKB.Items[eingetr]).name.Length > leingetr)
+                            if (((KassaBuchNode) dgvKB.Items[eingetr]).name.Length > leingetr)
                             {
-                                leingetr = ((KassaBuchNode)dgvKB.Items[eingetr]).name.Length;
+                                leingetr = ((KassaBuchNode) dgvKB.Items[eingetr]).name.Length;
                             }
                         }
                         if (leingetr < ("Einträger").Length)
@@ -6285,14 +6487,15 @@ namespace TGTheraS4 {
                         }
                         len += leingetr;
                         break;
-                }//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                } //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             }
 
             if (len > 90)
             {
                 if (lbel == -1 ^ len - lcom > 90)
                 {
-                    MessageBox.Show("Es ist nicht genug Platz für die gewählten Spalten verfügbar, der PDF-Export kann nicht erfolgen!");
+                    MessageBox.Show(
+                        "Es ist nicht genug Platz für die gewählten Spalten verfügbar, der PDF-Export kann nicht erfolgen!");
                     return;
                 }
                 else
@@ -6302,7 +6505,7 @@ namespace TGTheraS4 {
                     len -= lcom;
                     for (int j = 0; j < dgvKB.Items.Count; j++)
                     {
-                        comsp = ((KassaBuchNode)dgvKB.Items[j]).bez.Split(' ');
+                        comsp = ((KassaBuchNode) dgvKB.Items[j]).bez.Split(' ');
                         for (int k = 0; k < comsp.Length; k++)
                         {
                             if (comsp[k].Length > lcomsp)
@@ -6317,7 +6520,8 @@ namespace TGTheraS4 {
                     }
                     if (len + lcomsp > 90)
                     {
-                        MessageBox.Show("Es ist nicht genug Platz für die gewählten Spalten verfügbar, der PDF-Export kann nicht erfolgen!");
+                        MessageBox.Show(
+                            "Es ist nicht genug Platz für die gewählten Spalten verfügbar, der PDF-Export kann nicht erfolgen!");
                         return;
                     }
                     lcom = 89 - len;
@@ -6336,7 +6540,7 @@ namespace TGTheraS4 {
             pädehef += "┌─";
             for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)
             {
-                switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                 {
                     case "Belegnummer":
                         pädehef += fillSpace(lbel, "─");
@@ -6399,7 +6603,7 @@ namespace TGTheraS4 {
             pädehef += "│ ";
             for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)
             {
-                switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                 {
                     case "Belegnummer":
                         pädehef += "BelegNr.";
@@ -6474,7 +6678,7 @@ namespace TGTheraS4 {
             pädehef += "├─";
             for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)
             {
-                switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                 {
                     case "Belegnummer":
                         pädehef += fillSpace(lbel, "─");
@@ -6542,27 +6746,27 @@ namespace TGTheraS4 {
                 pädehef += "│ ";
                 for (int j = 0; j < skbc.dgvKBOrder.Columns.Count; j++)
                 {
-                    switch ((string)skbc.dgvKBOrder.Columns[j].Header)
+                    switch ((string) skbc.dgvKBOrder.Columns[j].Header)
                     {
                         case "Belegnummer":
-                            pädehef += fillSpace(lbel - ((KassaBuchNode)dgvKB.Items[i]).belnr.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).belnr.ToString();
+                            pädehef += fillSpace(lbel - ((KassaBuchNode) dgvKB.Items[i]).belnr.ToString().Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).belnr.ToString();
                             break;
 
                         case "Datum":
-                            pädehef += fillSpace(ldat - ((KassaBuchNode)dgvKB.Items[i]).dat.Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).dat;
+                            pädehef += fillSpace(ldat - ((KassaBuchNode) dgvKB.Items[i]).dat.Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).dat;
                             break;
 
                         case "Kommentar":
-                            if (((KassaBuchNode)dgvKB.Items[i]).bez.Length <= lcom)
+                            if (((KassaBuchNode) dgvKB.Items[i]).bez.Length <= lcom)
                             {
-                                pädehef += ((KassaBuchNode)dgvKB.Items[i]).bez;
-                                pädehef += fillSpace(lcom - ((KassaBuchNode)dgvKB.Items[i]).bez.Length, " ");
+                                pädehef += ((KassaBuchNode) dgvKB.Items[i]).bez;
+                                pädehef += fillSpace(lcom - ((KassaBuchNode) dgvKB.Items[i]).bez.Length, " ");
                             }
                             else
                             {
-                                string[] words = ((KassaBuchNode)dgvKB.Items[i]).bez.Split(' ');
+                                string[] words = ((KassaBuchNode) dgvKB.Items[i]).bez.Split(' ');
                                 int usedlength = 0;
                                 for (int l = 0; l < words.Length; l++)
                                 {
@@ -6593,54 +6797,57 @@ namespace TGTheraS4 {
                         case "Bruttobetrag":
                             if (lein > laus)
                             {
-                                pädehef += fillSpace(lbrutt - ((KassaBuchNode)dgvKB.Items[i]).eing.Length, " ");
-                                pädehef += ((KassaBuchNode)dgvKB.Items[i]).eing;
+                                pädehef += fillSpace(lbrutt - ((KassaBuchNode) dgvKB.Items[i]).eing.Length, " ");
+                                pädehef += ((KassaBuchNode) dgvKB.Items[i]).eing;
                             }
                             else
                             {
-                                pädehef += fillSpace(lbrutt - ("-" + ((KassaBuchNode)dgvKB.Items[i]).ausg).Length, " ");
-                                pädehef += ("-" + ((KassaBuchNode)dgvKB.Items[i]).ausg);
+                                pädehef += fillSpace(lbrutt - ("-" + ((KassaBuchNode) dgvKB.Items[i]).ausg).Length,
+                                    " ");
+                                pädehef += ("-" + ((KassaBuchNode) dgvKB.Items[i]).ausg);
                             }
                             break;
 
                         case "Einnahmen":
-                            pädehef += fillSpace(lein - ((KassaBuchNode)dgvKB.Items[i]).eing.Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).eing;
+                            pädehef += fillSpace(lein - ((KassaBuchNode) dgvKB.Items[i]).eing.Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).eing;
                             break;
 
                         case "Ausgaben":
-                            pädehef += fillSpace(laus - ((KassaBuchNode)dgvKB.Items[i]).ausg.Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).ausg;
+                            pädehef += fillSpace(laus - ((KassaBuchNode) dgvKB.Items[i]).ausg.Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).ausg;
                             break;
 
                         case "Steuersatz":
-                            pädehef += fillSpace(lsteu - ((KassaBuchNode)dgvKB.Items[i]).steuers.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).steuers.ToString();
+                            pädehef += fillSpace(lsteu - ((KassaBuchNode) dgvKB.Items[i]).steuers.ToString().Length,
+                                " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).steuers.ToString();
                             break;
 
                         case "Nettobetrag":
-                            pädehef += fillSpace(lnett - ((KassaBuchNode)dgvKB.Items[i]).netto.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).netto.ToString();
+                            pädehef += fillSpace(lnett - ((KassaBuchNode) dgvKB.Items[i]).netto.ToString().Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).netto.ToString();
                             break;
 
                         case "Mehrwertsteuer":
-                            pädehef += fillSpace(lmwst - ((KassaBuchNode)dgvKB.Items[i]).mwst.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).mwst.ToString();
+                            pädehef += fillSpace(lmwst - ((KassaBuchNode) dgvKB.Items[i]).mwst.ToString().Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).mwst.ToString();
                             break;
 
                         case "Kassastand":
-                            pädehef += fillSpace(lkass + -((KassaBuchNode)dgvKB.Items[i]).kassst.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).kassst.ToString();
+                            pädehef += fillSpace(lkass + -((KassaBuchNode) dgvKB.Items[i]).kassst.ToString().Length,
+                                " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).kassst.ToString();
                             break;
 
                         case "Kontonummer":
-                            pädehef += fillSpace(lknr - ((KassaBuchNode)dgvKB.Items[i]).knr.ToString().Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).knr.ToString();
+                            pädehef += fillSpace(lknr - ((KassaBuchNode) dgvKB.Items[i]).knr.ToString().Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).knr.ToString();
                             break;
 
                         case "Eingetragen von":
-                            pädehef += fillSpace(leingetr - ((KassaBuchNode)dgvKB.Items[i]).name.Length, " ");
-                            pädehef += ((KassaBuchNode)dgvKB.Items[i]).name;
+                            pädehef += fillSpace(leingetr - ((KassaBuchNode) dgvKB.Items[i]).name.Length, " ");
+                            pädehef += ((KassaBuchNode) dgvKB.Items[i]).name;
                             break;
                     }
                     if (j == skbc.dgvKBOrder.Columns.Count - 1)
@@ -6658,7 +6865,7 @@ namespace TGTheraS4 {
                     pädehef += "│ ";
                     for (int j = 0; j < skbc.dgvKBOrder.Columns.Count; j++)
                     {
-                        switch ((string)skbc.dgvKBOrder.Columns[j].Header)
+                        switch ((string) skbc.dgvKBOrder.Columns[j].Header)
                         {
                             case "Belegnummer":
                                 pädehef += fillSpace(lbel, " ");
@@ -6753,7 +6960,7 @@ namespace TGTheraS4 {
             pädehef += "└─";
             for (int i = 0; i < skbc.dgvKBOrder.Columns.Count; i++)
             {
-                switch ((string)skbc.dgvKBOrder.Columns[i].Header)
+                switch ((string) skbc.dgvKBOrder.Columns[i].Header)
                 {
                     case "Belegnummer":
                         pädehef += fillSpace(lbel, "─");
@@ -6814,11 +7021,12 @@ namespace TGTheraS4 {
             }
 
             kstlpls.text = pädehef;
-            if ((bool)sfd.ShowDialog() && sfd.FileName != "")
+            if ((bool) sfd.ShowDialog() && sfd.FileName != "")
             {
                 kstlpls.truenamebro = sfd.FileName;
                 kstlpls.createThisShit2();
-                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
                 {
                     try
                     {
@@ -6855,8 +7063,8 @@ namespace TGTheraS4 {
                     kbrekstopp = false;
                     return;
                 }
-                List<KassaBuchNode> liste = (List<KassaBuchNode>)dgvKB.ItemsSource;
-                KassaBuchNode node = (KassaBuchNode)rowBeingEdited.Item;
+                List<KassaBuchNode> liste = (List<KassaBuchNode>) dgvKB.ItemsSource;
+                KassaBuchNode node = (KassaBuchNode) rowBeingEdited.Item;
                 DateTime dt;
                 float f;
 
@@ -6869,12 +7077,14 @@ namespace TGTheraS4 {
                     case "Datum":
                         if (DateTime.TryParse(node.dat, out dt))
                         {
-                            c.updateKB("Datum", "\'" + dt.ToString("yyyy-MM-dd") + "\'", node.id.ToString()); //Potentieller Bug ?
+                            c.updateKB("Datum", "\'" + dt.ToString("yyyy-MM-dd") + "\'",
+                                node.id.ToString()); //Potentieller Bug ?
                             lblKBErr.Content = "";
                         }
                         else
                         {
-                            lblKBErr.Content = "Kann Datum nicht verarbeiten! Verwenden Sie \"dd.MM.yyyy\" (z.B. 1.1.2014)";
+                            lblKBErr.Content =
+                                "Kann Datum nicht verarbeiten! Verwenden Sie \"dd.MM.yyyy\" (z.B. 1.1.2014)";
                             return;
                         }
                         break;
@@ -7000,7 +7210,8 @@ namespace TGTheraS4 {
                     case "Kontonummer":
                         //Existiert diese Kontonummer?
                         int knrid;
-                        if ((knrid = c.getKBKnrIDByKnr(node.knr.ToString(), cmbBxKBHaus.SelectedValue.ToString())) != -1)
+                        if ((knrid = c.getKBKnrIDByKnr(node.knr.ToString(), cmbBxKBHaus.SelectedValue.ToString())) !=
+                            -1)
                         {
                             c.updateKB("KontoNr", knrid.ToString(), node.id.ToString());
                             lblKBErr.Content = "";
@@ -7013,7 +7224,8 @@ namespace TGTheraS4 {
                     case "Eingetragen von":
                         //Existiert name?
                         int uid;
-                        if ((uid = c.getKBUserIDByName(node.name.ToString(), cmbBxKBHaus.SelectedValue.ToString())) != -1)
+                        if ((uid = c.getKBUserIDByName(node.name.ToString(), cmbBxKBHaus.SelectedValue.ToString())) !=
+                            -1)
                         {
                             c.updateKB("EintrUserID", uid.ToString(), node.id.ToString());
                             lblKBErr.Content = "";
@@ -7036,7 +7248,7 @@ namespace TGTheraS4 {
         private void dgvKB_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             DataGridRow rowView = e.Row;
-            colhd = (string)e.Column.Header;
+            colhd = (string) e.Column.Header;
             rowBeingEdited = rowView;
         }
 
@@ -7086,13 +7298,14 @@ namespace TGTheraS4 {
         {
             //dgBodyInfo
             string text = "";
-            List<BodyInfo> tmp = (List<BodyInfo>)dgBodyInfo.ItemsSource;
+            List<BodyInfo> tmp = (List<BodyInfo>) dgBodyInfo.ItemsSource;
             if (tmp != null && tmp.Count > 0 && cmbGuG.Text != "")
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "PDF(*.pdf)|*.pdf";
                 saveFileDialog1.Title = "PDF Speichern";
-                saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString() + "_" + cmbGuG.Text + "_GuG";
+                saveFileDialog1.FileName = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
+                                           DateTime.Now.Day.ToString() + "_" + cmbGuG.Text + "_GuG";
                 Nullable<bool> result = saveFileDialog1.ShowDialog();
                 if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
                 {
@@ -7129,7 +7342,10 @@ namespace TGTheraS4 {
                     update_pics(Convert.ToInt32(vid));
                 }
             }
-            catch { MessageBox.Show("Wählen Sie einen Klienten aus!"); }
+            catch
+            {
+                MessageBox.Show("Wählen Sie einen Klienten aus!");
+            }
 
         }
 
@@ -7197,10 +7413,11 @@ namespace TGTheraS4 {
 
         private void dgv_Doc_List_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Document doc = (Document)dgv_Doc_List.SelectedItem;
+            Document doc = (Document) dgv_Doc_List.SelectedItem;
             string speicherort = System.Reflection.Assembly.GetExecutingAssembly().Location;
             speicherort = speicherort.Substring(0, speicherort.LastIndexOf('\\'));
-            speicherort += "\\Temp" + DateTime.Now.Ticks.ToString() + doc.path.Substring(doc.path.LastIndexOf('.', doc.path.Length - 1));
+            speicherort += "\\Temp" + DateTime.Now.Ticks.ToString() +
+                           doc.path.Substring(doc.path.LastIndexOf('.', doc.path.Length - 1));
             FtpHandler ftp = new FtpHandler();
             if (ftp.DownloadFile(doc.path, speicherort))
             {
@@ -7222,11 +7439,15 @@ namespace TGTheraS4 {
 
                     Process.Start(speicherort);
                 }
-                catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
 
             }
 
         }
+
         private void dgv_wiki_List_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             /* Vorschau -- Deaktiviert
@@ -7262,7 +7483,7 @@ namespace TGTheraS4 {
         {
             if (dataGrid2.SelectedIndex != -1)
             {
-                Document doc = (Document)dataGrid2.SelectedItem;
+                Document doc = (Document) dataGrid2.SelectedItem;
 
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.FileName = doc.path.Substring(doc.path.LastIndexOf('/') + 1);
@@ -7273,14 +7494,18 @@ namespace TGTheraS4 {
                     if (ftp.DownloadFile(doc.path, saveFileDialog1.FileName))
                     {
 
-                        if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             try
                             {
                                 Process.Start(saveFileDialog1.FileName).WaitForExit();
-                                update_pics(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())));
+                                update_pics(Convert.ToInt32(
+                                    c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())));
                             }
-                            catch { }
+                            catch
+                            {
+                            }
                         }
                     }
                 }
@@ -7294,7 +7519,8 @@ namespace TGTheraS4 {
         private void btn_Pic_Up_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png";//"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
+            ofd.Filter =
+                "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png"; //"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
             ofd.ShowDialog();
             Title tit = new Title(c);
             tit.ShowDialog();
@@ -7304,14 +7530,17 @@ namespace TGTheraS4 {
 
 
                 FtpHandler ftp = new FtpHandler();
-                ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
+                ftp.UploadFile(ofd.FileName,
+                    "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) +
+                    "/documents/" + name);
 
                 long a = new FileInfo(ofd.FileName).Length;
 
                 int b = Convert.ToInt32(Math.Round(Convert.ToDecimal(a / 1024)));
 
 
-                c.addpath_pics(name, Convert.ToInt32(u.Id), Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())), tit.titel, b);
+                c.addpath_pics(name, Convert.ToInt32(u.Id),
+                    Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())), tit.titel, b);
                 update_pics(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())));
             }
         }
@@ -7320,10 +7549,11 @@ namespace TGTheraS4 {
         {
             if (dataGrid2.SelectedIndex != -1)
             {
-                Document doc = (Document)dataGrid2.SelectedItem;
+                Document doc = (Document) dataGrid2.SelectedItem;
 
                 OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png";//"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
+                ofd.Filter =
+                    "Image files (*.jpg, *.jpeg, , *.tif, *.png) | *.jpg; *.jpeg; *.tif; *.png"; //"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|TIF Files (*.tif)|*.tif";
                 ofd.ShowDialog();
                 Title tit = new Title(c);
                 tit.ShowDialog();
@@ -7333,14 +7563,18 @@ namespace TGTheraS4 {
 
 
                     FtpHandler ftp = new FtpHandler();
-                    ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
+                    ftp.UploadFile(ofd.FileName,
+                        "data/clients/" +
+                        Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) +
+                        "/documents/" + name);
 
                     long a = new FileInfo(ofd.FileName).Length;
 
                     int b = Convert.ToInt32(Math.Round(Convert.ToDecimal(a / 1024)));
 
 
-                    c.updatePath_pics(doc, name, Convert.ToInt32(u.Id), Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())), tit.titel, b);
+                    c.updatePath_pics(doc, name, Convert.ToInt32(u.Id),
+                        Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())), tit.titel, b);
                     update_pics(Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())));
                 }
             }
@@ -7382,11 +7616,12 @@ namespace TGTheraS4 {
 
             kostolpdf.text = fagit;
             kostolpdf.pdfTitle = "Kilometer Gesamtübersicht";
-            if ((bool)sfd.ShowDialog() && sfd.FileName != "")
+            if ((bool) sfd.ShowDialog() && sfd.FileName != "")
             {
                 kostolpdf.truenamebro = sfd.FileName;
                 kostolpdf.createThisShit2();
-                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
                 {
                     try
                     {
@@ -7437,11 +7672,12 @@ namespace TGTheraS4 {
 
             kostolpdf.text = fagit;
             kostolpdf.pdfTitle = "Kilometer Monatsstatistik";
-            if ((bool)sfd.ShowDialog() && sfd.FileName != "")
+            if ((bool) sfd.ShowDialog() && sfd.FileName != "")
             {
                 kostolpdf.truenamebro = sfd.FileName;
                 kostolpdf.createThisShit2();
-                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
                 {
                     try
                     {
@@ -7481,14 +7717,17 @@ namespace TGTheraS4 {
             {
                 string pdf = "";
                 int len = 0;
-                String mediid = (cmbMA.SelectedIndex != -1) ? c.getIdbyNameClients(cmbMA.SelectedValue.ToString()) : c.getIdbyNameClients(cmbKlientArchivAuswaehlen.SelectedValue.ToString());
+                String mediid = (cmbMA.SelectedIndex != -1)
+                    ? c.getIdbyNameClients(cmbMA.SelectedValue.ToString())
+                    : c.getIdbyNameClients(cmbKlientArchivAuswaehlen.SelectedValue.ToString());
                 MonthSelector ms = new MonthSelector();
                 ms.ShowDialog();
                 if (!ms.closed || ms.canceled)
                 {
                     return;
                 }
-                List<MediAkt> medilist = c.GetClientMed_Month(mediid, ms.calMS.DisplayDate.Month.ToString(), ms.calMS.DisplayDate.Year.ToString());
+                List<MediAkt> medilist = c.GetClientMed_Month(mediid, ms.calMS.DisplayDate.Month.ToString(),
+                    ms.calMS.DisplayDate.Year.ToString());
                 dgmedicalaction.ItemsSource = medilist;
                 for (int i = 0; i < medilist.Count; i++)
                 {
@@ -7500,7 +7739,8 @@ namespace TGTheraS4 {
                 pdf = "Datum      | Art" + fillSpace(len - "Art".Length, " ") + " | Beschreibung\n";
                 for (int i = 0; i < medilist.Count; i++)
                 {
-                    pdf += medilist[i].date + " | " + medilist[i].art + fillSpace(len - medilist[i].art.Length, " ") + " | " + medilist[i].desc + "\n";
+                    pdf += medilist[i].date + " | " + medilist[i].art + fillSpace(len - medilist[i].art.Length, " ") +
+                           " | " + medilist[i].desc + "\n";
                 }
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.FileName = "Medizinische_Aktionen-" + DateTime.Now.Date.ToString().Split(' ')[0];
@@ -7509,11 +7749,12 @@ namespace TGTheraS4 {
                 CreateAFuckingPDF kostolpdf = new CreateAFuckingPDF();
 
                 kostolpdf.text = pdf;
-                if ((bool)sfd.ShowDialog() && sfd.FileName != "")
+                if ((bool) sfd.ShowDialog() && sfd.FileName != "")
                 {
                     kostolpdf.truenamebro = sfd.FileName;
                     kostolpdf.createThisShit2();
-                    if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo,
+                            MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         try
                         {
@@ -7538,7 +7779,7 @@ namespace TGTheraS4 {
             view_waiting();
             if (dgv_Doc_List.SelectedIndex != -1)
             {
-                Document doc = (Document)dgv_Doc_List.SelectedItem;
+                Document doc = (Document) dgv_Doc_List.SelectedItem;
 
 
 
@@ -7557,7 +7798,7 @@ namespace TGTheraS4 {
         {
             if (dataGrid2.SelectedIndex != -1)
             {
-                Document doc = (Document)dataGrid2.SelectedItem;
+                Document doc = (Document) dataGrid2.SelectedItem;
 
 
 
@@ -7593,7 +7834,8 @@ namespace TGTheraS4 {
                 cmbMedis.Items.Add(medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%"));
             }
             //string[] fillings = c.getMedication(cmbMedicClient.SelectedValue.ToString(), DateTime.Today).Split('%');
-            string[] fillings = c.getMedicationForClient(cmbMedicClient.SelectedValue.ToString(), DateTime.Today, true, false).Split('%');
+            string[] fillings = c.getMedicationForClient(cmbMedicClient.SelectedValue.ToString(), DateTime.Today, true,
+                false).Split('%');
             foreach (string s in fillings)
             {
                 string[] temp = s.Split('$');
@@ -7601,11 +7843,13 @@ namespace TGTheraS4 {
                 {
                     if (temp[1] == "0" && temp[2] == "0" && temp[3] == "0" && temp[4] == "0")
                     {
-                        medicList.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4], false, false, false, false, temp[5], temp[6], DateTime.Today.ToString()));
+                        medicList.Add(new Medicaments((temp[0] + " (Bei Bedarf)"), temp[1], temp[2], temp[3], temp[4],
+                            false, false, false, false, temp[5], temp[6], DateTime.Today.ToString()));
                     }
                     else
                     {
-                        medicList.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], false, false, false, false, temp[5], temp[6], DateTime.Today.ToString()));
+                        medicList.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], false, false, false,
+                            false, temp[5], temp[6], DateTime.Today.ToString()));
                     }
                     if (c.checkMediIfObsolete(temp[6]))
                     {
@@ -7912,33 +8156,39 @@ namespace TGTheraS4 {
                             {
                                 pad = new List<PadMas>();
                                 dgPad.ItemsSource = new List<PadMas>();
-                                c.setPad(u.Id, c.getIdbyNameClients(cmbPad.Text), txtPad1.Text, txtPad2.Text, dpPad1.Text, dpPad2.Text);
+                                c.setPad(u.Id, c.getIdbyNameClients(cmbPad.Text), txtPad1.Text, txtPad2.Text,
+                                    dpPad1.Text, dpPad2.Text);
                                 pad = c.getPad(c.getIdbyNameClients(cmbPad.SelectedValue.ToString()));
                                 dgPad.ItemsSource = pad;
                             }
                             else
                             {
-                                MessageBox.Show("Das Von-Datum muss kleiner als das Bis-Datum sein!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                MessageBox.Show("Das Von-Datum muss kleiner als das Bis-Datum sein!", "Achtung!",
+                                    MessageBoxButton.OK, MessageBoxImage.Warning);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Bitte tragen Sie ein Bis-Datum ein!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show("Bitte tragen Sie ein Bis-Datum ein!", "Achtung!", MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Bitte tragen Sie ein Von-Datum ein!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Bitte tragen Sie ein Von-Datum ein!", "Achtung!", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Bitte tragen Sie eine Begründung ein!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Bitte tragen Sie eine Begründung ein!", "Achtung!", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Bitte tragen Sie eine Maßnahme ein!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Bitte tragen Sie eine Maßnahme ein!", "Achtung!", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -7947,22 +8197,24 @@ namespace TGTheraS4 {
             pad = new List<PadMas>();
             dgPad.ItemsSource = new List<PadMas>();
             pad = c.getPad(c.getIdbyNameClients(cmbPad.SelectedValue.ToString()));
-            dgPad.ItemsSource = pad; 
+            dgPad.ItemsSource = pad;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (dgHouseAll.SelectedIndex != -1)
             {
-                SelectedHouses.Add((Service)dgHouseAll.SelectedItem);
-                AllHouses.Remove((Service)dgHouseAll.SelectedItem);
+                SelectedHouses.Add((Service) dgHouseAll.SelectedItem);
+                AllHouses.Remove((Service) dgHouseAll.SelectedItem);
 
                 try
                 {
                     dgHouseSelected.ItemsSource = new List<Service>();
                     dgHouseAll.ItemsSource = new List<Service>();
                 }
-                catch { }
+                catch
+                {
+                }
 
                 dgHouseSelected.ItemsSource = SelectedHouses;
                 dgHouseAll.ItemsSource = AllHouses;
@@ -7973,15 +8225,17 @@ namespace TGTheraS4 {
         {
             if (dgHouseSelected.SelectedIndex != -1)
             {
-                AllHouses.Add((Service)dgHouseSelected.SelectedItem);
-                SelectedHouses.Remove((Service)dgHouseSelected.SelectedItem);
+                AllHouses.Add((Service) dgHouseSelected.SelectedItem);
+                SelectedHouses.Remove((Service) dgHouseSelected.SelectedItem);
 
                 try
                 {
                     dgHouseSelected.ItemsSource = new List<Service>();
                     dgHouseAll.ItemsSource = new List<Service>();
                 }
-                catch { }
+                catch
+                {
+                }
 
                 dgHouseSelected.ItemsSource = SelectedHouses;
                 dgHouseAll.ItemsSource = AllHouses;
@@ -7991,7 +8245,7 @@ namespace TGTheraS4 {
         private void dataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
-            Document doc = (Document)dataGrid2.SelectedItem;
+            Document doc = (Document) dataGrid2.SelectedItem;
             string speicherort = System.Reflection.Assembly.GetExecutingAssembly().Location;
             speicherort = speicherort.Substring(0, speicherort.LastIndexOf('\\'));
             speicherort += "\\Temp2" + doc.path.Substring(doc.path.LastIndexOf('.', doc.path.Length - 1));
@@ -8006,7 +8260,10 @@ namespace TGTheraS4 {
                     Thread.Sleep(1000);
                     System.IO.File.Delete(speicherort);
                 }
-                catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
 
             }
         }
@@ -8192,10 +8449,11 @@ namespace TGTheraS4 {
 
             if (dgvWikiDocs.SelectedIndex != -1)
             {
-                if (MessageBox.Show("Wollen Sie wirklich löschen?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Wollen Sie wirklich löschen?", "Achtung!", MessageBoxButton.YesNo,
+                        MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
 
-                    WikiDoc tmp = (WikiDoc)dgvWikiDocs.SelectedItem;
+                    WikiDoc tmp = (WikiDoc) dgvWikiDocs.SelectedItem;
                     FtpHandler ftp = new FtpHandler();
                     view_waiting();
                     c.delwikiDoc(tmp);
@@ -8277,11 +8535,13 @@ namespace TGTheraS4 {
         {
             if (isOnline)
             {
-                
+
             }
             else
             {
-                MessageBox.Show("Sie sind OFFLINE!\nBitte stellen Sie eine Netzwerkverbindung her und starten TheraS4 erneut!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    "Sie sind OFFLINE!\nBitte stellen Sie eine Netzwerkverbindung her und starten TheraS4 erneut!",
+                    "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtPW.IsEnabled = false;
                 txtUser.IsEnabled = false;
                 btnLogin.IsEnabled = false;
@@ -8289,7 +8549,8 @@ namespace TGTheraS4 {
         }
 
         private void fillContactCmb()
-        { // WARUM BEIM PROGRAMMSTART?!?!?!?
+        {
+            // WARUM BEIM PROGRAMMSTART?!?!?!?
             /*
             try
             {
@@ -8353,11 +8614,15 @@ namespace TGTheraS4 {
                                 else
                                 {
                                     if (cmbContSearch3.SelectedIndex == -1 && txtContSearch3.Text == "")
-                                        MessageBox.Show("Bitte wählen Sie ein Kriterium und einen Suchbegriff im 3. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        MessageBox.Show(
+                                            "Bitte wählen Sie ein Kriterium und einen Suchbegriff im 3. Suchfeld!",
+                                            "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
                                     else if (cmbContSearch3.SelectedIndex == -1)
-                                        MessageBox.Show("Bitte wählen Sie ein Kriterium im 3. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        MessageBox.Show("Bitte wählen Sie ein Kriterium im 3. Suchfeld!", "Achtung !",
+                                            MessageBoxButton.OK, MessageBoxImage.Error);
                                     else if (txtContSearch3.Text == "")
-                                        MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 3. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 3. Suchfeld!",
+                                            "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
 
                                     return false;
                                 }
@@ -8374,11 +8639,14 @@ namespace TGTheraS4 {
                         else
                         {
                             if (cmbContSearch2.SelectedIndex == -1 && txtContSearch2.Text == "")
-                                MessageBox.Show("Bitte wählen Sie ein Kriterium und einen Suchbegriff im 2. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Bitte wählen Sie ein Kriterium und einen Suchbegriff im 2. Suchfeld!",
+                                    "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
                             else if (cmbContSearch2.SelectedIndex == -1)
-                                MessageBox.Show("Bitte wählen Sie ein Kriterium im 2. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Bitte wählen Sie ein Kriterium im 2. Suchfeld!", "Achtung !",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
                             else if (txtContSearch2.Text == "")
-                                MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 2. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 2. Suchfeld!", "Achtung !",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
 
                             return false;
                         }
@@ -8393,11 +8661,14 @@ namespace TGTheraS4 {
                 else
                 {
                     if (cmbContSearch1.SelectedIndex == -1 && txtContSearch1.Text == "")
-                        MessageBox.Show("Bitte wählen Sie ein Kriterium und einen Suchbegriff im 1. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Bitte wählen Sie ein Kriterium und einen Suchbegriff im 1. Suchfeld!",
+                            "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
                     else if (cmbContSearch1.SelectedIndex == -1)
-                        MessageBox.Show("Bitte wählen Sie ein Kriterium im 1. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Bitte wählen Sie ein Kriterium im 1. Suchfeld!", "Achtung !",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     else if (txtContSearch1.Text == "")
-                        MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 1. Suchfeld!", "Achtung !", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Bitte wählen Sie einen Suchbegriff im 1. Suchfeld!", "Achtung !",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
 
                     return false;
                 }
@@ -8911,7 +9182,7 @@ namespace TGTheraS4 {
             {
                 //showContact();
                 Contacts tmp = allContacts.ElementAt(dgvContact.SelectedIndex);
-                EditContacts ec = new EditContacts(u.Id, (Contacts)dgvContact.SelectedItem, c);
+                EditContacts ec = new EditContacts(u.Id, (Contacts) dgvContact.SelectedItem, c);
                 ec.ShowDialog();
                 contactMode = false;
                 if (ec.saved)
@@ -8923,7 +9194,8 @@ namespace TGTheraS4 {
             }
             else
             {
-                MessageBox.Show("Bitte wählen Sie den Datensatz, welchen Sie bearbeiten wollen!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Bitte wählen Sie den Datensatz, welchen Sie bearbeiten wollen!", "Achtung!",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -8931,15 +9203,17 @@ namespace TGTheraS4 {
         {
             if (dgvContact.SelectedIndex != -1)
             {
-                if (MessageBox.Show("Sind Sie sicher, dass sie diesen Datensatz löschen wollen?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Sind Sie sicher, dass sie diesen Datensatz löschen wollen?", "Achtung!",
+                        MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
-                    Contacts cont = (Contacts)dgvContact.SelectedItem;
+                    Contacts cont = (Contacts) dgvContact.SelectedItem;
                     deleteContact(cont);
                 }
             }
             else
             {
-                MessageBox.Show("Bitte wählen Sie den Datensatz, welchen Sie löschen wollen!", "Achtung!", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Bitte wählen Sie den Datensatz, welchen Sie löschen wollen!", "Achtung!",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -9227,7 +9501,7 @@ namespace TGTheraS4 {
         {
             if (dgNewestDokus.SelectedItem != null)
             {
-                NewestDokus ndd = (NewestDokus)dgNewestDokus.SelectedItem;
+                NewestDokus ndd = (NewestDokus) dgNewestDokus.SelectedItem;
                 string slct_ersteller = ndd.ersteller;
                 string slct_art = ndd.art;
                 string slct_tag = ndd.tag;
@@ -9253,7 +9527,8 @@ namespace TGTheraS4 {
             }
             else
             {
-                MessageBox.Show("Sie müssen eine Dokumentation auswählen!", "Achtung", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Sie müssen eine Dokumentation auswählen!", "Achtung", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -9261,7 +9536,7 @@ namespace TGTheraS4 {
         {
             if (dgvWikiDocs.SelectedIndex != -1)
             {
-                WikiDoc doc = (WikiDoc)dgvWikiDocs.SelectedItem;
+                WikiDoc doc = (WikiDoc) dgvWikiDocs.SelectedItem;
 
                 OpenFileDialog ofd = new OpenFileDialog();
 
@@ -9301,7 +9576,7 @@ namespace TGTheraS4 {
         {
             if (dgvWikiDocs.SelectedIndex != -1)
             {
-                WikiDoc tmp = (WikiDoc)dgvWikiDocs.SelectedItem;
+                WikiDoc tmp = (WikiDoc) dgvWikiDocs.SelectedItem;
                 Title tit = new Title(c);
                 tit.ShowDialog();
                 if (tit.titel != "-1")
@@ -9327,7 +9602,7 @@ namespace TGTheraS4 {
                 rate.ShowDialog();
                 if (rate.rate != -1)
                 {
-                    WikiDoc tmp = (WikiDoc)dgvWikiDocs.SelectedItem;
+                    WikiDoc tmp = (WikiDoc) dgvWikiDocs.SelectedItem;
                     view_waiting();
                     c.setWikiRating(u.Id, rate.rate, tmp);
                     loadWiki();
@@ -9339,13 +9614,16 @@ namespace TGTheraS4 {
                 MessageBox.Show("Kein Eintrag ausgewählt!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public string current_client_medi = "";
 
         private void btnAddNewMedi_Click(object sender, RoutedEventArgs e)
         {
-            if (((txtNewMediMorning.Text != "0") | (txtNewMediMidday.Text != "0") | (txtNewMediEvening.Text != "0") | (txtNewMediNight.Text != "0")) == true)
+            if (((txtNewMediMorning.Text != "0") | (txtNewMediMidday.Text != "0") | (txtNewMediEvening.Text != "0") |
+                 (txtNewMediNight.Text != "0")) == true)
             {
-                if (txtNewMediMorning.Text != "" && txtNewMediMidday.Text != "" && txtNewMediEvening.Text != "" && txtNewMediNight.Text != "")
+                if (txtNewMediMorning.Text != "" && txtNewMediMidday.Text != "" && txtNewMediEvening.Text != "" &&
+                    txtNewMediNight.Text != "")
                 {
                     if (dtpNewMediFrom.SelectedDate != null && dtpNewMediTo.SelectedDate != null)
                     {
@@ -9353,7 +9631,10 @@ namespace TGTheraS4 {
                         {
                             if (edit_medi)
                             {
-                                MessageBoxResult msgboxResult = MessageBox.Show("ACHTUNG!\n\nDas Ändern eines Medikamts bewirkt, dass es in allen Dokumentationen (auch in vergangenen) geändert wird und sollte AUSSCHLIESSLICH bei falsch angelegten Medikationen verwendet werden!\n\nWenn die Dosis oder die Menge des Medikamts geändert wurden, legen Sie bitte eine neue Medikation fest und markieren die alte als \"abgesetzt\"!\n\n\nSoll der Vorgang fortgesetzt werden?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                                MessageBoxResult msgboxResult =
+                                    MessageBox.Show(
+                                        "ACHTUNG!\n\nDas Ändern eines Medikamts bewirkt, dass es in allen Dokumentationen (auch in vergangenen) geändert wird und sollte AUSSCHLIESSLICH bei falsch angelegten Medikationen verwendet werden!\n\nWenn die Dosis oder die Menge des Medikamts geändert wurden, legen Sie bitte eine neue Medikation fest und markieren die alte als \"abgesetzt\"!\n\n\nSoll der Vorgang fortgesetzt werden?",
+                                        "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                                 if (msgboxResult == MessageBoxResult.Yes)
                                 {
                                     view_waiting();
@@ -9361,13 +9642,17 @@ namespace TGTheraS4 {
                                     foreach (string medi in medis)
                                     {
                                         cmbMedis.Items.Add(medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%"));
-                                        if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") == cmbMedis.SelectedValue.ToString())
+                                        if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") ==
+                                            cmbMedis.SelectedValue.ToString())
                                         {
                                             medi_id = medi.Split('$')[0];
                                         }
                                     }
-                                    Medicaments mmm = (Medicaments)dgvMedikamente.SelectedItem;
-                                    c.updateMedi(medi_id, mmm.cmId, u.Id, dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"), dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text);
+                                    Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
+                                    c.updateMedi(medi_id, mmm.cmId, u.Id,
+                                        dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                        dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text,
+                                        txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text);
                                     update_medications();
                                     txtNewMediMorning.Text = "";
                                     txtNewMediMidday.Text = "";
@@ -9380,7 +9665,8 @@ namespace TGTheraS4 {
                                     btnMediUndoChanges.Visibility = Visibility.Hidden;
                                     edit_medi = false;
                                     hide_waiting();
-                                    MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!", MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
                                 }
                                 else if (msgboxResult == MessageBoxResult.No)
                                 {
@@ -9394,7 +9680,8 @@ namespace TGTheraS4 {
                                 foreach (string medi in medis)
                                 {
                                     cmbMedis.Items.Add(medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%"));
-                                    if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") == cmbMedis.SelectedValue.ToString())
+                                    if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") ==
+                                        cmbMedis.SelectedValue.ToString())
                                     {
                                         medi_id = medi.Split('$')[0];
                                     }
@@ -9402,39 +9689,55 @@ namespace TGTheraS4 {
                                 if (medi_id != "")
                                 {
                                     // client_id, created, modified, creatuser_id, lastuser_id, medicament_id, from, to, morning, midday, evening, night
-                                    string[] dataa = { current_client_medi, DateTime.Now.ToString("yyyy-MM-dd HH:mm"), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), u.Id, u.Id, medi_id, dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"), dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text };
+                                    string[] dataa =
+                                    {
+                                        current_client_medi, DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm"), u.Id, u.Id, medi_id,
+                                        dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                        dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text,
+                                        txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text
+                                    };
                                     c.addMedicamentForClient(dataa);
                                     update_medications();
-                                    MessageBox.Show("Die Medikation wurde angewandt!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    MessageBox.Show("Die Medikation wurde angewandt!", "Erfolg!", MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Internal Error! (E1337)", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    MessageBox.Show("Internal Error! (E1337)", "Fehler!", MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
                                 }
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Es muss ein Medikament ausgewählt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Es muss ein Medikament ausgewählt werden!", "Fehler!", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Es müssen sowohl Von-Datum als auch Bis-Datum ausgefüllt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Es müssen sowohl Von-Datum als auch Bis-Datum ausgefüllt werden!", "Fehler!",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             else
             {
                 //MessageBox.Show("Diese Eingabe ist sinnlos!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
-                MessageBoxResult msgboxResult = MessageBox.Show("ACHTUNG!\n\nMit der Dosis-Angabe \"0-0-0-0\" wird die Medikation als \"nur bei Bedarf\" gespeichert!\n\nWenn das Medikament regelmäßig eingenommen wird, korrigieren Sie bitte Ihre Eingabe!\n\n\nSoll der Vorgang fortgesetzt werden?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                MessageBoxResult msgboxResult =
+                    MessageBox.Show(
+                        "ACHTUNG!\n\nMit der Dosis-Angabe \"0-0-0-0\" wird die Medikation als \"nur bei Bedarf\" gespeichert!\n\nWenn das Medikament regelmäßig eingenommen wird, korrigieren Sie bitte Ihre Eingabe!\n\n\nSoll der Vorgang fortgesetzt werden?",
+                        "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (msgboxResult == MessageBoxResult.Yes)
                 {
-                    if (txtNewMediMorning.Text != "" && txtNewMediMidday.Text != "" && txtNewMediEvening.Text != "" && txtNewMediNight.Text != "")
+                    if (txtNewMediMorning.Text != "" && txtNewMediMidday.Text != "" && txtNewMediEvening.Text != "" &&
+                        txtNewMediNight.Text != "")
                     {
                         if (dtpNewMediFrom.SelectedDate != null && dtpNewMediTo.SelectedDate != null)
                         {
@@ -9442,7 +9745,10 @@ namespace TGTheraS4 {
                             {
                                 if (edit_medi)
                                 {
-                                    MessageBoxResult msgboxResult1 = MessageBox.Show("ACHTUNG!\n\nDas Ändern eines Medikamts bewirkt, dass es in allen Dokumentationen (auch in vergangenen) geändert wird und sollte AUSSCHLIESSLICH bei falsch angelegten Medikationen verwendet werden!\n\nWenn die Dosis oder die Menge des Medikamts geändert wurden, legen Sie bitte eine neue Medikation fest und markieren die alte als \"abgesetzt\"!\n\n\nSoll der Vorgang fortgesetzt werden?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                                    MessageBoxResult msgboxResult1 =
+                                        MessageBox.Show(
+                                            "ACHTUNG!\n\nDas Ändern eines Medikamts bewirkt, dass es in allen Dokumentationen (auch in vergangenen) geändert wird und sollte AUSSCHLIESSLICH bei falsch angelegten Medikationen verwendet werden!\n\nWenn die Dosis oder die Menge des Medikamts geändert wurden, legen Sie bitte eine neue Medikation fest und markieren die alte als \"abgesetzt\"!\n\n\nSoll der Vorgang fortgesetzt werden?",
+                                            "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                                     if (msgboxResult1 == MessageBoxResult.Yes)
                                     {
                                         view_waiting();
@@ -9450,13 +9756,18 @@ namespace TGTheraS4 {
                                         foreach (string medi in medis)
                                         {
                                             cmbMedis.Items.Add(medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%"));
-                                            if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") == cmbMedis.SelectedValue.ToString())
+                                            if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") ==
+                                                cmbMedis.SelectedValue.ToString())
                                             {
                                                 medi_id = medi.Split('$')[0];
                                             }
                                         }
-                                        Medicaments mmm = (Medicaments)dgvMedikamente.SelectedItem;
-                                        c.updateMedi(medi_id, mmm.cmId, u.Id, dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"), dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text);
+                                        Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
+                                        c.updateMedi(medi_id, mmm.cmId, u.Id,
+                                            dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                            dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                            txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text,
+                                            txtNewMediNight.Text);
                                         update_medications();
                                         txtNewMediMorning.Text = "";
                                         txtNewMediMidday.Text = "";
@@ -9469,7 +9780,8 @@ namespace TGTheraS4 {
                                         btnMediUndoChanges.Visibility = Visibility.Hidden;
                                         edit_medi = false;
                                         hide_waiting();
-                                        MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        MessageBox.Show("Die Medikation wurde geändert!", "Erfolg!",
+                                            MessageBoxButton.OK, MessageBoxImage.Information);
                                     }
                                     else if (msgboxResult1 == MessageBoxResult.No)
                                     {
@@ -9483,7 +9795,8 @@ namespace TGTheraS4 {
                                     foreach (string medi in medis)
                                     {
                                         cmbMedis.Items.Add(medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%"));
-                                        if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") == cmbMedis.SelectedValue.ToString())
+                                        if (medi.Split('$')[1].Replace("!!!PROZENTZEICHEN!!!", "%") ==
+                                            cmbMedis.SelectedValue.ToString())
                                         {
                                             medi_id = medi.Split('$')[0];
                                         }
@@ -9491,30 +9804,43 @@ namespace TGTheraS4 {
                                     if (medi_id != "")
                                     {
                                         // client_id, created, modified, creatuser_id, lastuser_id, medicament_id, from, to, morning, midday, evening, night
-                                        string[] dataa = { current_client_medi, DateTime.Now.ToString("yyyy-MM-dd HH:mm"), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), u.Id, u.Id, medi_id, dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"), dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"), txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text, txtNewMediNight.Text };
+                                        string[] dataa =
+                                        {
+                                            current_client_medi, DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                                            DateTime.Now.ToString("yyyy-MM-dd HH:mm"), u.Id, u.Id, medi_id,
+                                            dtpNewMediFrom.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                            dtpNewMediTo.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                                            txtNewMediMorning.Text, txtNewMediMidday.Text, txtNewMediEvening.Text,
+                                            txtNewMediNight.Text
+                                        };
                                         c.addMedicamentForClient(dataa);
                                         update_medications();
-                                        MessageBox.Show("Die Medikation wurde angewandt!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        MessageBox.Show("Die Medikation wurde angewandt!", "Erfolg!",
+                                            MessageBoxButton.OK, MessageBoxImage.Information);
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Internal Error! (E1337)", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        MessageBox.Show("Internal Error! (E1337)", "Fehler!", MessageBoxButton.OK,
+                                            MessageBoxImage.Error);
                                     }
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("Es muss ein Medikament ausgewählt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Es muss ein Medikament ausgewählt werden!", "Fehler!",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Es müssen sowohl Von-Datum als auch Bis-Datum ausgefüllt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Es müssen sowohl Von-Datum als auch Bis-Datum ausgefüllt werden!",
+                                "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                 }
                 else if (msgboxResult == MessageBoxResult.No)
@@ -9532,16 +9858,18 @@ namespace TGTheraS4 {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
                     view_waiting();
-                    Medicaments mmm = (Medicaments)dgvMedikamente.SelectedItem;
+                    Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                     c.cancelMediForClient(mmm.cmId.ToString());
                     update_medications();
                     hide_waiting();
-                    MessageBox.Show("Das Medikament wurde abgesetzt!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Das Medikament wurde abgesetzt!", "Erfolg!", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
 
                 }
                 else
                 {
-                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch
@@ -9557,15 +9885,19 @@ namespace TGTheraS4 {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
 
-                    MessageBoxResult msgboxResult = MessageBox.Show("ACHTUNG!\n\nDas löschen eines Medikamts bewirkt, dass es nicht mehr in den Dokumentationen aufscheint (auch nicht in vergangenen) und sollte AUSSCHLIESSLICH bei versehentlich angelegten oder falsch angelegten Medikationen verwendet werden!\n\nWenn das Medikament abgesetzt wurde verwenden Sie bitte die \"Medikament absetzten\" Funktion!\n\n\nSoll der Vorgang fortgesetzt werden?", "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    MessageBoxResult msgboxResult =
+                        MessageBox.Show(
+                            "ACHTUNG!\n\nDas löschen eines Medikamts bewirkt, dass es nicht mehr in den Dokumentationen aufscheint (auch nicht in vergangenen) und sollte AUSSCHLIESSLICH bei versehentlich angelegten oder falsch angelegten Medikationen verwendet werden!\n\nWenn das Medikament abgesetzt wurde verwenden Sie bitte die \"Medikament absetzten\" Funktion!\n\n\nSoll der Vorgang fortgesetzt werden?",
+                            "Achtung!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (msgboxResult == MessageBoxResult.Yes)
                     {
                         view_waiting();
-                        Medicaments mmm = (Medicaments)dgvMedikamente.SelectedItem;
+                        Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                         c.deleteMediForClient(mmm.cmId.ToString());
                         update_medications();
                         hide_waiting();
-                        MessageBox.Show("Das Medikament wurde gelöscht!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Das Medikament wurde gelöscht!", "Erfolg!", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                     }
                     else if (msgboxResult == MessageBoxResult.No)
                     {
@@ -9574,7 +9906,8 @@ namespace TGTheraS4 {
                 }
                 else
                 {
-                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch
@@ -9595,11 +9928,13 @@ namespace TGTheraS4 {
                     txtNewMediName.Text = "";
                     txtNewMediDescription.Text = "";
                     hide_waiting();
-                    MessageBox.Show("Das Medikament wurde hinzugefügt!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Das Medikament wurde hinzugefügt!", "Erfolg!", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Es müssen alle Felder ausgefüllt werden!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
 
             }
@@ -9629,7 +9964,7 @@ namespace TGTheraS4 {
 
         private void dgvMedikamente_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            Medicaments mmm = (Medicaments)e.Row.Item;
+            Medicaments mmm = (Medicaments) e.Row.Item;
             if (isMediObsolete(mmm.cmId))
             {
                 e.Row.Background = Brushes.LightPink;
@@ -9650,7 +9985,7 @@ namespace TGTheraS4 {
                 {
                     view_waiting();
                     edit_medi = true;
-                    Medicaments mmm = (Medicaments)dgvMedikamente.SelectedItem;
+                    Medicaments mmm = (Medicaments) dgvMedikamente.SelectedItem;
                     btnAddNewMedi.Content = "Änderungen speichern";
                     txtNewMediMorning.Text = mmm.morning.ToString();
                     txtNewMediMidday.Text = mmm.midday.ToString();
@@ -9665,7 +10000,8 @@ namespace TGTheraS4 {
                 }
                 else
                 {
-                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Keine Medikation ausgewählt!", "Fehler!", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch
@@ -9750,17 +10086,32 @@ namespace TGTheraS4 {
                 }
             }
             double summme = 0;
-            Employee emm = (Employee)cmbUserKmG.SelectedItem;
+            Employee emm = (Employee) cmbUserKmG.SelectedItem;
             string fagit = "Monat: " + cmbKMGMonth.Text + " " + cmbKMGYear.Text + "\nName: " + emm.FullName + "\n\n";
-            fagit += "Kennzeichen" + (fillSpace(len_kfz - "Kennzeichen".Length, " ")) + " | Von" + (fillSpace(len_von - "Von".Length, " ")) + " | Nach" + (fillSpace(len_bis - "Nach".Length, " ")) + " | Datum Von" + (fillSpace(len_dvon - "Datum Von".Length, " ")) + " | Datum Bis" + (fillSpace(len_dbis - "Datum Bis".Length, " ")) + " | Kilometer" + (fillSpace(len_km - "Kilometer".Length, " ")) + " | Summe (€)\n";
-            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_summe + len_kfz + 18), "-")) + "\n";
+            fagit += "Kennzeichen" + (fillSpace(len_kfz - "Kennzeichen".Length, " ")) + " | Von" +
+                     (fillSpace(len_von - "Von".Length, " ")) + " | Nach" + (fillSpace(len_bis - "Nach".Length, " ")) +
+                     " | Datum Von" + (fillSpace(len_dvon - "Datum Von".Length, " ")) + " | Datum Bis" +
+                     (fillSpace(len_dbis - "Datum Bis".Length, " ")) + " | Kilometer" +
+                     (fillSpace(len_km - "Kilometer".Length, " ")) + " | Summe (€)\n";
+            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_summe + len_kfz + 18), "-")) +
+                     "\n";
             foreach (KmG kmmg in dgKmG.Items)
             {
-                fagit += kmmg.Kennzeichen.ToUpper().Replace(" ", "").Replace("-", "").Replace("+", "") + (fillSpace(len_kfz - kmmg.Kennzeichen.Replace(" ", "").Replace("-", "").Replace("+", "").Length, " ")) + " | " + kmmg.Ortvon + (fillSpace(len_von - kmmg.Ortvon.Length, " ")) + " | " + kmmg.Ortbis + (fillSpace(len_bis - kmmg.Ortbis.Length, " ")) + " | " + kmmg.Zeitvon + (fillSpace(len_dvon - kmmg.Zeitvon.Length, " ")) + " | " + kmmg.Zeitbis + (fillSpace(len_dbis - kmmg.Zeitbis.Length, " ")) + " | " + kmmg.km + (fillSpace(len_km - kmmg.km.Length, " ")) + " | " + ConvertToOrgenString(Convert.ToDecimal(kmmg.Summe).ToString("0000.00")) + "\n";
+                fagit += kmmg.Kennzeichen.ToUpper().Replace(" ", "").Replace("-", "").Replace("+", "") +
+                         (fillSpace(
+                             len_kfz - kmmg.Kennzeichen.Replace(" ", "").Replace("-", "").Replace("+", "").Length, " ")
+                         ) + " | " + kmmg.Ortvon + (fillSpace(len_von - kmmg.Ortvon.Length, " ")) + " | " +
+                         kmmg.Ortbis + (fillSpace(len_bis - kmmg.Ortbis.Length, " ")) + " | " + kmmg.Zeitvon +
+                         (fillSpace(len_dvon - kmmg.Zeitvon.Length, " ")) + " | " + kmmg.Zeitbis +
+                         (fillSpace(len_dbis - kmmg.Zeitbis.Length, " ")) + " | " + kmmg.km +
+                         (fillSpace(len_km - kmmg.km.Length, " ")) + " | " +
+                         ConvertToOrgenString(Convert.ToDecimal(kmmg.Summe).ToString("0000.00")) + "\n";
                 summme += Convert.ToDouble(kmmg.Summe);
             }
-            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_summe + len_kfz + 18), "-")) + "\n";
-            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_kfz + 10), " ")) + "Gesamt: " + ConvertToOrgenString(Convert.ToDecimal(summme).ToString("0000.00")) + "€\n";
+            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_summe + len_kfz + 18), "-")) +
+                     "\n";
+            fagit += (fillSpace((len_von + len_bis + len_km + len_dvon + len_dbis + len_kfz + 10), " ")) + "Gesamt: " +
+                     ConvertToOrgenString(Convert.ToDecimal(summme).ToString("0000.00")) + "€\n";
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "KMG_" + emm.FullName.Replace(' ', '_') + "_" + cmbKMGMonth.Text + "_" + cmbKMGYear.Text;
             sfd.Filter = "PDF-Dokument|*.pdf";
@@ -9770,11 +10121,12 @@ namespace TGTheraS4 {
             kostolpdf.pdfTitle = "Kilometergeld (" + emm.FullName + ")";
             kostolpdf.pageO = PageOrientation.Landscape;
             kostolpdf.text = fagit;
-            if ((bool)sfd.ShowDialog() && sfd.FileName != "")
+            if ((bool) sfd.ShowDialog() && sfd.FileName != "")
             {
                 kostolpdf.truenamebro = sfd.FileName;
                 kostolpdf.createThisShit2();
-                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
                 {
                     try
                     {
@@ -9938,57 +10290,6 @@ namespace TGTheraS4 {
             }
         }
 
-        private void btnPrintCal_Click(object sender, RoutedEventArgs e)
-        {
-            /* Neufeld:         a2dzaWc1ZW1hdjhnN2ZxNDgxcnQ5OHM1MG9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             * Ebenfurth:       Z3ZpY21ldWRhMzdiMTY4OHM3b2x0c2lmdDRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             * Sitzendorf:      ZTVmbjVvbWNnOGtoZ3N0azJwMDJ1MDRqcTRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             * Grinzing:        aHNoa2hkczNsc2h2cWs3ZDY2Mm43MzdhdmdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             * UMF:             dWVtYW9jb2NmNG50cDJkMWtmZWhtMjRjanNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             * Privatschule:    MjdrMWY4OXZmNGpvbjcydGkxbTEwMW12NWNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-             */
-
-
-            PrintCalendar pc = new PrintCalendar();
-            pc.ShowDialog();
-            if (pc.getIt() != "NULL")
-            {
-                string printUrl = "http://www.google.com/calendar/print_preview";
-                string today = DateTime.Now.ToString("yyyyMMdd");
-                string tomorrow = DateTime.Now.Add(TimeSpan.FromDays(1)).ToString("yyyyMMdd");
-                printUrl += "?dates=" + today + "%2F" + tomorrow;
-                printUrl += "&ctz=Europe%2FVienna";
-                printUrl += "&hl=de";
-                printUrl += "&pgsz=letter";
-                printUrl += "&wkst=2";
-                printUrl += "&mode=DAY";
-                printUrl += "&src=" + pc.getIt();
-                Gmail.Navigate(printUrl);
-                btnRefreshCal.Content = "Zurück zum Kalender";
-
-                // DIREKT ZUM PDF -->
-                /*string printUrl = "http://www.google.com/calendar/printable";
-                string today = DateTime.Now.ToString("yyyyMMdd");
-                string tomorrow = DateTime.Now.Add(TimeSpan.FromDays(1)).ToString("yyyyMMdd");
-                printUrl += "?pgsz=letter";
-                printUrl += "&src=" + pc.getIt();
-                printUrl += "&mode=DAY";
-                printUrl += "&ctz=Europe%2FVienna";
-                printUrl += "&dates=" + today + "%2F" + tomorrow;
-                printUrl += "&wkst=2";
-                printUrl += "&hl=de";
-                printUrl += "&prsd=" + today;
-                printUrl += "&pred=" + tomorrow;
-                printUrl += "&pfs=NORMAL";
-                printUrl += "&po=AUTO";
-                printUrl += "&psdec=true";
-                printUrl += "&pbw=false";
-                printUrl += "&pjs=false";
-                printUrl += "&pda=true";
-                Gmail.Navigate(printUrl);*/
-            }
-        }
-
         public List<string> nonWorkingDays = new List<string>();
 
         public bool isNonWorkingDay(DateTime day)
@@ -10007,7 +10308,7 @@ namespace TGTheraS4 {
 
         private void dgvZeiterfassung_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            WorkingTime mmm = (WorkingTime)e.Row.Item;
+            WorkingTime mmm = (WorkingTime) e.Row.Item;
 
             if (mmm.art == "Nachtdienst")
             {
@@ -10026,12 +10327,6 @@ namespace TGTheraS4 {
             {
                 e.Row.Background = Brushes.LightPink;
             }
-        }
-
-        private void btnRefreshCal_Click(object sender, RoutedEventArgs e)
-        {
-            Gmail.Navigate("https://www.google.com/calendar/render#h%7Cday", null, null, "User-Agent: Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; eSobiSubscriber 1.0.0.40; .NET4.0E; .NET4.0C)");
-            btnRefreshCal.Content = "Kalender aktualisieren";
         }
 
         private void btnAktualisierenNewestDokus_Click(object sender, RoutedEventArgs e)
@@ -10058,7 +10353,11 @@ namespace TGTheraS4 {
 
         private void txtDokuKoerperlich_TextChanged(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Delete && e.Key != Key.Back && e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl && e.Key != Key.Left && e.Key != Key.Right && e.Key != Key.Up && e.Key != Key.Down && e.Key != Key.LeftAlt && e.Key != Key.RightAlt && e.Key != Key.Return && e.Key != Key.LeftShift && e.Key != Key.RightShift && e.Key != Key.Tab && e.Key != Key.LWin && e.Key != Key.RWin && e.Key != Key.Escape && e.Key != Key.Print)
+            if (e.Key != Key.Delete && e.Key != Key.Back && e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl &&
+                e.Key != Key.Left && e.Key != Key.Right && e.Key != Key.Up && e.Key != Key.Down &&
+                e.Key != Key.LeftAlt && e.Key != Key.RightAlt && e.Key != Key.Return && e.Key != Key.LeftShift &&
+                e.Key != Key.RightShift && e.Key != Key.Tab && e.Key != Key.LWin && e.Key != Key.RWin &&
+                e.Key != Key.Escape && e.Key != Key.Print)
             {
 
                 saveTempDoku();
@@ -10072,7 +10371,8 @@ namespace TGTheraS4 {
         }
 
         public void getSQLitedata()
-        {/*
+        {
+/*
             db_clients = db.GetTable<clients>();
             db_clientsmedications = db.GetTable<clientsmedications>();
             db_clientstoservices = db.GetTable<clientstoservices>();
@@ -10084,7 +10384,8 @@ namespace TGTheraS4 {
         }
 
         private void btnSync_Click(object sender, RoutedEventArgs e)
-        {/*
+        {
+/*
             getSQLitedata();
 
             var query = from p in db_clientsmedications where p.neu == 1 select p;
@@ -10206,7 +10507,7 @@ namespace TGTheraS4 {
 
         private void dgvKB_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            KassaBuchNode mmm = (KassaBuchNode)e.Row.Item;
+            KassaBuchNode mmm = (KassaBuchNode) e.Row.Item;
 
             if (mmm.netto > 0)
             {
@@ -10233,7 +10534,7 @@ namespace TGTheraS4 {
         {
             if (isloggedin)
             {
-                NewestDokus mmmm = (NewestDokus)e.Row.Item;
+                NewestDokus mmmm = (NewestDokus) e.Row.Item;
 
                 switch (mmmm.art)
                 {
@@ -10308,75 +10609,6 @@ namespace TGTheraS4 {
             }
             */
 
-        }
-
-        private void WebBrowserDropbox_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-
-        public bool dropboxfirst = true;
-        private void WebBrowserDropbox_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-            string[] temp = c.getDropbox(u.Id).Split('$');
-            try {
-                if (WebBrowserDropbox.Source.ToString() == "https://www.dropbox.com/login")
-                {
-                    HTMLDocument doc = (HTMLDocument)this.WebBrowserDropbox.Document;
-                    doc.getElementsByName("login_email").item(0).SetAttribute("value", temp[0]);
-                    doc.getElementsByName("login_password").item(0).SetAttribute("value", temp[1]);
-                    foreach (mshtml.HTMLFormElement form in doc.forms)
-                    {
-                        var children = form as IEnumerable;
-                        var inputs = children.OfType<mshtml.HTMLInputElement>();
-                        var submitButton = inputs.First(i => i.type == "checkbox");
-                        submitButton.click();
-                        break;
-                    }
-                    foreach (mshtml.HTMLFormElement form in doc.forms)
-                    {
-                        var children = form as IEnumerable;
-                        var inputs = children.OfType<mshtml.HTMLButtonElement>();
-                        var submitButton = inputs.First(i => i.type == "submit");
-                        submitButton.click();
-                        break;
-                    }
-                    load++;
-                    dropboxfirst = !dropboxfirst;
-                }
-                else
-                {
-                    Uri uri = new Uri("https://www.dropbox.com/login");
-                    if (WebBrowserDropbox.Source == uri) //#noemail 
-                    {
-                        MessageBox.Show("Werden Sie nicht automatisch eingeloggt? \n Wenn Sie im 'Dropbox' Ihr Passwort geändert haben, gehen Sie bitte auf den Tab 'Passwort ändern' und tragen Sie dort unter Dropbox Ihr aktuelles Passwort ein. \n Nach einem Neustart von TheraS4 sollte alles wieder funktionieren.", "Fehler bei der Anmeldung?");
-                    }
-                }
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void WebBrowserDropbox_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-
-        }
-
-        private void button3Dropbox_Click(object sender, RoutedEventArgs e)
-        {
-            if (passwordBox1_Dropbox.Text == passwordBox2_Dropbox.Text)
-            {
-                c.setDropboxPass(u.Id, passwordBox1_Dropbox.Text);
-            }
-            else
-            {
-                MessageBox.Show("Passwörter stimmen nicht überein.");
-            }
-
-            passwordBox1_Dropbox.Text = "";
-            passwordBox2_Dropbox.Text = "";
         }
     }
 }

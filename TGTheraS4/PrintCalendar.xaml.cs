@@ -27,8 +27,6 @@ namespace TGTheraS4.Objects
 
         private void btnSavePDFCal_Click(object sender, RoutedEventArgs e)
         {
-
-
             switch (slctServiceForPrint.SelectedItem.ToString())
             {
                 case "TG Neufeld":
@@ -65,7 +63,6 @@ namespace TGTheraS4.Objects
                     break;
             }
 
-            
             this.Close();
         }
 
