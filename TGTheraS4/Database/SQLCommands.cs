@@ -30,7 +30,7 @@ namespace IntranetTG
      
      using (var db = new Theras5DB())
         {
-            var products = db.Users.Select(x=>x.City).Where(x=>x.Contains("Wien"1));
+            var products = db.Users.Select(x=>x.City).Where(x=>x.Contains("Wien"));
             
             return products.ToList();
         }
