@@ -31,8 +31,8 @@ namespace IntranetTG.Functions
             nameOk = true;
 
             // wenn existiert dann passwörter vergleichen
-            actualUser = user;
-            actualUserFromList = user;
+            ActualUser = user;
+            ActualUserFromList = user;
 
             if (!checkPassword())
             {
@@ -59,7 +59,7 @@ namespace IntranetTG.Functions
         public static bool checkPassword()
         {
             bool isCorrect = false;
-            string source = actualUser.Password;
+            string source = ActualUser.Password;
             using (MD5 md5Hash = MD5.Create())
             {
                 string hash = GetMd5Hash(md5Hash, source);
@@ -139,88 +139,27 @@ namespace IntranetTG.Functions
 
         #region Properties
 
+        public static User ActualUserFromList { get; set; }
 
-        private static User actualUserFromList;
+        public static IList<User> UserList { get; set; }
 
-        public static User ActualUserFromList
-        {
-            get { return actualUserFromList; }
-            set { actualUserFromList = value; }
-        }
+        public static List<Employee> EmployeeList { get; set; }
 
-        private static IList<User> userList;
+        public static List<Project> ProjectList { get; set; }
 
-        public static IList<User> UserList
-        {
-            get { return userList; }
-            set { userList = value; }
-        }
+        public static List<Service> ServiceList { get; set; }
 
-        private static List<Employee> employeeList;
-
-        public static List<Employee> EmployeeList
-        {
-            get { return employeeList; }
-            set { employeeList = value; }
-        }
-
-        private static List<Project> projectList;
-
-        public static List<Project> ProjectList
-        {
-            get { return projectList; }
-            set { projectList = value; }
-        }
-
-        private static List<Service> serviceList;
-
-        public static List<Service> ServiceList
-        {
-            get { return serviceList; }
-            set { serviceList = value; }
-        }
-
-        private static Enumerations.EditDialog editNumberEditDialog;
-
-        public static Enumerations.EditDialog EditNumberEditDialog
-        {
-            get { return editNumberEditDialog; }
-            set { editNumberEditDialog = value; }
-        }
+        public static Enumerations.EditDialog EditNumberEditDialog { get; set; }
 
 
-        private static Enumerations.InstructionTask appointmentTask;
+        public static Enumerations.InstructionTask AppointmentTask { get; set; }
 
-        public static Enumerations.InstructionTask AppointmentTask
-        {
-            get { return appointmentTask; }
-            set { appointmentTask = value; }
-        }
+        public static SQLCommands Connection { get; set; }
 
-        private static SQLCommands connection;
-
-        public static SQLCommands Connection
-        {
-            get { return connection; }
-            set { connection = value; }
-        }
-
-        private static string[] databaseString;
-
-        public static string[] DatabaseString
-        {
-            get { return databaseString; }
-            set { databaseString = value; }
-        }
+        public static string[] DatabaseString { get; set; }
 
 
-        private static User actualUser;
-
-        public static User ActualUser
-        {
-            get { return actualUser; }
-            set { actualUser = value; }
-        }
+        public static User ActualUser { get; set; }
 
         public static void fun()
         {

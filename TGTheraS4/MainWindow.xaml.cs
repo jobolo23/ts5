@@ -2425,7 +2425,7 @@ namespace TGTheraS4
 
         private void BtnZeiterfassung_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void btnChangePW_Click(object sender, RoutedEventArgs e)
@@ -2503,14 +2503,14 @@ namespace TGTheraS4
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            tabMain.Visibility = System.Windows.Visibility.Hidden;
+            tabMain.Visibility = Visibility.Hidden;
         }
 
         private void dgTaskFromUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                TGTheraS4.Objects.Task t = dgTaskFromUser.SelectedItem as TGTheraS4.Objects.Task;
+                var t = dgTaskFromUser.SelectedItem as Task;
                 EditTask et = new EditTask(false, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
@@ -2856,26 +2856,7 @@ namespace TGTheraS4
 
         private void btn_Workingtimeprint_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            Process p = new Process();
-            p.StartInfo = new ProcessStartInfo()
-            {
-                CreateNoWindow = true,
-                Verb = "print",
-                FileName = path //put the correct path here
-            };
-            
-            this.dgvZeiterfassung.SelectAllCells();
-            this.dgvZeiterfassung.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
-            ApplicationCommands.Copy.Execute(null, this.dgvZeiterfassung);
-            this.dgvZeiterfassung.UnselectAllCells();
-            String result = (string)Clipboard.GetData(DataFormats.Html);
-            Clipboard.Clear();
-
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "context.html");
-            File.WriteAllText(path, result);
-            Process.Start(new ProcessStartInfo(path));
-             */
+          
         }
 
         public void setadminenadisa(bool show)
@@ -3007,7 +2988,7 @@ namespace TGTheraS4
         {
             try
             {
-                TGTheraS4.Objects.Task t = dgImportantTasks.SelectedItem as TGTheraS4.Objects.Task;
+                var t = dgImportantTasks.SelectedItem as Task;
                 EditTask et = new EditTask(false, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
@@ -3037,7 +3018,7 @@ namespace TGTheraS4
         {
             try
             {
-                TGTheraS4.Objects.Task t = dgCreatedTasks.SelectedItem as TGTheraS4.Objects.Task;
+                var t = dgCreatedTasks.SelectedItem as Task;
                 EditTask et = new EditTask(true, false, t.von, t.zu, t.startdate, t.enddate, t.desc, c);
                 et.Show();
                 refreshAllTasks();
@@ -4620,7 +4601,7 @@ namespace TGTheraS4
                     try
                     {
                         dgmedicalaction.ItemsSource = new List<MediAkt>();
-                        String mediid = c.getIdbyNameClients(cmbMA.SelectedValue.ToString());
+                        var mediid = c.getIdbyNameClients(cmbMA.SelectedValue.ToString());
                         medihelpname = (cmbMA.SelectedIndex != -1)
                             ? cmbMA.SelectedValue.ToString()
                             : cmbKlientArchivAuswaehlen.SelectedValue.ToString();
@@ -5408,23 +5389,7 @@ namespace TGTheraS4
 
         private void calendarCancelPress()
         {
-            /*InputManager.Current.ProcessInput(
-                new KeyEventArgs(Keyboard.PrimaryDevice,
-                    Keyboard.PrimaryDevice.ActiveSource,
-                    0, Key.Right)
-                {
-                    RoutedEvent = Keyboard.KeyDownEvent
-                }
-            );
-
-            InputManager.Current.ProcessInput(
-                new KeyEventArgs(Keyboard.PrimaryDevice,
-                    Keyboard.PrimaryDevice.ActiveSource,
-                    0, Key.Return)
-                {
-                    RoutedEvent = Keyboard.KeyDownEvent
-                }
-            );*/
+           
         }
 
         private void btn_Doc_Akt_Click(object sender, RoutedEventArgs e)
