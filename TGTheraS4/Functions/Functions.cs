@@ -5,7 +5,7 @@ using System.Text;
 using IntranetTG.Objects;
 using System.Security.Cryptography;
 using System.Windows;
-using TGTheraS4.Objects;
+using TheraS5.Objects;
 using System.Threading;
 
 namespace IntranetTG.Functions

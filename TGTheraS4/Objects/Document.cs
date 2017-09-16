@@ -6,7 +6,7 @@ using DataModels;
 using IntranetTG;
 using TGTheraS4.Database.Objects;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     public class Document
     {

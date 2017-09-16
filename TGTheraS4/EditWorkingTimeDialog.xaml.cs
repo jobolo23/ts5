@@ -14,7 +14,7 @@ using IntranetTG;
 
 using IntranetTG.Objects;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaction logic for EditWorkingTimeDialog.xaml

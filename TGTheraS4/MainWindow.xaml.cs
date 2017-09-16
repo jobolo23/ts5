@@ -17,7 +17,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using TGTheraS4.Objects;
 using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
@@ -25,10 +24,11 @@ using System.Data.Linq;
 using System.Data.SQLite;
 using PdfSharp;
 using PdfSharp.Drawing;
-using TGTheraS4.Services;
+using TheraS5.Objects;
+using TheraS5.Services;
 
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary> 
     /// Interaktionslogik für MainWindow.xaml
@@ -1473,25 +1473,25 @@ namespace TGTheraS4
 
         private void refreshTaskfromUser()
         {
-            List<TGTheraS4.Objects.Task> tasklist = c.getTasksfromUser(u.Id);
+            List<Task> tasklist = c.getTasksfromUser(u.Id);
             dgTaskFromUser.ItemsSource = tasklist;
         }
 
         private void refreshUrgentTaskfromUser()
         {
-            List<TGTheraS4.Objects.Task> urgenttasklist = c.getUrgentTasksfromUser(u.Id);
+            List<Task> urgenttasklist = c.getUrgentTasksfromUser(u.Id);
             dgImportantTasks.ItemsSource = urgenttasklist;
         }
 
         private void refreshTaskforUser()
         {
-            List<TGTheraS4.Objects.Task> taskforlist = c.getTasksforUser(u.Id);
+            List<Task> taskforlist = c.getTasksforUser(u.Id);
             dgTaskForUser.ItemsSource = taskforlist;
         }
 
         private void refreshCreatedTasks()
         {
-            List<TGTheraS4.Objects.Task> createdTasks = c.getCreatedTasksforUser(u.Id);
+            List<Task> createdTasks = c.getCreatedTasksforUser(u.Id);
             dgCreatedTasks.ItemsSource = createdTasks;
         }
 

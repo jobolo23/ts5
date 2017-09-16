@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.EditTask"
+﻿<Window x:Class="TheraS5.EditTask"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Neue Aufgabe" Height="525" Width="592">

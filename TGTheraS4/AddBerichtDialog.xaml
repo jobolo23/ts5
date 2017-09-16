@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.AddBerichtDialog"
+﻿<Window x:Class="TheraS5.AddBerichtDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Bericht erstellen" Height="233" Width="360">

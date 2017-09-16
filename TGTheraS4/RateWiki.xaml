@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.RateWiki"
+﻿<Window x:Class="TheraS5.RateWiki"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Bewertung" Height="145.238" Width="413.571">

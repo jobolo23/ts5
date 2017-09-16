@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     public class Salutations
     {

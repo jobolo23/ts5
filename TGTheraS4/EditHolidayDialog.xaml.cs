@@ -14,7 +14,7 @@ using IntranetTG;
 using IntranetTG.Objects;
 using System.Globalization;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für EditHolidayDialog.xaml

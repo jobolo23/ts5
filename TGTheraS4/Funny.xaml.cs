@@ -14,7 +14,7 @@ using System.Threading;
 using System.Drawing;
 using System.Windows.Threading;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für Funny.xaml

@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.Klient_Berichte_Art_C"
+﻿<Window x:Class="TheraS5.Klient_Berichte_Art_C"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Klient_Berichte_Art_C" Height="158.077" Width="399.231">

@@ -9,7 +9,7 @@ using PdfSharp.Drawing.Layout;
 using System.Diagnostics;
 using System.Windows;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     class CreateAFuckingPDF
     {
