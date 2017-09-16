@@ -4,7 +4,7 @@ using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text;
 
-namespace TGTheraS4.Database_SQLite
+namespace TheraS5.Database_SQLite
 {
     [Table(Name = "clientstoservices")]
     class clientstoservices

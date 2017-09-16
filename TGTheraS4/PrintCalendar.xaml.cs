@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     /// <summary>
     /// Interaktionslogik für PrintCalendar.xaml

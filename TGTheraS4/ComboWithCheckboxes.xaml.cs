@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     ///Interaction logic for ComboWithCheckboxes.xaml

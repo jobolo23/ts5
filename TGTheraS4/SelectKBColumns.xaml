@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.SelectKBColumns"
+﻿<Window x:Class="TheraS5.SelectKBColumns"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Splaten auswählen" Height="238" Width="1164" ResizeMode="NoResize"

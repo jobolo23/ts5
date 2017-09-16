@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGTheraS4", "TGTheraS4\TGTheraS4.csproj", "{22446334-A1A8-49DF-A9C8-C5E0948FE5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TherS5", "TGTheraS4\TherS5.csproj", "{22446334-A1A8-49DF-A9C8-C5E0948FE5E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

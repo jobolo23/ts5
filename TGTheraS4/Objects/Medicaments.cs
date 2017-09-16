@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace TGTheraS4.Objects
+namespace TheraS5.Objects
 {
     class Medicaments
     {

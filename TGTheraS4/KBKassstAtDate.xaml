@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.KBKassstAtDate"
+﻿<Window x:Class="TheraS5.KBKassstAtDate"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Kassastand zum Zeitpunkt..." Height="369" Width="292">

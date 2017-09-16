@@ -1,4 +1,4 @@
-﻿namespace TGTheraS4.Database.Objects {
+﻿namespace TheraS5.Database.Objects {
     public class MySqlConnectionInformation {
         public string Host { get; set; }
         public string Port { get; set; }

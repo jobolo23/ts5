@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using IntranetTG;
 using IntranetTG.Functions;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaction logic for EditShoutDialog.xaml

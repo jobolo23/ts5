@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using IntranetTG.Objects;
 using IntranetTG;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für Bericht.xaml

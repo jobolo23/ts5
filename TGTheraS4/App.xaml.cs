@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"

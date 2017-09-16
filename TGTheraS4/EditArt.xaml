@@ -1,4 +1,4 @@
-﻿<Window x:Class="TGTheraS4.EditArt"
+﻿<Window x:Class="TheraS5.EditArt"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EditArt" Height="213" Width="315" Loaded="Window_Loaded">

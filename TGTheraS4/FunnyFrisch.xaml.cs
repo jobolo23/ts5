@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace TGTheraS4
+namespace TheraS5
 {
     /// <summary>
     /// Interaktionslogik für FunnyFrisch.xaml
