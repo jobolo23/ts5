@@ -131,8 +131,8 @@ namespace TGTheraS4
             if (isOnline)
             {
                 //FTPHandler f = new FTPHandler();
-                //f.Down();
-                Parallel.Invoke(AutoUpdate);
+                //f.DownloadFile();
+                //Parallel.Invoke(AutoUpdate);
                 webMail.Navigate("https://webmail.world4you.com/"); //http://www.t-gemeinschaften.org/webmail
 
                 DeleteAllCookies();
@@ -160,7 +160,7 @@ namespace TGTheraS4
 
 
 
-                new Thread(() => { AutoUpdate(); }).Start();
+                //new Thread(() => { AutoUpdate(); }).Start();
             }
             else
             {
@@ -205,22 +205,26 @@ namespace TGTheraS4
 
         public void AutoUpdate() //#update
         {
+            // We don't update the application like this...
 
-            FTPHandler ftp = new FTPHandler();
-            ftp.Down("version.tg", null);
-            ftp.Down("logo.tg", null);
 
-            version = System.IO.File.ReadAllText("version.tg");
+            FtpHandler ftp = new FtpHandler();
+            ftp.DownloadFile("version.tg", "version.tg");
+            ftp.DownloadFile("logo.tg", "logo.tg");
+
+            /*version = System.IO.File.ReadAllText("version.tg");
             //---------DC Begin---------
             //Nicht mehr notwendig!
-            /*if (!System.IO.File.Exists("users.tg"))
-            {
-                ftp.Down("users.tg", Downloaded);
-            }*/
+            //if (!System.IO.File.Exists("users.tg"))
+            //{
+            //    ftp.DownloadFile("users.tg", Downloaded);
+            //}
             //---------DC End---------
+
+           
             if (!System.IO.File.Exists(version + ".exe"))
             {
-                ftp.Down(version + ".exe", Downloaded);
+                ftp.DownloadFile(version + ".exe", version + ".exe");
                 //MessageBox.Show("Eine neuere Version wurde heruntergeladen!", "Erfolg!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             if (System.IO.File.Exists((Int32.Parse(version) - 1).ToString() + "exe"))
@@ -270,11 +274,14 @@ namespace TGTheraS4
                 }
             }
             catch (Exception) { }
-            System.IO.File.Delete(1 + ".exe");
+            System.IO.File.Delete(1 + ".exe");*/
         }
 
 
 
+        // We don't update the application like this...
+
+        /*
         public bool Downloaded()
         {
             if (!this.Dispatcher.CheckAccess())
@@ -292,6 +299,7 @@ namespace TGTheraS4
             this.Close();
             return false;
         }
+        */
 
         public void setAUsercmb()
         {
@@ -6007,9 +6015,9 @@ namespace TGTheraS4
                 bool tmp = false;
                 if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
                 {
-                    FTPHandler ftp = new FTPHandler();
+                    FtpHandler ftp = new FtpHandler();
                     view_waiting();
-                    if (ftp.down2(@"/home/.sites/33/site5/web/intranet/app/webroot" + doc.path, saveFileDialog1.FileName))
+                    if (ftp.DownloadFile(doc.path, saveFileDialog1.FileName))
                     {
 
                         if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -6046,8 +6054,8 @@ namespace TGTheraS4
                 string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
 
 
-                FTPHandler ftp = new FTPHandler();
-                bool ergeb = ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
+                FtpHandler ftp = new FtpHandler();
+                bool ergeb = ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
                 if (ergeb)
                 {
                     long a = new FileInfo(ofd.FileName).Length;
@@ -6075,9 +6083,9 @@ namespace TGTheraS4
                     string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
 
 
-                    FTPHandler ftp = new FTPHandler();
+                    FtpHandler ftp = new FtpHandler();
                     view_waiting();
-                    ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/wiki/" + name);
+                    ftp.UploadFile(ofd.FileName, "data/wiki/" + name);
 
                     long a = new FileInfo(ofd.FileName).Length;
 
@@ -6108,8 +6116,8 @@ namespace TGTheraS4
                     string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
 
 
-                    FTPHandler ftp = new FTPHandler();
-                    ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
+                    FtpHandler ftp = new FtpHandler();
+                    ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Doc.SelectedValue.ToString())) + "/documents/" + name);
 
                     long a = new FileInfo(ofd.FileName).Length;
 
@@ -7720,8 +7728,8 @@ namespace TGTheraS4
             string speicherort = System.Reflection.Assembly.GetExecutingAssembly().Location;
             speicherort = speicherort.Substring(0, speicherort.LastIndexOf('\\'));
             speicherort += "\\Temp" + DateTime.Now.Ticks.ToString() + doc.path.Substring(doc.path.LastIndexOf('.', doc.path.Length - 1));
-            FTPHandler ftp = new FTPHandler();
-            if (ftp.down2(@"/home/.sites/33/site5/web/intranet/app/webroot" + doc.path, speicherort))
+            FtpHandler ftp = new FtpHandler();
+            if (ftp.DownloadFile(doc.path, speicherort))
             {
 
 
@@ -7788,8 +7796,8 @@ namespace TGTheraS4
                 Nullable<bool> result = saveFileDialog1.ShowDialog();
                 if (!(saveFileDialog1.FileName == null | saveFileDialog1.FileName == "") & result == true)
                 {
-                    FTPHandler ftp = new FTPHandler();
-                    if (ftp.down2(@"/home/.sites/33/site5/web/intranet/app/webroot" + doc.path, saveFileDialog1.FileName))
+                    FtpHandler ftp = new FtpHandler();
+                    if (ftp.DownloadFile(doc.path, saveFileDialog1.FileName))
                     {
 
                         if (MessageBox.Show("Dokument öffnen?", "Öffnen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -7822,8 +7830,8 @@ namespace TGTheraS4
                 string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
 
 
-                FTPHandler ftp = new FTPHandler();
-                ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
+                FtpHandler ftp = new FtpHandler();
+                ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
 
                 long a = new FileInfo(ofd.FileName).Length;
 
@@ -7851,8 +7859,8 @@ namespace TGTheraS4
                     string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
 
 
-                    FTPHandler ftp = new FTPHandler();
-                    ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
+                    FtpHandler ftp = new FtpHandler();
+                    ftp.UploadFile(ofd.FileName, "data/clients/" + Convert.ToInt32(c.getIdbyNameClients(cmb_Klient_Foto.SelectedValue.ToString())) + "/documents/" + name);
 
                     long a = new FileInfo(ofd.FileName).Length;
 
@@ -8061,8 +8069,8 @@ namespace TGTheraS4
 
 
 
-                FTPHandler ftp = new FTPHandler();
-                ftp.delete(doc.path);
+                FtpHandler ftp = new FtpHandler();
+                ftp.DeleteFile(doc.path);
 
 
 
@@ -8080,8 +8088,8 @@ namespace TGTheraS4
 
 
 
-                FTPHandler ftp = new FTPHandler();
-                ftp.delete(doc.path);
+                FtpHandler ftp = new FtpHandler();
+                ftp.DeleteFile(doc.path);
 
 
 
@@ -8514,8 +8522,8 @@ namespace TGTheraS4
             string speicherort = System.Reflection.Assembly.GetExecutingAssembly().Location;
             speicherort = speicherort.Substring(0, speicherort.LastIndexOf('\\'));
             speicherort += "\\Temp2" + doc.path.Substring(doc.path.LastIndexOf('.', doc.path.Length - 1));
-            FTPHandler ftp = new FTPHandler();
-            if (ftp.down2(@"/home/.sites/33/site5/web/intranet/app/webroot" + doc.path, speicherort))
+            FtpHandler ftp = new FtpHandler();
+            if (ftp.DownloadFile(doc.path, speicherort))
             {
 
 
@@ -8715,12 +8723,12 @@ namespace TGTheraS4
                 {
 
                     WikiDoc tmp = (WikiDoc)dgvWikiDocs.SelectedItem;
-                    FTPHandler ftp = new FTPHandler();
+                    FtpHandler ftp = new FtpHandler();
                     view_waiting();
                     c.delwikiDoc(tmp);
                     try
                     {
-                        ftp.delete(tmp.path);
+                        ftp.DeleteFile(tmp.path);
                     }
                     catch
                     {
@@ -9806,11 +9814,11 @@ namespace TGTheraS4
                 {
 
                     string name = ofd.FileName.Substring(ofd.FileName.LastIndexOf('\\') + 1);
-                    FTPHandler ftp = new FTPHandler();
+                    FtpHandler ftp = new FtpHandler();
                     view_waiting();
                     try
                     {
-                        ftp.delete(doc.path);
+                        ftp.DeleteFile(doc.path);
                     }
                     catch
                     {
@@ -9820,7 +9828,7 @@ namespace TGTheraS4
 
 
 
-                    ftp.up2(ofd.FileName, "/home/.sites/33/site5/web/intranet/app/webroot/data/wiki/" + name);
+                    ftp.UploadFile(ofd.FileName, "data/wiki/" + name);
 
                     c.updatewiki(name, Convert.ToInt32(u.Id), doc);
                     loadWiki();

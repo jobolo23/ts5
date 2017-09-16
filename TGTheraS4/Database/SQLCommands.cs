@@ -18,7 +18,7 @@ namespace IntranetTG
     public class SQLCommands 
     {
         //public MySqlConnection myConnection = new MySqlConnection("uid=ultra;" + "pwd=radeonhd7870;server=81.19.152.119;" + "database=intranetTest; Convert Zero Datetime=True"); //Test-Server
-        public MySqlConnection myConnection = new MySqlConnection("uid=test;" + "pwd=test;server=127.0.0.1;" + "database=theras5; Convert Zero Datetime=True"); //Main-Server
+        public MySqlConnection myConnection = new MySqlConnection("uid=test;" + "pwd=test;server=82.149.102.22;" + "database=theras5; Convert Zero Datetime=True"); //Main-Server
 
         public SQLCommands()
         {
@@ -3124,8 +3124,8 @@ namespace IntranetTG
 
                 if (check != null)
                 {
-                    FTPHandler ftp = new FTPHandler();
-                    ftp.createPathForClient(check);
+                    FtpHandler ftp = new FtpHandler();
+                    ftp.CreatePathForClient(check);
                 }
             }
             catch (Exception e)
