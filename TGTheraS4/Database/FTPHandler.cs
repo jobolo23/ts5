@@ -8,13 +8,15 @@ namespace IntranetTG
     internal class FtpHandler
     {
         private const string FtpUrl = "ftp://ftp.epplicator.com/TS5/";
-        private readonly NetworkCredential _ftpCred = new NetworkCredential("u79279720", "catter?12");
+        private readonly NetworkCredential _ftpCred;
 
         private FtpWebRequest _request;
 
         public FtpHandler()
         {
-
+            var sr = new StreamReader("ftp.ftp");
+            var data = sr.ReadLine();
+            _ftpCred  = new NetworkCredential("u79279720", data);
         }
 
         public bool DownloadFile(string datei, string speicherort)
