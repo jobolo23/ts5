@@ -1243,33 +1243,6 @@ namespace IntranetTG
             //AddUserstoServices(Convert.ToInt32(getUserIDbyFullname(p2 + " " + p3)), Convert.ToInt32(getServicesIdByName(p21)));
         }
 
-        private string getServicesIdByName(string p21)
-        {
-            var ret = "";
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand("select id from services where name = '" + p21 + "'", _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret = myReader["id"].ToString();
-                }
-                myReader.Close();
-
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-        }
-
         public void setEmailPass(string id, string emailpass)
         {
             try
@@ -1501,27 +1474,16 @@ namespace IntranetTG
 
         internal string getWorkingDays(string id)
         {
-            try
+
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                var gaaaah = "";
-                var myCommand = new MySqlCommand("select weeklyDays from users where id = " + id, _myConnection);
-                MySqlDataReader myReader = null;
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    gaaaah = myReader["weeklydays"].ToString();
-                }
-                return gaaaah;
+                var query = db.Users.Where(x => x.Id == Convert.ToUInt32(id));
+
+                var workingDays = query.ToList().First().WeeklyDays.ToString();
+                return workingDays;
+
             }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
+         
         }
 
         public void setTaschengeld(string tgKlient, string diff, char zeichen, string com, string name)
