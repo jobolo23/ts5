@@ -2649,40 +2649,18 @@ namespace IntranetTG
 
         internal bool checkWikiName(string p)
         {
-            try
-            {
-                var ret = "";
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand("select count(*) as 'count' from wiki where title = '" + p + "'",
-                    _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
+            
+                using (var db = new Theras5DB())
                 {
-                    ret = myReader["count"].ToString();
+                    var query = db.Wikis.Any(x => x.Title == p);
+
+                    
+                    return query;
+
                 }
 
-                myReader.Close();
 
-                if (Convert.ToInt32(ret.Trim()) > 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-                /**/
-                /**/
-                return false;
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
+              
         }
 
         internal void updatewiki(string name, int UserId, WikiDoc doc)
@@ -3388,33 +3366,17 @@ namespace IntranetTG
 
         public string getUserID(string name)
         {
-            var ret = "";
-            string[] names;
-            try
-            {
-                names = name.Split(' ');
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand("select u.id from users u where u.username='" + name + "'",
-                    _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["id"].ToString();
-                }
 
-                myReader.Close();
 
-                return ret;
-            }
-            catch (Exception e)
+            using (var db = new Theras5DB())
             {
-                return e.ToString();
+                var query = db.Users.Where(x => x.Username == name);
+
+                var userId = query.ToList().First().Id.ToString();
+                return userId;
+
             }
-            finally
-            {
-                _myConnection.Close();
-            }
+            
         }
 
         public string getUserIDbyFullname(string name)
