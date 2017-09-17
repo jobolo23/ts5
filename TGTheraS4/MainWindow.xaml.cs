@@ -2695,8 +2695,9 @@ namespace TheraS5
 
                         txtAdminGeb.Text = hodenkrebs;
                     }
-                    catch
+                    catch (Exception exception)
                     {
+                        var text = exception.Message;
                     }
 
                     if (!txtWorkingdaysWeekly.Text.Equals(""))

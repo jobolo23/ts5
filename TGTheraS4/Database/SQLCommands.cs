@@ -3368,15 +3368,33 @@ namespace IntranetTG
         {
 
 
-            using (var db = new Theras5DB())
+            var ret = "";
+            string[] names;
+            try
             {
-                var query = db.Users.Where(x => x.Username == name);
+                names = name.Split(' ');
+                _myConnection.Open();
+                MySqlDataReader myReader = null;
+                var myCommand = new MySqlCommand("select u.id from users u where u.username='" + name + "'",
+                    _myConnection);
+                myReader = myCommand.ExecuteReader();
+                while (myReader.Read())
+                {
+                    ret += myReader["id"].ToString();
+                }
 
-                var userId = query.ToList().First().Id.ToString();
-                return userId;
+                myReader.Close();
 
+                return ret;
             }
-            
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            finally
+            {
+                _myConnection.Close();
+            }
         }
 
         public string getUserIDbyFullname(string name)
