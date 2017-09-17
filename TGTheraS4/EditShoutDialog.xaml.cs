@@ -64,7 +64,7 @@ namespace TheraS5
                     }
                 }
 
-                c.setShout(s, Functions.ActualUserFromList.Id);
+                c.SetShout(s, Functions.ActualUserFromList.Id);
                 Close();
             }
             else

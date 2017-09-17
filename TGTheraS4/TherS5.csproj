@@ -263,6 +263,7 @@
     <Compile Include="Objects\MediAkt.cs" />
     <Compile Include="Objects\PadMas.cs" />
     <Compile Include="Objects\Salutations.cs" />
+    <Compile Include="Objects\Shout.cs" />
     <Compile Include="Objects\UserFunctions.cs" />
     <Compile Include="PrintCalendar.xaml.cs">
       <DependentUpon>PrintCalendar.xaml</DependentUpon>

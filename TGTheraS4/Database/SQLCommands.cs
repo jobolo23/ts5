@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using DataModels;
+using LinqToDB;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
+using TGTheraS4.Objects;
 using TheraS5.Database.Objects;
 using TheraS5.Database_SQLite;
 using TheraS5.Objects;
 using Document = TheraS5.Objects.Document;
 using Instruction = TheraS5.Objects.Instruction;
 using Service = TheraS5.Objects.Service;
+using Shout = TGTheraS4.Objects.Shout;
 using Taschengeld = TheraS5.Objects.Taschengeld;
 using Task = TheraS5.Objects.Task;
 using Title = IntranetTG.Objects.Title;
@@ -282,7 +285,7 @@ namespace IntranetTG
             }
         }
 
-        public List<Document> getClientdoku(int id, bool isPhoto)
+        public List<Document> GetClientdoku(int id, bool isPhoto)
         {
             using (var db = new Theras5DB())
             {
@@ -293,7 +296,7 @@ namespace IntranetTG
             }
         }
 
-        public List<WikiDoc> getWikiDocs()
+        public List<WikiDoc> GetWikiDocs()
         {
             using (var db = new Theras5DB())
             {
@@ -301,94 +304,26 @@ namespace IntranetTG
             }
         }
 
-        public string getMailCredetials(string id)
+        public List<Shout> GetShouts()
         {
-            return getData("users", new[] {"s.email_user", "s.email_password"}, new[] {"email_user", "email_password"},
-                "where s.id = '" + id + "'");
+            using (var db = new Theras5DB())
+            {
+                return db.Shouts.Join(db.Users, s => s.CreateuserId, u => u.Id, (s, u) => new {s, u})
+                    .OrderBy(t => t.s.Created)
+                    .Select(t => new Shout(t.s.Id, t.s.Created, t.s.CreateuserId, t.s.Message, t.u.Firstname, t.u.Lastname)).ToList();
+            }
         }
 
-        public string clientToMedication(string vorname, string nachname)
+        public void SetShout(string shout, string id)
         {
-            var ret = "";
-            try
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand("select c.firstname,c.lastname,m.name from clients c" +
-                                                 " join clientsmedications cm on c.id = cm.client_id" +
-                                                 " join medicaments m on cm.medicament_id = m.id" +
-                                                 " where c.firstname = '" + vorname + "' and c.lastname = '" +
-                                                 nachname + "' " +
-                                                 "and cm.to >= curdate()", _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
+                db.Insert(new DataModels.Shout
                 {
-                    ret += myReader["name"].ToString();
-                    ret += "%";
-                }
-                myReader.Close();
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-        }
-
-        public string getShouts()
-        {
-            var ret = "";
-
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand(
-                    "select s.message, s.created, u.firstname, u.lastname from shouts s join users u on s.createuser_id = u.id" +
-                    " order by created DESC LIMIT 0, 30", _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["message"] + "$";
-                    ret += myReader["created"] + "$";
-                    ret += myReader["firstname"] + " ";
-                    ret += myReader["lastname"].ToString();
-                    ret += "%";
-                }
-                myReader.Close();
-                return ret;
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
-        }
-
-        public void setShout(string shout, string id)
-        {
-            try
-            {
-                _myConnection.Open();
-                var myCommand =
-                    new MySqlCommand(
-                        "insert into shouts (created,createuser_id,message) values('" +
-                        DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "','" + id + "','" + shout + "')", _myConnection);
-                myCommand.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                _myConnection.Close();
+                    Created = DateTime.Now,
+                    CreateuserId = Convert.ToUInt32(id),
+                    Message = shout
+                });
             }
         }
 
@@ -563,224 +498,193 @@ namespace IntranetTG
             }
         }
 
-        internal void cancelMediForClient(string cmid)
+        internal void CancelMediForClient(string cmid)
         {
-            try
+            using (var db = new Theras5DB())
             {
-                _myConnection.Open();
-                var myCommand =
-                    new MySqlCommand(
-                        "UPDATE clientsmedications SET cancelled = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                        "' where id = " + cmid, _myConnection);
-                myCommand.ExecuteNonQuery();
-                _myConnection.Close();
-            }
-            catch
-            {
+                db.Clientsmedications
+                    .Where(c => c.Id == Convert.ToUInt32(cmid))
+                    .Set(c => c.Cancelled, DateTime.Now)
+                    .Update();
             }
         }
 
-        internal void deleteMediForClient(string cmid)
+        internal void DeleteMediForClient(string cmid)
         {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("DELETE FROM clientsmedications WHERE id = " + cmid, _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
+            using (var db = new Theras5DB())
+            {
+                db.Clientsmedications
+                    .Where(c => c.Id == Convert.ToUInt32(cmid))
+                    .Delete();
+            }
         }
 
-        internal void deleteMediActionForClient(string client, string date, string art, string desc)
+        internal void DeleteMediActionForClient(string client, string date, string art, string desc)
         {
             var id = getMediActionIDbyName(art);
-            _myConnection.Open();
-            var myCommand =
-                new MySqlCommand(
-                    "DELETE FROM clientsmedicalactions WHERE client_id = " + client + " and realized = '" + date +
-                    "' and statement = '" + desc + "' and medicalaction_id = " + id + ";", _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
+
+            using (var db = new Theras5DB())
+            {
+                db.Clientsmedicalactions
+                    .Where(c => c.ClientId == Convert.ToUInt32(client) && c.Realized == DateTime.Parse(date) && c.Statement == desc &&
+                                c.MedicalactionId == Convert.ToUInt32(id))
+                    .Delete();
+            }
         }
 
-        internal void addNewMedi(string name, string dis, string uid)
+        internal void AddNewMedi(string name, string dis, string uid)
         {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand(
-                "INSERT INTO medicaments (created, modified, createuser_id, lastuser_id, name, description) " +
-                "values('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" +
-                DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "', '" + uid + "', '" + uid + "', '" + name + "','" + dis +
-                "')", _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
+            using (var db = new Theras5DB())
+            {
+                db.Insert(new Medicament
+                {
+                    Created = DateTime.Now,
+                    Modified = DateTime.Now,
+                    CreateuserId = Convert.ToUInt32(uid),
+                    LastuserId = Convert.ToUInt32(uid),
+                    Name = name,
+                    Description = dis
+                });
+            }
         }
 
-        internal bool checkMediIfObsolete(string mid)
+        internal bool CheckMediIfObsolete(string mid)
         {
-            var ret = false;
             try
             {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                MySqlCommand myCommand = null;
-
-                myCommand = new MySqlCommand("select `cancelled`, `to` from clientsmedications" +
-                                             " where `id` = '" + mid +
-                                             "' AND ((`cancelled` > '0000-00-00' AND `cancelled` <= '" +
-                                             DateTime.Now.ToString("yyyy-MM-dd") + "') OR `to` < '" +
-                                             DateTime.Now.ToString("yyyy-MM-dd") + "')", _myConnection);
-
-                myReader = myCommand.ExecuteReader();
-
-                while (myReader.Read())
+                using (var db = new Theras5DB())
                 {
-                    ret = true;
+                    db.Clientsmedications.Where(
+                            c => c.Id == Convert.ToUInt32(mid) &&
+                                 (c.Cancelled > DateTime.MinValue && c.Cancelled <= DateTime.Now ||
+                                  c.To < DateTime.Now))
+                        .ToList();
+
+                    return true;
                 }
-                myReader.Close();
-                return ret;
             }
             catch
             {
-                MessageBox.Show(
-                    "Fehler bei der Überprüfung ob das Medikament noch aktuell ist! Bitte melden Sie dies dem Programmierer",
-                    "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }
-            finally
-            {
-                _myConnection.Close();
             }
         }
 
         internal void updateMedi(string medi_id, string mid, string luid, string from, string to, string mo, string mi,
             string ev, string ni)
         {
-            _myConnection.Open();
-            var myCommand =
-                new MySqlCommand(
-                    "UPDATE clientsmedications SET modified = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                    "', lastuser_id = '" + luid + "', `from` = '" + from + "', `to` = '" + to + "', morning = '" + mo +
-                    "', midday = '" + mi + "', evening = '" + ev + "', night = '" + ni + "', medicament_id = '" +
-                    medi_id + "' where id = " + mid, _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
-        }
-
-        internal void addFunctions(string name)
-        {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("insert into functions (Name) values ('" + name + "')", _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
-        }
-
-        internal void editFunctions(string name, string id)
-        {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("update functions set name = '" + name + "' where id = " + id,
-                _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
-        }
-
-        internal DateTime getMediDateFrom(string mid)
-        {
-            _myConnection.Open();
-            var dt = DateTime.Today;
-            var myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'",
-                _myConnection);
-            var myReader = myCommand.ExecuteReader();
-
-
-            while (myReader.Read())
+            using (var db = new Theras5DB())
             {
-                dt = Convert.ToDateTime(myReader["from"].ToString());
+                db.Clientsmedications
+                    .Where(c=>c.Id == Convert.ToUInt32(mid))
+                    .Set(c=>c.Modified, DateTime.Now)
+                    .Set(c => c.LastuserId, Convert.ToUInt32(luid))
+                    .Set(c => c.From, DateTime.Parse(from))
+                    .Set(c => c.To, DateTime.Parse(to))
+                    .Set(c => c.Morning, Convert.ToSByte(mo))
+                    .Set(c => c.Midday, Convert.ToSByte(mi))
+                    .Set(c => c.Evening, Convert.ToSByte(ev))
+                    .Set(c => c.Night, Convert.ToSByte(ni))
+                    .Set(c => c.MedicamentId, Convert.ToUInt32(medi_id))
+                    .Update();
             }
-            myReader.Close();
-            _myConnection.Close();
-            return dt;
         }
 
-        internal DateTime getMediDateTo(string mid)
+        internal void AddFunctions(string name)
         {
-            _myConnection.Open();
-            var dt = DateTime.Today;
-            var myCommand = new MySqlCommand("select `from`, `to` from clientsmedications where `id` = '" + mid + "'",
-                _myConnection);
-            var myReader = myCommand.ExecuteReader();
-
-            while (myReader.Read())
+            using (var db = new Theras5DB())
             {
-                dt = Convert.ToDateTime(myReader["to"].ToString());
+                db.Insert(new Function
+                {
+                    Name = name
+                });
             }
-            myReader.Close();
-            _myConnection.Close();
-            return dt;
+        }
+
+        internal void EditFunctions(string name, string id)
+        {
+            using (var db = new Theras5DB())
+            {
+                db.Functions
+                    .Where(f => f.ID == Convert.ToUInt32(id))
+                    .Set(f => f.Name, name)
+                    .Update();
+            }
+        }
+
+        internal DateTime GetMediDateFrom(string mid)
+        {
+            using (var db = new Theras5DB())
+            {
+                return db.Clientsmedications.Where(c => c.Id == Convert.ToUInt32(mid)).ToList().First().From.Value;
+            }
+        }
+
+        internal DateTime GetMediDateTo(string mid)
+        {
+            using (var db = new Theras5DB())
+            {
+                return db.Clientsmedications.Where(c => c.Id == Convert.ToUInt32(mid)).ToList().First().To.Value;
+            }
         }
 
 
-        internal void deluserfunc(int id)
+        internal void Deluserfunc(int id)
         {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("delete from userstofunctions where User = " + id, _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
+            using (var db = new Theras5DB())
+            {
+                db.Userstofunctions
+                    .Where(c => c.User == Convert.ToUInt32(id))
+                    .Delete();
+            }
         }
 
-        internal void insertuserfunc(int id, UserFunctions fu)
+        internal void Insertuserfunc(int id, UserFunctions fu)
         {
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("insert into userstofunctions values (" + id + ", " + fu.id + ");",
-                _myConnection);
-            myCommand.ExecuteNonQuery();
-            _myConnection.Close();
+            using (var db = new Theras5DB())
+            {
+                db.Insert(new Userstofunction
+                {
+                    User = id,
+                    Function = Convert.ToInt32(fu.id)
+                });
+            }
         }
 
-        internal void saveUserfunc(int id, List<UserFunctions> fu)
+        internal void SaveUserfunc(int id, List<UserFunctions> fu)
         {
-            deluserfunc(id);
+            Deluserfunc(id);
             foreach (var u in fu)
             {
-                insertuserfunc(id, u);
+                Insertuserfunc(id, u);
             }
         }
 
         internal List<UserFunctions> getUserFunctions()
         {
-            var ret = new List<UserFunctions>();
-            _myConnection.Open();
-            var myCommand = new MySqlCommand("select ID, Name from functions", _myConnection);
-            var myReader = myCommand.ExecuteReader();
-
-            while (myReader.Read())
+            using (var db = new Theras5DB())
             {
-                var tmp = new UserFunctions();
-                tmp.id = myReader["ID"].ToString();
-                tmp.Name = myReader["Name"].ToString();
-                ret.Add(tmp);
+                return db.Functions.Select(f => f).ToList().Select(function => new UserFunctions
+                    {
+                        id = function.ID.ToString(),
+                        Name = function.Name
+                    })
+                    .ToList();
             }
-            myReader.Close();
-            _myConnection.Close();
-            return ret;
         }
 
         internal List<UserFunctions> getUserFunctions(int id)
         {
-            var ret = new List<UserFunctions>();
-            _myConnection.Open();
-            var myCommand =
-                new MySqlCommand(
-                    "select functions.ID, functions.Name from functions join userstofunctions on functions.ID = userstofunctions.Function where userstofunctions.User = " +
-                    id, _myConnection);
-            var myReader = myCommand.ExecuteReader();
-
-            while (myReader.Read())
+            using (var db = new Theras5DB())
             {
-                var tmp = new UserFunctions();
-                tmp.id = myReader["ID"].ToString();
-                tmp.Name = myReader["Name"].ToString();
-                ret.Add(tmp);
+                return db.Functions.Join(db.Userstofunctions, f => f.ID, u => u.Function, (f, u) => new {f, u})
+                    .Where(t => t.u.User == id)
+                    .Select(t => t.f).ToList().Select(function => new UserFunctions
+                    {
+                        id = function.ID.ToString(),
+                        Name = function.Name
+                    })
+                    .ToList();
             }
-            myReader.Close();
-            _myConnection.Close();
-            return ret;
         }
 
         internal string getMedicationForClient(string kid, DateTime dt, bool ignoreDate, bool confirmed)

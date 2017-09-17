@@ -24,6 +24,7 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using PdfSharp;
 using PdfSharp.Drawing;
+using TGTheraS4.Objects;
 using TheraS5.Objects;
 using TheraS5.Services;
 using Application = System.Windows.Forms.Application;
@@ -170,15 +171,36 @@ namespace TheraS5
         public int SelectedIndex1 { get; set; }
 
 
+        private void fillShoutBox(List<Shout> shouts)
+        {
+            FillColumnInTable(new string[] { "Shoutbox", "Erstellt", "Name"});
+
+            foreach (var shout in shouts)
+            {
+                DataRow row = table.NewRow();
+                row[0] = shout.Message;
+                row[1] = shout.Created.ToShortDateString();
+                row[2] = shout.CreatedUserFirstname + " " + shout.CreatedUserLastname;
+                table.Rows.Add(row);
+            }
+
+            var dataset = new DataSet();
+
+            dataset.Tables.Add(table);
+
+            dgShouts.ItemsSource = dataset.Tables[0].DefaultView;
+            dgShouts.DataContext = dataset.Tables[0];
+        }
+
         private void AfterLogin()
         {
             if (isOnline)
             {
                 AutoUpdate();
 
-                string[] shouts = {"Shoutbox", "Erstellt", "Name"};
-                FillMoreData(dgShouts, c.getShouts(), shouts);
-
+                /*string[] shouts = {"Shoutbox", "Erstellt", "Name"};
+                FillMoreData(dgShouts, c.getShouts(), shouts);*/
+                fillShoutBox(c.GetShouts());
 
                 string[] names = {"Id", "Name", "Bezeichnung", "Prozent"};
 
@@ -487,7 +509,7 @@ namespace TheraS5
 
         private void loadWiki()
         {
-            var docs = c.getWikiDocs();
+            var docs = c.GetWikiDocs();
             wiki = new List<WikiDoc>();
             foreach (var doc in docs)
             {
@@ -881,8 +903,9 @@ namespace TheraS5
         {
             if (tabMain.SelectedIndex == 0)
             {
-                string[] shouts = {"Shoutbox", "Erstellt", "Name"};
-                FillMoreData(dgShouts, c.getShouts(), shouts);
+                /*string[] shouts = {"Shoutbox", "Erstellt", "Name"};
+                FillMoreData(dgShouts, c.getShouts(), shouts);*/
+                fillShoutBox(c.GetShouts());
             }
             if (tabMain.SelectedIndex == 6)
             {
@@ -1368,8 +1391,9 @@ namespace TheraS5
             var shout = new EditShoutDialog(c);
             shout.ShowDialog();
 
-            string[] shouts = {"Shoutbox", "Erstellt", "Name"};
-            FillMoreData(dgShouts, c.getShouts(), shouts);
+            /*string[] shouts = {"Shoutbox", "Erstellt", "Name"};
+            FillMoreData(dgShouts, c.getShouts(), shouts);*/
+            fillShoutBox(c.GetShouts());
         }
 
         private void btnNewBericht_Click(object sender, RoutedEventArgs e)
@@ -4484,11 +4508,11 @@ namespace TheraS5
             try
             {
                 var ma = dgmedicalaction.SelectedItem as MediAkt;
-                var et = new EditMedicalActions(medihelpname, ma.date, ma.art, ma.desc, true);
+                var et = new EditMedicalActions(medihelpname, ma.date, ma.art, ma.desc, true, c);
                 et.ShowDialog();
                 if (et.del)
                 {
-                    c.deleteMediActionForClient(c.getIdbyNameClients(cmbMA.SelectedValue.ToString()), ma.date, ma.art,
+                    c.DeleteMediActionForClient(c.getIdbyNameClients(cmbMA.SelectedValue.ToString()), ma.date, ma.art,
                         ma.desc);
                     dgmedicalaction.Items.Remove(dgmedicalaction.SelectedItem);
                     try
@@ -5292,7 +5316,7 @@ namespace TheraS5
 
         public void update_docs(int id)
         {
-            var docs = c.getClientdoku(id, false);
+            var docs = c.GetClientdoku(id, false);
             doclist = new List<Document>();
             foreach (var doc in docs)
             {
@@ -5571,7 +5595,7 @@ namespace TheraS5
 
         public void update_pics(int id)
         {
-            var docs = c.getClientdoku(id, true);
+            var docs = c.GetClientdoku(id, true);
             var oclist = new List<Document>();
             foreach (var doc in docs)
             {
@@ -6004,7 +6028,7 @@ namespace TheraS5
                         medicList.Add(new Medicaments(temp[0], temp[1], temp[2], temp[3], temp[4], false, false, false,
                             false, temp[5], temp[6], DateTime.Today.ToString()));
                     }
-                    if (c.checkMediIfObsolete(temp[6]))
+                    if (c.CheckMediIfObsolete(temp[6]))
                     {
                         obsoleteMedis.Add(temp[6] + "§true");
                     }
@@ -7002,7 +7026,7 @@ namespace TheraS5
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
                     var mmm = (Medicaments) dgvMedikamente.SelectedItem;
-                    c.cancelMediForClient(mmm.cmId);
+                    c.CancelMediForClient(mmm.cmId);
                     update_medications();
                     MessageBox.Show("Das Medikament wurde abgesetzt!", "Erfolg!", MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -7032,7 +7056,7 @@ namespace TheraS5
                     if (msgboxResult == MessageBoxResult.Yes)
                     {
                         var mmm = (Medicaments) dgvMedikamente.SelectedItem;
-                        c.deleteMediForClient(mmm.cmId);
+                        c.DeleteMediForClient(mmm.cmId);
                         update_medications();
                         MessageBox.Show("Das Medikament wurde gelöscht!", "Erfolg!", MessageBoxButton.OK,
                             MessageBoxImage.Information);
@@ -7060,7 +7084,7 @@ namespace TheraS5
             {
                 if (txtNewMediName.Text != "" && txtNewMediDescription.Text != "")
                 {
-                    c.addNewMedi(txtNewMediName.Text, txtNewMediDescription.Text, u.Id);
+                    c.AddNewMedi(txtNewMediName.Text, txtNewMediDescription.Text, u.Id);
                     update_medications();
                     txtNewMediName.Text = "";
                     txtNewMediDescription.Text = "";
@@ -7122,8 +7146,8 @@ namespace TheraS5
                     txtNewMediEvening.Text = mmm.evening;
                     txtNewMediNight.Text = mmm.night;
                     cmbMedis.SelectedItem = mmm.name;
-                    dtpNewMediFrom.SelectedDate = c.getMediDateFrom(mmm.cmId);
-                    dtpNewMediTo.SelectedDate = c.getMediDateTo(mmm.cmId);
+                    dtpNewMediFrom.SelectedDate = c.GetMediDateFrom(mmm.cmId);
+                    dtpNewMediTo.SelectedDate = c.GetMediDateTo(mmm.cmId);
                     btnMediUndoChanges.Visibility = Visibility.Visible;
                 }
                 else

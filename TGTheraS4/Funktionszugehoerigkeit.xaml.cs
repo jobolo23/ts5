@@ -71,7 +71,7 @@ namespace TheraS5
             newf.ShowDialog();
             if (newf.finished)
             {
-                c.addFunctions(newf.txt);
+                c.AddFunctions(newf.txt);
                 func = new List<UserFunctions>();
                 func = c.getUserFunctions();
                 foreach (var f in selected)
@@ -105,7 +105,7 @@ namespace TheraS5
                 newf.ShowDialog();
                 if (newf.finished)
                 {
-                    c.editFunctions(newf.txt, ((UserFunctions) dgFuncAll.SelectedItem).id);
+                    c.EditFunctions(newf.txt, ((UserFunctions) dgFuncAll.SelectedItem).id);
                     func = new List<UserFunctions>();
                     func = c.getUserFunctions();
                     foreach (var f in selected)
@@ -152,7 +152,7 @@ namespace TheraS5
         {
             try
             {
-                c.saveUserfunc(id, selected);
+                c.SaveUserfunc(id, selected);
                 set = true;
 
                 close = true;

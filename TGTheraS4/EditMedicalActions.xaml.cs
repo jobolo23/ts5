@@ -38,9 +38,10 @@ namespace TheraS5
             }
         }
 
-        public EditMedicalActions(string client, string date, string art, string desc, bool showdel)
+        public EditMedicalActions(string client, string date, string art, string desc, bool showdel, SQLCommands sql)
         {
             InitializeComponent();
+            c = sql;
             cmbArt.ItemsSource = c.geileMethode();
             cmbArt.SelectedValuePath = "aid";
             cmbArt.DisplayMemberPath = "name";

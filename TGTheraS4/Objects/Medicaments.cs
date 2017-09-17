@@ -1,4 +1,5 @@
 ﻿using System;
+using DataModels;
 
 namespace TheraS5.Objects
 {
