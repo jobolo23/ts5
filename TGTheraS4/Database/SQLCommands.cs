@@ -1126,31 +1126,16 @@ namespace IntranetTG
 
         internal bool isAdmin(string p)
         {
-            var ret = "";
-            try
-            {
-                _myConnection.Open();
-                MySqlDataReader myReader = null;
-                var myCommand = new MySqlCommand("Select isAdmin from users u where u.id = " + p, _myConnection);
-                myReader = myCommand.ExecuteReader();
-                while (myReader.Read())
-                {
-                    ret += myReader["isAdmin"].ToString();
-                }
 
-                myReader.Close();
+            using (var db = new Theras5DB())
+            {
+                var query = db.Users.Where(x => x.Id == Convert.ToUInt32(p));
 
-                return Convert.ToBoolean(ret);
+                var isAdmin = Boolean.Parse(query.ToList().First().IsAdmin);
+                return isAdmin;
+
             }
-            catch
-            {
-                /**/
-                return false;
-            }
-            finally
-            {
-                _myConnection.Close();
-            }
+           
         }
 
         public void AddUserstoServices(int user_id, List<Service> service_id)
