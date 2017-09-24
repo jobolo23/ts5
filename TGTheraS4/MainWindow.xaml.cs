@@ -55,13 +55,13 @@ namespace TheraS5
         private bool contSearch3;
         public string cs = "DbLinqProvider=Sqlite;Data Source=converted.sqlite";
 
-        public string current_client_medi = "";
+        //public string current_client_medi = "";
         private string[] databaseString;
         private DateTime dataTime;
         public DataContext db;
         public List<Document> doclist = new List<Document>();
 
-        public bool edit_medi;
+        //public bool edit_medi;
 
         private bool firsttimer = true;
         private bool funcset = false;
@@ -77,11 +77,11 @@ namespace TheraS5
 
         private int load = 0;
 
-        private List<Medicaments> m;
+        //private List<Medicaments> m;
 
         private string medihelpname;
 
-        public string[] medis;
+        //public string[] medis;
         public MySqlConnection myConnection;
 
 
@@ -89,7 +89,7 @@ namespace TheraS5
 
         public List<string> nonWorkingDays = new List<string>();
 
-        public List<string> obsoleteMedis;
+        //public List<string> obsoleteMedis;
         public bool offline;
         private List<PadMas> pad = new List<PadMas>();
         public string pdf_haben;
@@ -1061,7 +1061,7 @@ namespace TheraS5
 
         private void fillMedi(string p, DateTime dt)
         {
-            m = new List<Medicaments>();
+            /*m = new List<Medicaments>();
 
             string[] fillings;
 
@@ -1172,17 +1172,17 @@ namespace TheraS5
             {
                 dgvMedi.IsEnabled = true;
                 chk_noMedi.IsEnabled = true;
-            }
+            }*/
         }
 
         private void dgvMedi_Loaded(object sender, RoutedEventArgs e)
         {
-            for (var i = 0; i < dgvMedi.Items.Count; i++)
+            /*for (var i = 0; i < dgvMedi.Items.Count; i++)
             {
                 if (((Medicaments) dgvMedi.Items[i]).morning == "1")
                 {
                 }
-            }
+            }*/
         }
 
         private void CheckBox_Loaded(object sender, RoutedEventArgs e)
@@ -1234,7 +1234,7 @@ namespace TheraS5
 
                     var no_post = false;
 
-                    foreach (Medicaments medic in dgvMedi.Items)
+                    /*foreach (Medicaments medic in dgvMedi.Items)
                     {
                         if (medic.morning == "1" && medic.morningConfirmed == false ||
                             medic.midday == "1" && medic.middayConfirmed == false ||
@@ -1268,7 +1268,7 @@ namespace TheraS5
                     {
                         chk_noMedi.IsChecked = false;
                         dgvMedi.IsEnabled = true;
-                    }
+                    }*/
 
 
                     if (!no_post)
@@ -6003,7 +6003,7 @@ namespace TheraS5
 
         public void update_medications()
         {
-            var medicList = new List<Medicaments>();
+            /*var medicList = new List<Medicaments>();
             obsoleteMedis = new List<string>();
             medis = c.getMedicaments().Split('%');
             cmbMedis.Items.Clear();
@@ -6053,7 +6053,7 @@ namespace TheraS5
             btnDeleteSelectedMedi.IsEnabled = true;
             btnDeleteSelectedMedi_Copy.IsEnabled = true;
             btnEditSelectedMedi.IsEnabled = true;
-            current_client_medi = c.getIdbyNameClients(cmbMedicClient.SelectedValue.ToString());
+            current_client_medi = c.getIdbyNameClients(cmbMedicClient.SelectedValue.ToString()); */
         }
 
 
@@ -6794,7 +6794,7 @@ namespace TheraS5
         }
 
         private void btnAddNewMedi_Click(object sender, RoutedEventArgs e)
-        {
+        { /*
             if ((txtNewMediMorning.Text != "0") | (txtNewMediMidday.Text != "0") | (txtNewMediEvening.Text != "0") |
                 (txtNewMediNight.Text != "0"))
             {
@@ -7017,12 +7017,12 @@ namespace TheraS5
                 {
                     //NIX
                 }
-            }
+            } */
         }
 
         private void btnDeleteSelectedMedi_Click(object sender, RoutedEventArgs e)
         {
-            try
+            /*try
             {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
@@ -7041,12 +7041,12 @@ namespace TheraS5
             catch
             {
                 MessageBox.Show("Internal Error! (E1338)", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         private void btnDeleteSelectedMedi_Copy_Click(object sender, RoutedEventArgs e)
         {
-            try
+            /*try
             {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
@@ -7076,7 +7076,7 @@ namespace TheraS5
             catch
             {
                 MessageBox.Show("Internal Error! (E1339)", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         private void btnAddNewMediNew_Click(object sender, RoutedEventArgs e)
@@ -7106,7 +7106,7 @@ namespace TheraS5
 
         public bool isMediObsolete(string mid)
         {
-            var ret = false;
+            /*var ret = false;
             foreach (var s in obsoleteMedis)
             {
                 if (s.Split('§')[0] == mid)
@@ -7117,7 +7117,9 @@ namespace TheraS5
                     }
                 }
             }
-            return ret;
+            return ret;*/
+
+            return false;
         }
 
         private void dgvMedikamente_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -7135,7 +7137,7 @@ namespace TheraS5
 
         private void btnEditSelectedMedi_Click(object sender, RoutedEventArgs e)
         {
-            try
+            /*try
             {
                 if (dgvMedikamente.SelectedIndex != -1)
                 {
@@ -7160,12 +7162,12 @@ namespace TheraS5
             catch
             {
                 MessageBox.Show("Internal Error! (E1341)", "Fehler!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         private void btnMediUndoChanges_Click(object sender, RoutedEventArgs e)
         {
-            txtNewMediMorning.Text = "";
+            /*txtNewMediMorning.Text = "";
             txtNewMediMidday.Text = "";
             txtNewMediEvening.Text = "";
             txtNewMediNight.Text = "";
@@ -7175,7 +7177,7 @@ namespace TheraS5
             btnAddNewMedi.Content = "hinzufügen";
             edit_medi = false;
             update_medications();
-            btnMediUndoChanges.Visibility = Visibility.Hidden;
+            btnMediUndoChanges.Visibility = Visibility.Hidden;*/
         }
 
         private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -7549,11 +7551,11 @@ namespace TheraS5
 
         private void btnSyncDown_Click(object sender, RoutedEventArgs e)
         {
-            var con = new SQLiteConnection(cs);
+            /*var con = new SQLiteConnection(cs);
             con.Open();
 
             var comLite = new SQLiteCommand("select * from clientsmedications;", con);
-            comLite.ExecuteNonQuery();
+            comLite.ExecuteNonQuery();*/
         }
 
         private void saveTempDoku()
